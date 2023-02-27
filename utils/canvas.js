@@ -8,16 +8,41 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 
 import scrollFragment from './shaders/scrollFragment.glsl';
 import scrollVertex from './shaders/scrollVertex.glsl';
+
 import defaultFragment from './shaders/defaultFragment.glsl';
 import defaultVertex from './shaders/defaultVertex.glsl';
-import projectFragment from './shaders/projectFragment.glsl';
-import projectVertex from './shaders/projectVertex.glsl';
+
+import example1Fragment from './shaders/example1Fragment.glsl';
+import example1Vertex from './shaders/example1Vertex.glsl';
+
+import example2Fragment from './shaders/example2Fragment.glsl';
+import example2Vertex from './shaders/example2Vertex.glsl';
+
+const CanvasOptions = {
+    default: {
+        fragmentShader: defaultFragment,
+        vertexShader: defaultVertex,
+    },
+    scroll: {
+        fragmentShader: scrollFragment,
+        vertexShader: scrollVertex,
+    },
+    example1: {
+        fragmentShader: example1Fragment,
+        vertexShader: example1Vertex,
+    },
+    example2: {
+        fragmentShader: example2Fragment,
+        vertexShader: example2Vertex,
+    },
+
+};
 
 let Canvas = {
     scrollPosition: 0,
     scrollInProgress : false,
     canvasContainer : null,
-    pageContainer : null,
+    scrollableContent : null,
     pointer : {cursor: null , intersects: null },
     time: 0,
     scene: new THREE.Scene(),
@@ -25,23 +50,14 @@ let Canvas = {
     imageStore: [],
     scroll: null,
     currentScroll: 0,
-    options: {
-        default:{
-            fragmentShader: defaultFragment,
-            vertexShader: defaultVertex,
-        },
-        project: {
-            fragmentShader: projectFragment,
-            vertexShader: projectVertex,
-      },
-    },
-    init(_canvasElement, _pageContainer) {
+    options : CanvasOptions,
+    init(_canvasElement, _scrollableContent) {
 
         this.canvasContainer = _canvasElement;
-        this.pageContainer = _pageContainer;
+        this.scrollableContent = _scrollableContent;
 
         this.scroll = new Scroll({
-            dom: this.pageContainer,
+            dom: this.scrollableContent,
         });
 
         this.width = this.canvasContainer.offsetWidth;
@@ -52,34 +68,13 @@ let Canvas = {
         this.camera.fov = 2*Math.atan( (this.height/2)/600 )* (180/Math.PI);
 
         this.renderer = new THREE.WebGLRenderer({
-            // antialias: true,
             alpha: true
         });
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio , 1.5));
-
-        // SHADOW
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
         this.canvasContainer.appendChild( this.renderer.domElement );
-
-        // this.controls = new OrbitControls( this.camera, this.renderer.domElement );
-
-        // this.raycaster = new THREE.Raycaster();
-        this.pointer.cursor = new THREE.Vector2();
-
         this.setSize();
-        // this.setLight()
-
         this.composerPass()
-
         this.render();
-
-        window.addEventListener('pointermove', (event) => {
-            this.pointer.cursor.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-            this.pointer.cursor.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-        });
-
     },
 
     setImageMeshPositions(){
@@ -91,11 +86,8 @@ let Canvas = {
                 this.currentScroll < this.imageStore[i].top + this.imageStore[i].height
                 && this.imageStore[i].top  < this.currentScroll + this.height
             ){
-
                 this.imageStore[i].mesh.position.x = ( this.imageStore[i].left - this.width/2 + this.imageStore[i].width/2);
                 this.imageStore[i].mesh.position.y =  - this.imageStore[i].img.getBoundingClientRect().top + this.height/2 - this.imageStore[i].height/2;
-                // this.imageStore[i].mesh.position.y =  this.currentScroll - this.imageStore[i].top + this.height/2 - this.imageStore[i].height/2 ;
-
             }
             else {
                 this.imageStore[i].mesh.position.y = this.height*2;
@@ -138,11 +130,6 @@ let Canvas = {
                 cursorPositionX: {value: 0},
                 cursorPositionY: {value: 0},
                 aniIn: {value: 0},
-                aniOut: {value: 0},
-                aniOutToArticle: {value: 0},
-                aniInImageGallery: {value: 0},
-                aniOutImageGallery: {value: 0},
-                galleryActive: {value: 0},
             },
             fragmentShader: fragmentShader,
             vertexShader: vertexShader,
@@ -172,7 +159,6 @@ let Canvas = {
 
         this.imageStore.push(newMesh);
         this.meshMouseListeners(newMesh, material);
-        // this.meshAniIn(newMesh, material, _type);
 
         gsap.to(material.uniforms.aniIn , {
             duration: 1.25,
@@ -219,8 +205,8 @@ let Canvas = {
                 "tDiffuse": { value: null },
                 "scrollSpeed": { value: null },
             },
-            vertexShader: scrollVertex,
-            fragmentShader: scrollFragment,
+            vertexShader: this.options.scroll.vertexShader,
+            fragmentShader: this.options.scroll.fragmentShader,
         }
 
         this.customPass = new ShaderPass(this.myEffect);
@@ -249,8 +235,7 @@ let Canvas = {
 
         //animate on scroll
         if( this.scrollInProgress){
-            this.customPass.uniforms.scrollSpeed.value = 0;
-            // this.customPass.uniforms.scrollSpeed.value = this.scroll.speedTarget;
+            this.customPass.uniforms.scrollSpeed.value = this.scroll.speedTarget;
             this.setImageMeshPositions();
         }
 

@@ -2,13 +2,9 @@
   <div id="appContainer"  >
 
     <div id="scrollContainer"  >
-      <div id="scrollContent" ref="page" >
+      <div ref="scrollableContent" >
 
-        <CommonHeader />
-        <SectionAbout />
-        <SectionProjects />
-        <SectionContact />
-        <CommonFooter />
+        <SectionExample />
 
       </div>
     </div>
@@ -30,7 +26,7 @@ export default {
   methods: {
   },
   mounted() {
-    Canvas.init(this.$refs.canvas, this.$refs.page);
+    Canvas.init(this.$refs.canvas, this.$refs.scrollableContent);
   },
 }
 
