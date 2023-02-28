@@ -82,31 +82,48 @@ let Canvas = {
 
         for (var i = 0; i < this.imageStore.length ; i++) {
 
-            if(
-                this.currentScroll < this.imageStore[i].top + this.imageStore[i].height
-                && this.imageStore[i].top  < this.currentScroll + this.height
-            ){
-                this.imageStore[i].mesh.position.x = ( this.imageStore[i].left - this.width/2 + this.imageStore[i].width/2);
-                this.imageStore[i].mesh.position.y =  - this.imageStore[i].img.getBoundingClientRect().top + this.height/2 - this.imageStore[i].height/2;
-            }
-            else {
-                this.imageStore[i].mesh.position.y = this.height*2;
-            }
+            this.imageStore[i].mesh.position.x = ( this.imageStore[i].left - this.width/2 + this.imageStore[i].width/2);
+            this.imageStore[i].mesh.position.y =  - this.imageStore[i].img.getBoundingClientRect().top + this.height/2 - this.imageStore[i].height/2;
+
+            // if(
+            //     this.currentScroll < this.imageStore[i].top + this.imageStore[i].height
+            //     && this.imageStore[i].top  < this.currentScroll + this.height
+            // ){
+            //     this.imageStore[i].mesh.position.x = ( this.imageStore[i].left - this.width/2 + this.imageStore[i].width/2);
+            //     this.imageStore[i].mesh.position.y =  - this.imageStore[i].img.getBoundingClientRect().top + this.height/2 - this.imageStore[i].height/2;
+            // }
+            // else {
+            //     this.imageStore[i].mesh.position.y = this.height*2;
+            // }
 
         }
     },
 
-    addImage(_img, _type) {
+    hoverImage(_id, _state) {
+        const mesh = this.scene.getObjectByName(_id);
+        gsap.to(mesh.material.uniforms.hoverState , {
+            duration: 1.25,
+            value: _state ? 1 : 0,
+        })
+    },
 
-        let meshIndex = this.imageStore.length;
+    activateImage(_id, _state) {
+        const mesh = this.scene.getObjectByName(_id);
 
-        let id = `meshImage${_type}_${meshIndex}`;
+        gsap.to(mesh.material.uniforms.aniIn , {
+            duration: 1.25,
+            value: _state ? 1 : 0,
+        })
+    },
+
+    addImage(_img, _shader, _id) {
+
         let fragmentShader= this.options.default.fragmentShader;
         let vertexShader = this.options.default.vertexShader;
 
-        if(_type){
-            fragmentShader = this.options[_type].fragmentShader;
-            vertexShader = this.options[_type].vertexShader;
+        if(_shader){
+            fragmentShader = this.options[_shader].fragmentShader;
+            vertexShader = this.options[_shader].vertexShader;
         }
 
         let geometry;
@@ -134,20 +151,20 @@ let Canvas = {
             fragmentShader: fragmentShader,
             vertexShader: vertexShader,
             transparent: true,
-            name: `meshImage${_type}`,
+            name: _id,
         });
 
         this.materials.push(material);
 
         let mesh = new THREE.Mesh( geometry, material );
-        mesh.name =  id;
+        mesh.name =  _id;
 
         mesh.castShadow = true;
         mesh.receiveShadow = true;
         this.scene.add(mesh);
 
         const newMesh = {
-            name:id,
+            name: _id,
             img: _img,
             mesh: mesh,
             top: position.top,
@@ -158,7 +175,7 @@ let Canvas = {
         }
 
         this.imageStore.push(newMesh);
-        this.meshMouseListeners(newMesh, material);
+        // this.meshMouseListeners(newMesh, material);
 
         gsap.to(material.uniforms.aniIn , {
             duration: 1.25,

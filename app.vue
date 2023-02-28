@@ -4,7 +4,7 @@
     <div id="scrollContainer"  >
       <div ref="scrollableContent" >
 
-        <SectionExample />
+        <SectionExamples />
 
       </div>
     </div>
@@ -26,11 +26,25 @@ export default {
   methods: {
   },
   mounted() {
+
+    this.$hello();
+
+    // this.$on('hello', () => {
+    //   console.log('hello from app.vue ONONONONON');
+    // });
+
     Canvas.init(this.$refs.canvas, this.$refs.scrollableContent);
   },
 }
 
 
+</script>
+
+<script setup>
+
+const emit = defineEmits(['change', 'delete'])
+
+// setup code
 </script>
 
 <style lang="scss" >

@@ -9,6 +9,8 @@ export default class Scroll{
       scrollactive : _options.dom.querySelectorAll("div[data-scroll-active]"),
     };
 
+    // this.activeElements = [];
+
     this.docScroll = 0;
     this.scrollToRender = 0;
     this.current = 0;
@@ -72,9 +74,14 @@ export default class Scroll{
       //todo - finish active range and event emiter study and finish
 
       if( bounds.bottom > activeRange && bounds.top < ( window.innerHeight - activeRange) ){
-        item.classList.add("active");
+        if(!item.classList.contains("active")){
+          console.log(item);
+          item.classList.add("active");
+        }
       } else {
-        item.classList.remove("active");
+        if(item.classList.contains("active")){
+          item.classList.remove("active");
+        }
       }
     }
 
