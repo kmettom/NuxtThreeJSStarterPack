@@ -35,13 +35,10 @@ export default class Scroll{
   }
 
   getScroll(){
-    // this.docScroll = window.pageYOffset || document.documentElement.scrollTop;
-    this.docScroll = this.current = window.pageYOffset;
+    this.docScroll = this.current = window.pageYOffset || document.documentElement.scrollTop;
     return this.docScroll;
   }
   initEvents() {
-
-    // on resize reset the body's height
     window.addEventListener("resize", () => this.setSize());
     window.addEventListener("scroll", () => {
       this.getScroll();
@@ -52,8 +49,7 @@ export default class Scroll{
 
   setSize() {
     // set the heigh of the body in order to keep the scrollbar on the page
-    // document.body.style.height = this.DOM.scrollable.scrollHeight > window.innerHeight ? `${this.DOM.scrollable.scrollHeight}px` : `${window.innerHeight}px`;
-    document.body.style.height = `${this.DOM.scrollable.scrollHeight}px`;
+    document.body.style.height = this.DOM.scrollable.scrollHeight > window.innerHeight ? `${this.DOM.scrollable.scrollHeight}px` : `${window.innerHeight}px`;
   }
 
   setPosition() {
@@ -63,7 +59,6 @@ export default class Scroll{
     }
 
     for (const item of this.DOM.scrollspeed) {
-      const bounds = item.getBoundingClientRect();
       let speed = item.dataset.scrollSpeed ? item.dataset.scrollSpeed : false;
       if(speed){
         item.style.transform = `translate3d(0,${ -1 * this.scrollToRender * speed }px,0)`;
