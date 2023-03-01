@@ -3,9 +3,7 @@
 
     <div id="scrollContainer"  >
       <div ref="scrollableContent" >
-
         <SectionExamples />
-
       </div>
     </div>
 
@@ -14,38 +12,19 @@
   </div>
 
 </template>
-<script  >
+<script  setup >
 
 import {Canvas} from "~/utils/canvas";
 
-export default {
-  data() {
-    return {
-    }
-  },
-  methods: {
-  },
-  mounted() {
+const canvas = ref("canvas");
+const scrollableContent = ref("scrollableContent");
 
-    this.$hello();
-
-    // this.$on('hello', () => {
-    //   console.log('hello from app.vue ONONONONON');
-    // });
-
-    Canvas.init(this.$refs.canvas, this.$refs.scrollableContent);
-  },
-}
-
+onMounted( () => {
+  Canvas.init(canvas.value, scrollableContent._rawValue);
+});
 
 </script>
 
-<script setup>
-
-const emit = defineEmits(['change', 'delete'])
-
-// setup code
-</script>
 
 <style lang="scss" >
 

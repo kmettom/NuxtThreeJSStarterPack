@@ -5,11 +5,9 @@ export default class Scroll{
 
     this.DOM = {
       scrollable: _options.dom,
-      scrollspeed : _options.dom.querySelectorAll("div[data-scroll-speed]"),
-      scrollactive : _options.dom.querySelectorAll("div[data-scroll-active]"),
+      scrollspeed : [],
+      scrollactive : [],
     };
-
-    // this.activeElements = [];
 
     this.docScroll = 0;
     this.scrollToRender = 0;
@@ -18,7 +16,6 @@ export default class Scroll{
     this.speed = 0;
     this.speedTarget = 0;
     this.scrollTo = {target: 0 , executed: true}
-
 
     this.setSize();
     this.getScroll();
@@ -61,26 +58,23 @@ export default class Scroll{
     }
 
     for (const item of this.DOM.scrollspeed) {
-      let speed = item.dataset.scrollSpeed ? item.dataset.scrollSpeed : false;
+      let speed = item.scrollSpeed ? item.scrollSpeed : false;
       if(speed){
-        item.style.transform = `translate3d(0,${ -1 * this.scrollToRender * speed }px,0)`;
+        item.elNode.style.transform = `translate3d(0,${ -1 * this.scrollToRender * speed }px,0)`;
       }
     }
 
     for (const item of this.DOM.scrollactive) {
-      const bounds = item.getBoundingClientRect();
-      const activeRange = item.dataset.scrollActive ? (1 - item.dataset.scrollActive) * window.innerHeight : 0;
-
-      //todo - finish active range and event emiter study and finish
+      const bounds = item.elNode.getBoundingClientRect();
+      const activeRange = item.scrollActive ? (1 - item.scrollActive) * window.innerHeight : 0;
 
       if( bounds.bottom > activeRange && bounds.top < ( window.innerHeight - activeRange) ){
-        if(!item.classList.contains("active")){
-          console.log(item);
-          item.classList.add("active");
+        if(!item.elNode.classList.contains("active")){
+          item.elNode.classList.add("active");
         }
       } else {
-        if(item.classList.contains("active")){
-          item.classList.remove("active");
+        if(item.elNode.classList.contains("active")){
+          item.elNode.classList.remove("active");
         }
       }
     }
@@ -114,7 +108,6 @@ export default class Scroll{
       );
     }
 
-    // scroll speed for Canvas
     this.speed = Math.min(Math.abs(this.current - this.scrollToRender), 200)/200;
     this.speedTarget +=(this.speed - this.speedTarget)*0.2
     this.setPosition();

@@ -2,46 +2,35 @@
   <img style="" ref="img" alt="picture" :src="srcLink" />
 </template>
 
-<script>
+<script setup >
 
 import {Canvas} from "~/utils/canvas";
-export default {
-  props: {
-    srcLink: {
-      type: String,
-      required: true
-    },
-    shader: {
-      type: String,
-    },
-    imageHover: {
-      type: Boolean,
-    },
-  },
-  data() {
-    return {
-      imageId: 0,
-    }
-  },
-  methods: {
-  },
-  mounted() {
 
-    setTimeout( () => {
+let props = defineProps([
+  'srcLink',
+  'shader',
+  'imageHover',
+]);
 
-      let meshIndex = Canvas.imageStore.length;
-      this.imageId = `meshImage${this.shader}_${meshIndex}`;
-      Canvas.addImage( this.$refs.img, this.shader, this.imageId );
+let imageId = null;
+const img = ref("img");
 
-    } , 1000);
-  },
-  watch: {
-    imageHover(_status) {
-      Canvas.hoverImage(this.imageId, _status);
-    },
-  },
+onMounted( () => {
 
-}
+  setTimeout( () => {
+
+    let meshIndex = Canvas.imageStore.length;
+    imageId = `meshImage${props.shader}_${meshIndex}`;
+    Canvas.addImage( img.value, props.shader, imageId );
+
+  } , 1000);
+
+});
+
+watch(() => props.imageHover, (_status) => {
+  Canvas.hoverImage(imageId, _status);
+});
+
 </script>
 
 <style lang="scss" >

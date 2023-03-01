@@ -2,44 +2,44 @@
   <section class="examples">
 
     <SectionExampleBlock
-        data-scroll-speed="-0.4"
-        :header="'Example 1'"
+        v-scrollSpeed="-0.6"
+        :text="'Example 1'"
         :imgLink="'img/01.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
-        data-scroll-speed="0.2"
-        :header="'Example 2'"
+        v-scrollSpeed="0.1"
+        :text="'Example 2'"
         :imgLink="'img/02.jpg'"
         :shader="'example2'"
     />
 
     <SectionExampleBlock
-        data-scroll-speed="0.4"
-        data-scroll-active="0.8"
-        :header="'Example 3'"
+        v-scrollSpeed="0.3"
+        :text="'Example 3'"
         :imgLink="'img/03.jpg'"
-        :shader="'example1'"
+
     />
 
     <SectionExampleBlock
-        data-scroll-speed="0.4"
-        :header="'Example 4'"
+        v-scrollSpeed="-0.2"
+        v-scrollActive="0.6"
+        :text="'Example 4'"
         :imgLink="'img/04.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
-        data-scroll-speed="0.4"
-        :header="'Example 5'"
+        v-scrollSpeed="0.1"
+        :text="'Example 5'"
         :imgLink="'img/05.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
-        data-scroll-speed="0.4"
-        :header="'Example 6'"
+        v-scrollSpeed="0.4"
+        :text="'Example 6'"
         :imgLink="'img/01.jpg'"
         :shader="'example1'"
     />
@@ -47,33 +47,18 @@
   </section>
 </template>
 
-<script>
+<script setup>
 
-import gsap from 'gsap';
-export default {
-  data() {
-    return {
-    }
-  },
-  methods: {
-    testEmit() {
-      console.log('test emit');
-    },
-  },
-  mounted() {
 
-  },
-
-}
 </script>
 
 <style lang="scss" >
 
 $examplesize: 450px;
 
-.examples-wrapper{
+.examples{
   margin-left: 50px;
-  padding-bottom: 800px;
+  padding-bottom: 300px;
 }
 
 .example-container{
