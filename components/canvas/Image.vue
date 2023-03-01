@@ -1,5 +1,5 @@
 <template>
-  <img style="" ref="img" alt="picture" :src="srcLink" />
+  <img @load="imageLoaded" ref="img" alt="picture" :src="srcLink" />
 </template>
 
 <script setup >
@@ -15,17 +15,10 @@ let props = defineProps([
 let imageId = null;
 const img = ref("img");
 
-onMounted( () => {
-
-  setTimeout( () => {
-
-    let meshIndex = Canvas.imageStore.length;
-    imageId = `meshImage${props.shader}_${meshIndex}`;
+const imageLoaded = () => {
+    imageId = `meshImage${props.shader}_${Canvas.imageStore.length}`;
     Canvas.addImage( img.value, props.shader, imageId );
-
-  } , 1000);
-
-});
+};
 
 watch(() => props.imageHover, (_status) => {
   Canvas.hoverImage(imageId, _status);

@@ -5,8 +5,8 @@
          @mouseover="exampleHover( true)"
          @mouseleave="exampleHover( false)"
     >
-      <h2 ref="textToAnimate">{{text}}</h2>
-      <CanvasImage :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />
+      <h3 ref="textToAnimate">{{text}}</h3>
+      <CanvasImage v-scrollActive="scrollActiveImage"  :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />
     </div>
   </div>
 
@@ -22,6 +22,7 @@ const props = defineProps([
   'text',
   'shader',
   'imgLink',
+  'scrollActiveImage',
 ]);
 
 let imageHover = ref(Boolean);
@@ -41,13 +42,13 @@ const textAnimate = () => {
 
   gsap.set(textToAnimate.value, { perspective: 400 });
 
-  let duration  = 0.15;
+  let duration  = 0.25;
 
   for (var i = 0; i < chars.length; i++) {
 
     let tl = gsap.timeline();
     tl.to(  chars[i] , {
-      delay: i*0.035,
+      delay: i*0.005,
       duration: duration,
       opacity: 0,
       y: 10,

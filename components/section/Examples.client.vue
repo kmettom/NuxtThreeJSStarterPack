@@ -2,24 +2,23 @@
   <section class="examples">
 
     <SectionExampleBlock
-        v-scrollSpeed="-0.6"
-        :text="'Example 1'"
+        v-scrollSpeed="-0.7"
+        :text="'Example: Slow scroll speed, sharer 1'"
         :imgLink="'img/01.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
-        v-scrollSpeed="0.1"
-        :text="'Example 2'"
+        v-scrollSpeed="0"
+        :text="'Example: Normal scroll speed, sharer 2'"
         :imgLink="'img/02.jpg'"
         :shader="'example2'"
     />
 
     <SectionExampleBlock
         v-scrollSpeed="0.3"
-        :text="'Example 3'"
+        :text="'Example: Faster scroll speed, sharer default'"
         :imgLink="'img/03.jpg'"
-
     />
 
     <SectionExampleBlock
@@ -28,6 +27,7 @@
         :text="'Example 4'"
         :imgLink="'img/04.jpg'"
         :shader="'example1'"
+        :scrollActiveImage="0.6"
     />
 
     <SectionExampleBlock

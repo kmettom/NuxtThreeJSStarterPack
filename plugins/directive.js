@@ -8,9 +8,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     });
 
     nuxtApp.vueApp.directive('scrollActive', {
-        mounted (el, binding) {
+        mounted (el, binding, vnode) {
             Canvas.addScrollActiveElement({elNode: el , scrollActive: binding.value})
-
         },
     });
 

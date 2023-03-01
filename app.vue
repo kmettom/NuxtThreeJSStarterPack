@@ -20,7 +20,7 @@ const canvas = ref("canvas");
 const scrollableContent = ref("scrollableContent");
 
 onMounted( () => {
-  Canvas.init(canvas.value, scrollableContent._rawValue);
+  Canvas.init(canvas.value, scrollableContent.value);
 });
 
 </script>

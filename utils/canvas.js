@@ -58,6 +58,7 @@ let Canvas = {
 
         this.scroll = new Scroll({
             dom: this.scrollableContent,
+            activeCallback: this.activeImage,
         });
 
         this.width = this.canvasContainer.offsetWidth;
@@ -98,6 +99,9 @@ let Canvas = {
     },
 
     activeImage(_id, _state) {
+
+        console.log("activeCallback", _state);
+
         const mesh = this.scene.getObjectByName(_id);
 
         gsap.to(mesh.material.uniforms.aniIn , {
@@ -112,9 +116,15 @@ let Canvas = {
 
     addScrollActiveElement(_el){
         this.scroll.DOM.scrollactive.push(_el);
+        const $imageChild = _el.elNode.querySelector('img')
+        if($imageChild){
+            this.scroll.DOM.scrollactive.push({elNode: $imageChild , scrollActive: _el.scrollActive });
+        }
     },
 
     addImage(_img, _shader, _id) {
+
+        _img.dataset.meshId = _id;
 
         let fragmentShader= this.options.default.fragmentShader;
         let vertexShader = this.options.default.vertexShader;
@@ -128,7 +138,6 @@ let Canvas = {
         let bounds = _img.getBoundingClientRect();
         let position = { top : bounds.top , left: bounds.left};
         position.top += this.currentScroll;
-
 
         geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
 
@@ -174,7 +183,10 @@ let Canvas = {
 
         this.imageStore.push(newMesh);
 
-        this.activeImage(_id, true);
+
+        setTimeout(() => {
+            this.activeImage(_id, true);
+        },250)
 
         this.setImageMeshPositions();
 
@@ -209,8 +221,6 @@ let Canvas = {
         this.renderPass = new RenderPass(this.scene, this.camera);
         this.composer.addPass(this.renderPass);
 
-        //custom shader pass
-        // var counter = 0.0;
         this.myEffect = {
             uniforms: {
                 "tDiffuse": { value: null },
