@@ -25,8 +25,14 @@ onMounted( () => {
 
 </script>
 
-
 <style lang="scss" >
+
+
+body{
+  background: #C0C0B7;
+  color: #151412;
+  font-family: sans-serif;
+}
 
 #scrollContainer{
   position: fixed;

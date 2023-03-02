@@ -60,9 +60,12 @@ export default class Scroll{
     }
 
     for (const item of this.DOM.scrollspeed) {
+      const bounds = item.elNode.getBoundingClientRect();
       let speed = item.scrollSpeed ? item.scrollSpeed : false;
       if(speed){
-        item.elNode.style.transform = `translate3d(0,${ -1 * this.scrollToRender * speed }px,0)`;
+        if( bounds.bottom > 0 && bounds.top < ( window.innerHeight ) ) {
+          item.elNode.style.transform = `translate3d(0,${ -1 * this.scrollToRender * speed }px,0)`;
+        }
       }
     }
 

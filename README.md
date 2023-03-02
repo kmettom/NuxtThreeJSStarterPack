@@ -1,8 +1,21 @@
 #  Nuxt 3 ThreeJS Startpack
 
 This is a starter template for Nuxt 3 with ThreeJS. It includes:
-- setup for ThreeJS
-- CanvasImage component
+- Smoothscroll
+- One RequestAnimation Frame call Renders both smooth scroll and Canvas
+- CanvasImage component 
+    - adds the loaded image to Scene's Mesh
+    - applies the defined shaders
+    - hover and appear animation are implemented
+- Scroll Speed directive
+    - adjusts the scroll speed of element
+    - automatically handles scroll difference for Scene's Mesh objects added through CanvasImage component
+
+Next features coming soon:
+- Scroll Active Directive
+    - adds active class to element when it is in viewport
+    - automatically includes appear animation for a Mesh object added through CanvasImage component
+
 
 ## Setup
 
@@ -45,13 +58,13 @@ npm run preview
 
 
 
-### CanvasImage 
+### CanvasImage component
+
 component - automatically adds your image to Mesh and applies the defined efects
 
-### Triggers - Animate on load, on scroll, on hover
+### Scroll Speed directive
 
 
-### Smooth scroll
 
 
 

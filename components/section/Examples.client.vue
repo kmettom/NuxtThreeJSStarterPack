@@ -2,43 +2,43 @@
   <section class="examples">
 
     <SectionExampleBlock
-        v-scrollSpeed="-0.7"
-        :text="'Example: Slow scroll speed, shader 1'"
+        v-scrollSpeed="0.2"
+        :text="'Fast scroll speed | shader 1'"
         :imgLink="'img/01.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
         v-scrollSpeed="0"
-        :text="'Example: Normal scroll speed, shader 2'"
+        :text="'Normal scroll speed | shader 2'"
         :imgLink="'img/02.jpg'"
         :shader="'example2'"
     />
 
     <SectionExampleBlock
-        v-scrollSpeed="0.3"
-        :text="'Example: Faster scroll speed, shader default'"
+        v-scrollSpeed="-0.3"
+        :text="'Slow scroll speed | shader default'"
         :imgLink="'img/03.jpg'"
     />
 
     <SectionExampleBlock
-        v-scrollSpeed=""
-        :text="'Example 4'"
+        v-scrollSpeed="-0.2"
+        :text="'Slow scroll speed | shader default'"
         :imgLink="'img/04.jpg'"
+    />
+
+    <SectionExampleBlock
+        v-scrollSpeed="0.4"
+        :text="'Faster scroll speed | shader 1'"
+        :imgLink="'img/05.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
-        v-scrollSpeed=""
-        :text="'Example 5'"
-        :imgLink="'img/05.jpg'"
-        :shader="'example2'"
-    />
-
-    <SectionExampleBlock
-        v-scrollSpeed=""
-        :text="'Example 6'"
+        v-scrollSpeed="0"
+        :text="'Normal scroll speed | shader 2'"
         :imgLink="'img/01.jpg'"
+        :shader="'example2'"
     />
 
   </section>
@@ -55,13 +55,11 @@ $examplesize: 450px;
 
 .examples{
   margin-left: 50px;
+  padding-top: 150px;
   padding-bottom: 300px;
 }
-
 .example-container{
-  //&.active{
-  //  border: 2px solid purple;
-  //}
+  pointer-events: none;
   &:nth-child(3n + 2){
     .example{
       margin-left: $examplesize;
@@ -77,6 +75,7 @@ $examplesize: 450px;
   }
 }
 .example{
+  pointer-events: initial;
   display: inline-block;
 }
 
