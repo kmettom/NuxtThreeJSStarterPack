@@ -3,45 +3,42 @@
 
     <SectionExampleBlock
         v-scrollSpeed="-0.7"
-        :text="'Example: Slow scroll speed, sharer 1'"
+        :text="'Example: Slow scroll speed, shader 1'"
         :imgLink="'img/01.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
         v-scrollSpeed="0"
-        :text="'Example: Normal scroll speed, sharer 2'"
+        :text="'Example: Normal scroll speed, shader 2'"
         :imgLink="'img/02.jpg'"
         :shader="'example2'"
     />
 
     <SectionExampleBlock
         v-scrollSpeed="0.3"
-        :text="'Example: Faster scroll speed, sharer default'"
+        :text="'Example: Faster scroll speed, shader default'"
         :imgLink="'img/03.jpg'"
     />
 
     <SectionExampleBlock
-        v-scrollSpeed="-0.2"
-        v-scrollActive="0.6"
+        v-scrollSpeed=""
         :text="'Example 4'"
         :imgLink="'img/04.jpg'"
         :shader="'example1'"
-        :scrollActiveImage="0.6"
     />
 
     <SectionExampleBlock
-        v-scrollSpeed="0.1"
+        v-scrollSpeed=""
         :text="'Example 5'"
         :imgLink="'img/05.jpg'"
-        :shader="'example1'"
+        :shader="'example2'"
     />
 
     <SectionExampleBlock
-        v-scrollSpeed="0.4"
+        v-scrollSpeed=""
         :text="'Example 6'"
         :imgLink="'img/01.jpg'"
-        :shader="'example1'"
     />
 
   </section>
@@ -62,9 +59,9 @@ $examplesize: 450px;
 }
 
 .example-container{
-  &.active{
-    border: 2px solid purple;
-  }
+  //&.active{
+  //  border: 2px solid purple;
+  //}
   &:nth-child(3n + 2){
     .example{
       margin-left: $examplesize;

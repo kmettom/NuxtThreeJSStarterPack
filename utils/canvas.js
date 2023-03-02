@@ -93,7 +93,7 @@ let Canvas = {
         const mesh = this.scene.getObjectByName(_id);
 
         gsap.to(mesh.material.uniforms.hoverState , {
-            duration: 1.25,
+            duration: 0.5,
             value: _state ? 1 : 0,
         })
     },
@@ -151,8 +151,6 @@ let Canvas = {
                 vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
                 vectorWave: {value: new THREE.Vector2( 0.5 , 0.5 )}, // 0.5
                 hoverState: {value: 0},
-                cursorPositionX: {value: 0},
-                cursorPositionY: {value: 0},
                 aniIn: {value: 0},
             },
             fragmentShader: fragmentShader,

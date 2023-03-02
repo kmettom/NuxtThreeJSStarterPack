@@ -21,13 +21,12 @@ void main() {
 
   vec3 newposition = position;
 
-  newposition.y += ( hoverState * 15. ) + aniOut * 15. ;
+  newposition.y += ( hoverState * 2. );
 
-  newposition.z += (( 1. - aniIn ) * 70. * sin( distWave * 333. + time )) + (( 300. * aniOut) + aniOut * 70. * sin( distVnoise * 333. + time )) ;
-  // newposition.z += ( 1. - aniIn + aniOut ) * 70. * ( sin( distWave * 333. + time ) * ( 1. - aniOut )) + ( 50. * aniOut) + (distWave * aniOut * 550.)  ;
+  newposition.z += (( 1. - aniIn ) * 70. * sin( distWave * 333. + time ));
 
   //**************************************
   vUv = uv;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4( newposition, ( 1. + ( 0. * (1. - aniIn)) - ( aniOut / 8. )  - (hoverState / 8.) ) );
+  gl_Position = projectionMatrix * modelViewMatrix * vec4( newposition, ( 1. + ( 0. * (1. - aniIn)) - (hoverState / 10.) ) );
 
 }
