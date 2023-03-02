@@ -149,7 +149,6 @@ let Canvas = {
                 time: {value:0},
                 uImage: {value: texture},
                 vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
-                vectorWave: {value: new THREE.Vector2( 0.5 , 0.5 )}, // 0.5
                 hoverState: {value: 0},
                 aniIn: {value: 0},
             },

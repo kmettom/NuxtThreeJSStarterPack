@@ -1,21 +1,25 @@
 varying float vNoise;
 varying vec2 vUv;
 uniform sampler2D uImage;
-// uniform float time;
+uniform float time;
 uniform float hoverState;
-uniform float cursorPositionX;
-uniform float cursorPositionY;
 uniform float aniIn;
 
 
-void main()	{ // gallery
+void main()	{
 
     vec2 newUV = vUv;
 
-    float rgbWithHover =  1. - ( 0.3 * hoverState / 5. );
+    vec2 p = newUV;
+    float x = hoverState + 1.0 - aniIn;
+    x = smoothstep(.0,1.0,(x*2.0+p.y-1.0));
+    vec4 f = mix(
+    texture2D(uImage, (p-.5)*(1.-x)+.5),
+    texture2D(uImage, (p-.5)*x+.5),
+    x);
 
-    vec4 imageView = texture2D( uImage , newUV ) * vec4( rgbWithHover , rgbWithHover , rgbWithHover, (1. * aniIn) );
+    gl_FragColor = f * vec4(1.0 , 1.0, 1.0 , aniIn );
+    gl_FragColor.rgb += 0.05*vec3(vNoise);
 
-    gl_FragColor = imageView;
-    gl_FragColor.rgb -= 0.15*vec3(vNoise);
+
 }
