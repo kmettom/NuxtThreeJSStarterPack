@@ -27,7 +27,6 @@ onMounted( () => {
 
 <style lang="scss" >
 
-
 body{
   background: #C0C0B7;
   color: #151412;
@@ -52,8 +51,6 @@ body{
   pointer-events: none;
   z-index: -1;
 }
-
-
 
 </style>
 

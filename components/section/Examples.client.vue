@@ -51,10 +51,10 @@
 
 <style lang="scss" >
 
-$examplesize: 450px;
+$examplesize: 400px;
 
 .examples{
-  margin-left: 50px;
+  margin-left: 20px;
   padding-top: 150px;
   padding-bottom: 300px;
 }

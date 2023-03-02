@@ -35,7 +35,6 @@ const CanvasOptions = {
         fragmentShader: example2Fragment,
         vertexShader: example2Vertex,
     },
-
 };
 
 let Canvas = {
