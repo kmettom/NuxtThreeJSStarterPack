@@ -17,6 +17,8 @@ Next features coming soon:
     - automatically includes appear animation for a Mesh object added through CanvasImage component
 
 
+Working example: https://tomaskmet.com/projects/nuxtthreejsstarterpack/
+
 ## Setup
 
 Install the dependencies:
