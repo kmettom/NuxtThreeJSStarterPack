@@ -1,7 +1,10 @@
 const lerp = (a, b, n) => (1 - n) * a + n * b
 
+import {Canvas} from "./canvas";
+
+
 export default class Scroll{
-  constructor(_options){
+  constructor(_options, _activeCallback) {
 
     this.DOM = {
       scrollable: _options.dom,
@@ -10,8 +13,6 @@ export default class Scroll{
     };
 
     this.activeCallback = _options.activeCallback;
-
-    console.log(_options);
 
     this.docScroll = 0;
     this.scrollToRender = 0;
@@ -25,6 +26,7 @@ export default class Scroll{
     this.getScroll();
     this.init();
     this.initEvents();
+
   }
 
   init(){
@@ -55,6 +57,13 @@ export default class Scroll{
     document.body.style.height = this.DOM.scrollable.scrollHeight > window.innerHeight ? `${this.DOM.scrollable.scrollHeight}px` : `${window.innerHeight}px`;
   }
 
+  findMeshID(_elParent){
+    if(_elParent.dataset.meshId) return _elParent.dataset.meshId;
+
+    let el = _elParent.querySelector("[data-mesh-id]");
+    return el ? el.dataset.meshId : false;
+  }
+
   setPosition() {
     // translate the scrollable container
     if ( Math.round(this.scrollToRender) !==  Math.round(this.current) || this.scrollToRender < 10  || !this.scrollTo.executed ) {
@@ -77,24 +86,24 @@ export default class Scroll{
 
       if( bounds.bottom > activeRange && bounds.top < ( window.innerHeight - activeRange) ){
         if(!item.elNode.classList.contains("active")){
+
           item.elNode.classList.add("active");
-          console.log("activeCallback PRE console", item.elNode.dataset.meshId );
 
-          const hasChildMesh = item.elNode.querySelector("[data-mesh-id]");
-          if(hasChildMesh && hasChildMesh.dataset.meshId){
-            console.log("activeCallback PRE console",hasChildMesh.dataset.meshId );
-
-            this.activeCallback(hasChildMesh.dataset.meshId, true);
+          let meshId = this.findMeshID( item.elNode );
+          if(meshId){
+            Canvas.activateImage(meshId , true);
           }
-          // this.activeCallback(item.elNode.dataset.meshId, true);
+
         }
       } else {
         if(item.elNode.classList.contains("active")){
           item.elNode.classList.remove("active");
-          // if(item.elNode.dataset.meshId){
-          //   this.activeCallback(item.elNode.dataset.meshId, false);
-          // }
-          // this.activeCallback(item.elNode.dataset.meshId, false);
+
+          let meshId = this.findMeshID( item.elNode );
+          if(meshId){
+            Canvas.activateImage(meshId , false);
+          }
+
         }
       }
     }

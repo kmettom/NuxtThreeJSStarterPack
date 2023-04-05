@@ -17,6 +17,7 @@
 
     <SectionExampleBlock
         v-scrollSpeed="-0.3"
+        v-scrollActive="0.5"
         :text="'Slow scroll speed | shader default'"
         :imgLink="'img/03.jpg'"
     />
@@ -29,7 +30,6 @@
 
     <SectionExampleBlock
         v-scrollSpeed="0.4"
-        v-scrollActive="0.5"
         :text="'Faster scroll speed | shader 1'"
         :imgLink="'img/05.jpg'"
         :shader="'example1'"

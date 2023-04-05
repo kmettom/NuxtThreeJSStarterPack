@@ -57,7 +57,7 @@ let Canvas = {
 
         this.scroll = new Scroll({
             dom: this.scrollableContent,
-            activeCallback: this.activeImage,
+            activeCallback: this.activateImage,
         });
 
         this.width = this.canvasContainer.offsetWidth;
@@ -65,7 +65,7 @@ let Canvas = {
 
         this.camera = new THREE.PerspectiveCamera( 70, this.width/this.height, 100, 2000 );
         this.camera.position.z = 600; // 600
-        this.camera.fov = 2*Math.atan( (this.height/2)/600 )* (180/Math.PI);
+        this.camera.fov = 2 * Math.atan( (this.height/2)/600 ) * (180/Math.PI);
 
         this.renderer = new THREE.WebGLRenderer({
             alpha: true
@@ -97,12 +97,8 @@ let Canvas = {
         })
     },
 
-    activeImage(_id, _state) {
-
-        console.log("activeImage - ", _state, _id, this.scene);
-
+    activateImage(_id, _state) {
         const mesh = this.scene.getObjectByName(_id);
-
         gsap.to(mesh.material.uniforms.aniIn , {
             duration: 1.25,
             value: _state ? 1 : 0,
@@ -179,10 +175,10 @@ let Canvas = {
 
         this.imageStore.push(newMesh);
 
+        setTimeout(() => {
 
-        // setTimeout(() => {
-        //     this.activeImage(_id, true);
-        // },250)
+            this.activateImage(_id, true);
+        },250)
 
         this.setImageMeshPositions();
 
