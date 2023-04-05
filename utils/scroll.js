@@ -11,6 +11,8 @@ export default class Scroll{
 
     this.activeCallback = _options.activeCallback;
 
+    console.log(_options);
+
     this.docScroll = 0;
     this.scrollToRender = 0;
     this.current = 0;
@@ -76,9 +78,14 @@ export default class Scroll{
       if( bounds.bottom > activeRange && bounds.top < ( window.innerHeight - activeRange) ){
         if(!item.elNode.classList.contains("active")){
           item.elNode.classList.add("active");
-          // if(item.elNode.dataset.meshId){
-          //   this.activeCallback(item.elNode.dataset.meshId, true);
-          // }
+          console.log("activeCallback PRE console", item.elNode.dataset.meshId );
+
+          const hasChildMesh = item.elNode.querySelector("[data-mesh-id]");
+          if(hasChildMesh && hasChildMesh.dataset.meshId){
+            console.log("activeCallback PRE console",hasChildMesh.dataset.meshId );
+
+            this.activeCallback(hasChildMesh.dataset.meshId, true);
+          }
           // this.activeCallback(item.elNode.dataset.meshId, true);
         }
       } else {

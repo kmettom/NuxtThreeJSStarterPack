@@ -90,7 +90,7 @@ let Canvas = {
 
     hoverImage(_id, _state) {
         const mesh = this.scene.getObjectByName(_id);
-
+        if(!mesh) return;
         gsap.to(mesh.material.uniforms.hoverState , {
             duration: 0.5,
             value: _state ? 1 : 0,
@@ -99,7 +99,7 @@ let Canvas = {
 
     activeImage(_id, _state) {
 
-        console.log("activeCallback", _state);
+        console.log("activeImage - ", _state, _id, this.scene);
 
         const mesh = this.scene.getObjectByName(_id);
 
@@ -180,9 +180,9 @@ let Canvas = {
         this.imageStore.push(newMesh);
 
 
-        setTimeout(() => {
-            this.activeImage(_id, true);
-        },250)
+        // setTimeout(() => {
+        //     this.activeImage(_id, true);
+        // },250)
 
         this.setImageMeshPositions();
 
