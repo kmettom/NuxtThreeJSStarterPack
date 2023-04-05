@@ -92,6 +92,7 @@ export default class Scroll{
           let meshId = this.findMeshID( item.elNode );
           if(meshId){
             Canvas.activateImage(meshId , true);
+            Canvas.animateElOnScroll(item.elNode);
           }
 
         }
@@ -102,6 +103,7 @@ export default class Scroll{
           let meshId = this.findMeshID( item.elNode );
           if(meshId){
             Canvas.activateImage(meshId , false);
+            Canvas.animateElOnScroll(item.elNode);
           }
 
         }

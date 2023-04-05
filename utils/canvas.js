@@ -184,6 +184,10 @@ let Canvas = {
 
     },
 
+    animateElOnScroll(){
+
+    },
+
     meshMouseListeners(_mesh, _material) {
 
         _mesh.img.addEventListener('mouseenter',(event)=>{

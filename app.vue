@@ -52,6 +52,14 @@ body{
   z-index: -1;
 }
 
+.show-on-scroll{
+  opacity: 0;
+  transition: opacity 0.35s;
+  &.active{
+    opacity: 1;
+  }
+}
+
 </style>
 
 
