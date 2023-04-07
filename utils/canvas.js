@@ -105,6 +105,10 @@ let Canvas = {
         })
     },
 
+    onActiveElCallback(_el){
+
+    },
+
     addScrollSpeedElement(_el){
         this.scroll.DOM.scrollspeed.push(_el);
     },
@@ -175,9 +179,10 @@ let Canvas = {
 
         this.imageStore.push(newMesh);
 
+        //todo - on image load, after Position SET!!!
+        
         setTimeout(() => {
-
-            this.activateImage(_id, true);
+            if(!_img.dataset.scrollActive) this.activateImage(_id, true);
         },250)
 
         this.setImageMeshPositions();

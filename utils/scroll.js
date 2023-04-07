@@ -57,14 +57,23 @@ export default class Scroll{
     document.body.style.height = this.DOM.scrollable.scrollHeight > window.innerHeight ? `${this.DOM.scrollable.scrollHeight}px` : `${window.innerHeight}px`;
   }
 
-  findMeshID(_elParent){
-    if(_elParent.dataset.meshId) return _elParent.dataset.meshId;
+  findMeshID(_elParent, _isActiveScroll){
+    if(_elParent.dataset.meshId) {
+      _elParent.dataset.scrollActive = "true";
+      return _elParent.dataset.meshId;
+    }
 
     let el = _elParent.querySelector("[data-mesh-id]");
-    return el ? el.dataset.meshId : false;
+    if(!el) return false;
+
+    el.dataset.scrollActive = "true";
+    return el.dataset.meshId;
   }
 
   setPosition() {
+
+    console.log("setPosition");
+
     // translate the scrollable container
     if ( Math.round(this.scrollToRender) !==  Math.round(this.current) || this.scrollToRender < 10  || !this.scrollTo.executed ) {
       this.DOM.scrollable.style.transform = `translate3d(0,${-1 * this.scrollToRender}px,0)`;
@@ -81,6 +90,12 @@ export default class Scroll{
     }
 
     for (const item of this.DOM.scrollactive) {
+      let meshId = this.findMeshID( item.elNode );
+
+      if(!item.elNode.classList.contains("show-on-scroll")) {
+        item.elNode.classList.add("show-on-scroll");
+      }
+
       const bounds = item.elNode.getBoundingClientRect();
       const activeRange = item.scrollActive ? (1 - item.scrollActive) * window.innerHeight : 0;
 
@@ -89,23 +104,22 @@ export default class Scroll{
 
           item.elNode.classList.add("active");
 
-          let meshId = this.findMeshID( item.elNode );
           if(meshId){
             Canvas.activateImage(meshId , true);
-            Canvas.animateElOnScroll(item.elNode);
+            Canvas.onActiveElCallback(item.elNode);
           }
 
         }
       } else {
+
+        let meshId = this.findMeshID( item.elNode );
+        if(meshId){
+          Canvas.activateImage(meshId , false);
+          Canvas.animateElOnScroll(item.elNode);
+        }
+
         if(item.elNode.classList.contains("active")){
           item.elNode.classList.remove("active");
-
-          let meshId = this.findMeshID( item.elNode );
-          if(meshId){
-            Canvas.activateImage(meshId , false);
-            Canvas.animateElOnScroll(item.elNode);
-          }
-
         }
       }
     }
