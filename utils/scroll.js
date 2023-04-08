@@ -57,22 +57,7 @@ export default class Scroll{
     document.body.style.height = this.DOM.scrollable.scrollHeight > window.innerHeight ? `${this.DOM.scrollable.scrollHeight}px` : `${window.innerHeight}px`;
   }
 
-  findMeshID(_elParent, _isActiveScroll){
-    if(_elParent.dataset.meshId) {
-      _elParent.dataset.scrollActive = "true";
-      return _elParent.dataset.meshId;
-    }
-
-    let el = _elParent.querySelector("[data-mesh-id]");
-    if(!el) return false;
-
-    el.dataset.scrollActive = "true";
-    return el.dataset.meshId;
-  }
-
   setPosition() {
-
-    console.log("setPosition");
 
     // translate the scrollable container
     if ( Math.round(this.scrollToRender) !==  Math.round(this.current) || this.scrollToRender < 10  || !this.scrollTo.executed ) {
@@ -90,7 +75,6 @@ export default class Scroll{
     }
 
     for (const item of this.DOM.scrollactive) {
-      let meshId = this.findMeshID( item.elNode );
 
       if(!item.elNode.classList.contains("show-on-scroll")) {
         item.elNode.classList.add("show-on-scroll");
@@ -104,17 +88,16 @@ export default class Scroll{
 
           item.elNode.classList.add("active");
 
-          if(meshId){
-            Canvas.activateImage(meshId , true);
+          if(item.containedMeshId){
+            Canvas.activateImage(item.containedMeshId , true);
             Canvas.onActiveElCallback(item.elNode);
           }
 
         }
       } else {
 
-        let meshId = this.findMeshID( item.elNode );
-        if(meshId){
-          Canvas.activateImage(meshId , false);
+        if(item.containedMeshId){
+          Canvas.activateImage(item.containedMeshId , false);
           Canvas.animateElOnScroll(item.elNode);
         }
 

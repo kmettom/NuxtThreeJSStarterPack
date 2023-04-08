@@ -12,12 +12,15 @@ let props = defineProps([
   'imageHover',
 ]);
 
-let imageId = null;
+let imageId = `meshImage${props.shader}_${Canvas.imageStore.length}`;
 const img = ref("img");
 
+onMounted(() => {
+    Canvas.addImageAsMesh( img.value, props.shader, imageId );
+})
+
 const imageLoaded = () => {
-    imageId = `meshImage${props.shader}_${Canvas.imageStore.length}`;
-    Canvas.addImage( img.value, props.shader, imageId );
+    Canvas.updateMeshTexture(imageId,  img.value, imageId );
 };
 
 watch(() => props.imageHover, (_status) => {

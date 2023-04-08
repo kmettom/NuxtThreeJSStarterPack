@@ -114,14 +114,31 @@ let Canvas = {
     },
 
     addScrollActiveElement(_el){
+        _el.containedMeshId = this.findMeshID(_el.elNode, true);
         this.scroll.DOM.scrollactive.push(_el);
-        const $imageChild = _el.elNode.querySelector('img')
-        if($imageChild){
-            this.scroll.DOM.scrollactive.push({elNode: $imageChild , scrollActive: _el.scrollActive });
-        }
     },
 
-    addImage(_img, _shader, _id) {
+    findMeshID(_elParent, _isActiveScroll){
+        if(_elParent.dataset.meshId) {
+            _elParent.dataset.scrollActive = "true";
+            return _elParent.dataset.meshId;
+        }
+
+        let el = _elParent.querySelector("[data-mesh-id]");
+        if(!el) return false;
+
+        el.dataset.scrollActive = _isActiveScroll ? "true" : undefined;
+        return el.dataset.meshId;
+    },
+
+    updateMeshTexture(_meshId, _img){
+        const mesh = this.scene.getObjectByName(_meshId);
+        if(!mesh) return;
+        mesh.material.uniforms.uImage.value = new THREE.TextureLoader().load( _img.src );
+        
+    },
+
+    addImageAsMesh(_img, _shader, _id) {
 
         _img.dataset.meshId = _id;
 
@@ -140,7 +157,8 @@ let Canvas = {
 
         geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
 
-        let texture = new THREE.TextureLoader().load( _img.src );
+        // let texture = new THREE.TextureLoader().load( _img.src );
+        let texture = new THREE.TextureLoader();
         texture.needsUpdate = true;
 
         let material = new THREE.ShaderMaterial({
@@ -180,7 +198,7 @@ let Canvas = {
         this.imageStore.push(newMesh);
 
         //todo - on image load, after Position SET!!!
-        
+
         setTimeout(() => {
             if(!_img.dataset.scrollActive) this.activateImage(_id, true);
         },250)

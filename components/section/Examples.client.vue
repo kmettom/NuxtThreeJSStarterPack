@@ -16,7 +16,6 @@
     />
 
       <SectionExampleBlock
-              v-scrollSpeed="-0.3"
               v-scrollActive="0.5"
               :text="'Slow scroll speed | shader default'"
               :imgLink="'img/03.jpg'"
