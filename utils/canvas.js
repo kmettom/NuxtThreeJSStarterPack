@@ -131,15 +131,9 @@ let Canvas = {
         return el.dataset.meshId;
     },
 
-    updateMeshTexture(_meshId, _img){
-        const mesh = this.scene.getObjectByName(_meshId);
-        if(!mesh) return;
-        mesh.material.uniforms.uImage.value = new THREE.TextureLoader().load( _img.src );
-        
-    },
+    async addImageAsMesh(_img, _shader) {
 
-    addImageAsMesh(_img, _shader, _id) {
-
+        let _id = `meshImage${ _shader | "default" }_${this.imageStore.length}`;
         _img.dataset.meshId = _id;
 
         let fragmentShader= this.options.default.fragmentShader;
@@ -157,9 +151,14 @@ let Canvas = {
 
         geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
 
-        // let texture = new THREE.TextureLoader().load( _img.src );
-        let texture = new THREE.TextureLoader();
-        texture.needsUpdate = true;
+        let texture = await _img.addEventListener("load", async () => {
+            console.log("loaded image" , _id);
+            let texture = new THREE.TextureLoader().load( _img.src );
+            texture.needsUpdate = true;
+            return texture;
+        });
+
+        console.log("loaded image 2 " , _id);
 
         let material = new THREE.ShaderMaterial({
             uniforms:{
@@ -180,8 +179,6 @@ let Canvas = {
         let mesh = new THREE.Mesh( geometry, material );
         mesh.name =  _id;
 
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
         this.scene.add(mesh);
 
         const newMesh = {
@@ -205,6 +202,7 @@ let Canvas = {
 
         this.setImageMeshPositions();
 
+        return _id;
     },
 
     animateElOnScroll(){

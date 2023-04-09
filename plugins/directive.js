@@ -12,7 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             setTimeout(() => {
                 console.log("MOUNTED SCROLL ACTIVE EL");
                 Canvas.addScrollActiveElement({elNode: el , scrollActive: binding.value})
-            },100)
+            },1000)
         },
     });
 
