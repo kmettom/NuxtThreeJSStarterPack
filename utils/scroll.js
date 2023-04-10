@@ -90,7 +90,7 @@ export default class Scroll{
 
           if(item.containedMeshId){
             Canvas.activateImage(item.containedMeshId , true);
-            Canvas.onActiveElCallback(item.elNode);
+            // Canvas.onActiveElCallback(item.elNode, true);
           }
 
         }
@@ -98,7 +98,7 @@ export default class Scroll{
 
         if(item.containedMeshId){
           Canvas.activateImage(item.containedMeshId , false);
-          Canvas.animateElOnScroll(item.elNode);
+          // Canvas.onActiveElCallback(item.elNode, false);
         }
 
         if(item.elNode.classList.contains("active")){

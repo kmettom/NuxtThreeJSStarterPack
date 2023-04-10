@@ -98,6 +98,8 @@ let Canvas = {
     },
 
     activateImage(_id, _state) {
+        // console.log("activateImage");
+
         const mesh = this.scene.getObjectByName(_id);
         gsap.to(mesh.material.uniforms.aniIn , {
             duration: 1.25,
@@ -105,8 +107,8 @@ let Canvas = {
         })
     },
 
-    onActiveElCallback(_el){
-
+    onActiveElCallback(_el, _status){
+        console.log("onActiveElCallback", _el, _status);
     },
 
     addScrollSpeedElement(_el){
@@ -131,10 +133,7 @@ let Canvas = {
         return el.dataset.meshId;
     },
 
-    async addImageAsMesh(_img, _shader) {
-
-        let _id = `meshImage${ _shader | "default" }_${this.imageStore.length}`;
-        _img.dataset.meshId = _id;
+    addImageAsMesh(_img, _shader) {
 
         let fragmentShader= this.options.default.fragmentShader;
         let vertexShader = this.options.default.vertexShader;
@@ -151,62 +150,63 @@ let Canvas = {
 
         geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
 
-        let texture = await _img.addEventListener("load", async () => {
-            console.log("loaded image" , _id);
+        const registerMesh = () => {
+
+            let _id = `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
+            _img.dataset.meshId = _id;
+
             let texture = new THREE.TextureLoader().load( _img.src );
             texture.needsUpdate = true;
-            return texture;
-        });
 
-        console.log("loaded image 2 " , _id);
+            let material = new THREE.ShaderMaterial({
+                uniforms:{
+                    time: {value:0},
+                    uImage: {value: texture},
+                    vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
+                    hoverState: {value: 0},
+                    aniIn: {value: 0},
+                },
+                fragmentShader: fragmentShader,
+                vertexShader: vertexShader,
+                transparent: true,
+                name: _id,
+            });
 
-        let material = new THREE.ShaderMaterial({
-            uniforms:{
-                time: {value:0},
-                uImage: {value: texture},
-                vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
-                hoverState: {value: 0},
-                aniIn: {value: 0},
-            },
-            fragmentShader: fragmentShader,
-            vertexShader: vertexShader,
-            transparent: true,
-            name: _id,
-        });
+            this.materials.push(material);
 
-        this.materials.push(material);
+            let mesh = new THREE.Mesh( geometry, material );
+            mesh.name =  _id;
 
-        let mesh = new THREE.Mesh( geometry, material );
-        mesh.name =  _id;
+            this.scene.add(mesh);
 
-        this.scene.add(mesh);
+            const newMesh = {
+                name: _id,
+                img: _img,
+                mesh: mesh,
+                top: position.top,
+                left: position.left,
+                width: bounds.width,
+                height: bounds.height,
+                thumbOutAction: {value: 0},
+            }
 
-        const newMesh = {
-            name: _id,
-            img: _img,
-            mesh: mesh,
-            top: position.top,
-            left: position.left,
-            width: bounds.width,
-            height: bounds.height,
-            thumbOutAction: {value: 0},
-        }
+            this.imageStore.push(newMesh);
 
-        this.imageStore.push(newMesh);
+            setTimeout(() => {
+                 this.activateImage(_id, true);
+                // if(!_img.dataset.scrollActive) this.activateImage(_id, true);
+            },250)
 
-        //todo - on image load, after Position SET!!!
+            this.setImageMeshPositions();
 
-        setTimeout(() => {
-            if(!_img.dataset.scrollActive) this.activateImage(_id, true);
-        },250)
+            return _id;
+        };
 
-        this.setImageMeshPositions();
-
-        return _id;
-    },
-
-    animateElOnScroll(){
-
+        return new Promise((resolve) => {
+            _img.addEventListener("load", () => {
+                resolve(registerMesh()) ;
+            });
+        })
     },
 
     meshMouseListeners(_mesh, _material) {

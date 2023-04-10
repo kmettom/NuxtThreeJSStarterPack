@@ -16,19 +16,19 @@ let props = defineProps([
 let imageId = null;
 const img = ref("img");
 
-onMounted(() => {
-    imageId = Canvas.addImageAsMesh( img.value, props.shader );
-    // Canvas.addImageAsMesh( img.value, props.shader, imageId );
+onMounted(async() => {
+    imageId = await Canvas.addImageAsMesh( img.value, props.shader ).then( (_id) => { return _id});
+    console.log("imageId" , imageId);
 })
 
-const imageLoaded = () => {
-    // Canvas.addImageAsMesh( img.value, props.shader );
-    // Canvas.updateMeshTexture(imageId,  img.value, imageId );
-};
+// const imageLoaded = async () => {
+//     imageId = await Canvas.addImageAsMesh( img.value, props.shader ).then( (_id) => { return _id});
+//     console.log("imageId ON LOAD" , imageId);
+// };
 
-watch(() => props.imageHover, (_status) => {
-  Canvas.hoverImage(imageId, _status);
-});
+// watch(() => props.imageHover, (_status) => {
+//   Canvas.hoverImage(imageId, _status);
+// });
 
 </script>
 
