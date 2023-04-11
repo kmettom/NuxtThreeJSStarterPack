@@ -90,19 +90,22 @@ export default class Scroll{
 
           if(item.containedMeshId){
             Canvas.activateImage(item.containedMeshId , true);
-            // Canvas.onActiveElCallback(item.elNode, true);
+            Canvas.onActiveElCallback(item.elNode, true);
           }
 
         }
       } else {
-
-        if(item.containedMeshId){
-          Canvas.activateImage(item.containedMeshId , false);
-          // Canvas.onActiveElCallback(item.elNode, false);
-        }
-
         if(item.elNode.classList.contains("active")){
-          item.elNode.classList.remove("active");
+
+          if(item.containedMeshId){
+            Canvas.activateImage(item.containedMeshId , false);
+            Canvas.onActiveElCallback(item.elNode, false);
+          }
+
+          if(item.elNode.classList.contains("active")){
+            item.elNode.classList.remove("active");
+          }
+
         }
       }
     }

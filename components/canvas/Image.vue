@@ -12,23 +12,26 @@ let props = defineProps([
   'imageHover',
 ]);
 
-// let imageId = `meshImage${props.shader | "default" }_${Canvas.imageStore.length}`;
-let imageId = null;
+// let imageId = null;
+let imageId = `meshImage${props.shader | "default" }_${Canvas.imageStore.length}`;
 const img = ref("img");
 
 onMounted(async() => {
-    imageId = await Canvas.addImageAsMesh( img.value, props.shader ).then( (_id) => { return _id});
-    console.log("imageId" , imageId);
+    // imageId = await Canvas.addImageAsMesh( img.value, props.shader ).then( (_id) => { return _id});
+    // console.log("imageId" , imageId);
 })
 
-// const imageLoaded = async () => {
-//     imageId = await Canvas.addImageAsMesh( img.value, props.shader ).then( (_id) => { return _id});
-//     console.log("imageId ON LOAD" , imageId);
-// };
+const imageLoaded = async () => {
 
-// watch(() => props.imageHover, (_status) => {
-//   Canvas.hoverImage(imageId, _status);
-// });
+    Canvas.addImageAsMeshB( img.value , props.shader );
+
+    // imageId = await Canvas.addImageAsMesh( img.value, props.shader ).then( (_id) => { return _id});
+    // console.log("imageId ON LOAD" , imageId);
+};
+
+watch(() => props.imageHover, (_status) => {
+  Canvas.hoverImage(imageId, _status);
+});
 
 </script>
 
