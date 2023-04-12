@@ -22,11 +22,7 @@ onMounted(async() => {
 })
 
 const imageLoaded = async () => {
-
     Canvas.addImageAsMeshB( img.value , props.shader );
-
-    // imageId = await Canvas.addImageAsMesh( img.value, props.shader ).then( (_id) => { return _id});
-    // console.log("imageId ON LOAD" , imageId);
 };
 
 watch(() => props.imageHover, (_status) => {

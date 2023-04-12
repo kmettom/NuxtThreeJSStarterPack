@@ -224,8 +224,6 @@ let Canvas = {
 
         geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
 
-        // const registerMesh = () => {
-
         let _id = `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
         _img.dataset.meshId = _id;
 
@@ -267,8 +265,7 @@ let Canvas = {
         this.imageStore.push(newMesh);
 
         setTimeout(() => {
-            this.activateImage(_id, true);
-            // if(!_img.dataset.scrollActive) this.activateImage(_id, true);
+            if(!_img.dataset.scrollActive) this.activateImage(_id, true);
         },250)
 
         this.setImageMeshPositions();
@@ -276,13 +273,9 @@ let Canvas = {
 
     },
 
-
     meshMouseListeners(_mesh, _material) {
 
-        console.log("mouse enter", _mesh);
-
         _mesh.img.addEventListener('mouseenter',(event)=>{
-            console.log("mouse enter");
             _mesh.mesh.renderOrder = 1;
             this.hoverInProgress = true;
 
