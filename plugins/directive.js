@@ -9,10 +9,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     nuxtApp.vueApp.directive('scrollActive', {
         mounted (el, binding, vnode) {
-            setTimeout(() => {
-                console.log("MOUNTED SCROLL ACTIVE EL");
-                Canvas.addScrollActiveElement({elNode: el , scrollActive: binding.value})
-            },1000)
+            // setTimeout(() => {
+            Canvas.addScrollActiveElement({elNode: el , scrollActive: binding.value})
+            // },1000)
         },
     });
 

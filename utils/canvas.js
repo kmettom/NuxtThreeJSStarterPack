@@ -126,86 +126,85 @@ let Canvas = {
 
         let el = _elParent.querySelector("[data-mesh-id]");
         if(!el) return false;
-
         el.dataset.scrollActive = _isActiveScroll ? "true" : undefined;
         return el.dataset.meshId;
     },
 
-    addImageAsMesh(_img, _shader) {
-
-        let fragmentShader= this.options.default.fragmentShader;
-        let vertexShader = this.options.default.vertexShader;
-
-        if(_shader){
-            fragmentShader = this.options[_shader].fragmentShader;
-            vertexShader = this.options[_shader].vertexShader;
-        }
-
-        let geometry;
-        let bounds = _img.getBoundingClientRect();
-        let position = { top : bounds.top , left: bounds.left};
-        position.top += this.currentScroll;
-
-        geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
-
-        const registerMesh = () => {
-
-            let _id = `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
-            _img.dataset.meshId = _id;
-
-            let texture = new THREE.TextureLoader().load( _img.src );
-            texture.needsUpdate = true;
-
-            let material = new THREE.ShaderMaterial({
-                uniforms:{
-                    time: {value:0},
-                    uImage: {value: texture},
-                    vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
-                    hoverState: {value: 0},
-                    aniIn: {value: 0},
-                },
-                fragmentShader: fragmentShader,
-                vertexShader: vertexShader,
-                transparent: true,
-                name: _id,
-            });
-
-            this.materials.push(material);
-
-            let mesh = new THREE.Mesh( geometry, material );
-            mesh.name =  _id;
-
-            this.scene.add(mesh);
-
-            const newMesh = {
-                name: _id,
-                img: _img,
-                mesh: mesh,
-                top: position.top,
-                left: position.left,
-                width: bounds.width,
-                height: bounds.height,
-                thumbOutAction: {value: 0},
-            }
-
-            this.imageStore.push(newMesh);
-
-            setTimeout(() => {
-                this.activateImage(_id, true);
-                // if(!_img.dataset.scrollActive) this.activateImage(_id, true);
-            },250)
-
-            this.setImageMeshPositions();
-
-            return _id;
-        };
-
-        return new Promise((resolve) => {
-            _img.addEventListener("load", () => {
-                resolve(registerMesh()) ;
-            });
-        })
-    },
+    // addImageAsMesh(_img, _shader) {
+    //
+    //     let fragmentShader= this.options.default.fragmentShader;
+    //     let vertexShader = this.options.default.vertexShader;
+    //
+    //     if(_shader){
+    //         fragmentShader = this.options[_shader].fragmentShader;
+    //         vertexShader = this.options[_shader].vertexShader;
+    //     }
+    //
+    //     let geometry;
+    //     let bounds = _img.getBoundingClientRect();
+    //     let position = { top : bounds.top , left: bounds.left};
+    //     position.top += this.currentScroll;
+    //
+    //     geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
+    //
+    //     const registerMesh = () => {
+    //
+    //         let _id = `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
+    //         _img.dataset.meshId = _id;
+    //
+    //         let texture = new THREE.TextureLoader().load( _img.src );
+    //         texture.needsUpdate = true;
+    //
+    //         let material = new THREE.ShaderMaterial({
+    //             uniforms:{
+    //                 time: {value:0},
+    //                 uImage: {value: texture},
+    //                 vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
+    //                 hoverState: {value: 0},
+    //                 aniIn: {value: 0},
+    //             },
+    //             fragmentShader: fragmentShader,
+    //             vertexShader: vertexShader,
+    //             transparent: true,
+    //             name: _id,
+    //         });
+    //
+    //         this.materials.push(material);
+    //
+    //         let mesh = new THREE.Mesh( geometry, material );
+    //         mesh.name =  _id;
+    //
+    //         this.scene.add(mesh);
+    //
+    //         const newMesh = {
+    //             name: _id,
+    //             img: _img,
+    //             mesh: mesh,
+    //             top: position.top,
+    //             left: position.left,
+    //             width: bounds.width,
+    //             height: bounds.height,
+    //             thumbOutAction: {value: 0},
+    //         }
+    //
+    //         this.imageStore.push(newMesh);
+    //
+    //         setTimeout(() => {
+    //             // this.activateImage(_id, true);
+    //             if(!_img.dataset.scrollActive) this.activateImage(_id, true);
+    //         },250)
+    //
+    //         this.setImageMeshPositions();
+    //
+    //         return _id;
+    //     };
+    //
+    //     return new Promise((resolve) => {
+    //         _img.addEventListener("load", () => {
+    //             resolve(registerMesh()) ;
+    //         });
+    //     })
+    // },
 
     addImageAsMeshB(_img, _shader) {
 
@@ -265,7 +264,9 @@ let Canvas = {
         this.imageStore.push(newMesh);
 
         setTimeout(() => {
-            if(!_img.dataset.scrollActive) this.activateImage(_id, true);
+            if(_img.dataset.scrollActive !== "true") {
+                this.activateImage(_id, true);
+            }
         },250)
 
         this.setImageMeshPositions();
