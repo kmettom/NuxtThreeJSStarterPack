@@ -171,8 +171,6 @@ export default class Scroll{
       this.DOM.scrollable.style.transform = `translate3d(0,${-1 * this.scrollToRender}px,0)`;
     }
 
-    Canvas.navigationToSmall(this.scrollToRender > 75 )
-
     if(this.DOM.scrollspeed.length > 0){
       this.setSpeedElementsPosition()
     }
@@ -181,11 +179,11 @@ export default class Scroll{
     }
 
   }
-  scrollRenderToZeroFluid(){
+  scrollRenderToFluid(){
     window.scrollBy( 0 , _scrollTo.toString() );
     document.documentElement.scrollTop = _scrollTo
   }
-  scrollRenderToZero() {
+  scrollRenderTo() {
     this.scrollTo.executed = false;
     this.scrollTo.target = Number(_scrollTo);
     window.scrollBy( 0 , _scrollTo.toString());
@@ -202,9 +200,9 @@ export default class Scroll{
   render(_scrollTo, _fluid) {
     this.setSize();
     if(_scrollTo !== undefined && _fluid){
-     this.scrollRenderToZeroFluid()
+     this.scrollRenderToFluid(_scrollTo)
     }else if( _scrollTo !== undefined  && _fluid === false ){
-      this.scrollRenderToZero()
+      this.scrollRenderTo(_scrollTo)
     }else if ( !this.scrollTo.executed ) {
      this.scrollRender()
     }else {

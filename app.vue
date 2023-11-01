@@ -17,7 +17,6 @@
                       },
                     }"
           />
-          <CommonFooter />
 
         </div>
       </div>
@@ -73,52 +72,6 @@ const welcomeFinished = () => {
   width: 100%;
   overflow: hidden;
 
-  .section-title.dark{
-    .h2-regular {
-      transition: ease color 0.3s;
-      color: var(--blue-primary);
-    }
-  }
-  .section-title.light{
-    .h2-regular {
-      transition: ease color 0.3s;
-      color:  var(--ovp-neutral-black-80);
-    }
-  }
-  .merits-wrapper .h3-regular.light{
-    transition: ease color 0.3s;
-    color: var(--blue-secondary);
-  }
-  .section-expertise .content{
-    transition: ease color 0.3s;
-    color: var(--ovp-neutral-black-80);
-  }
-  .section-focus .focus-cards-wrapper .focus-card .content .p-body2{
-    transition: ease color 0.3s;
-    color: var(--grey);
-  }
-
-  &.dark{
-    background-color: var(--blue-secondary);
-    .section-title.light,
-    .section-title.dark{
-      .h2-regular{
-        color: var(--white);
-      }
-    }
-    .merits-wrapper .h3-regular.light{
-      color: var(--white);
-    }
-    .section-expertise .content{
-      color: var(--grey-light);
-    }
-    .section-focus .focus-cards-wrapper .focus-card .content .p-body2{
-      color: var(--grey-light);
-    }
-    #uniqueCursor{
-      background: var(--white) !important;
-    }
-  }
 }
 
 #scrollContainer{

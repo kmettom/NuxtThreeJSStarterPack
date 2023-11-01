@@ -12,7 +12,7 @@ import ovpVertex from './shaders/ovpVertex.glsl';
 import scrollFragment from './shaders/scrollFragment.glsl';
 import scrollVertex from './shaders/scrollVertex.glsl';
 
-import { content, footer, header, iconRotate, navigationToSmall } from "~/utils/animations";
+import { content, footer, header, iconRotate } from "~/utils/animations";
 
 const CanvasOptions = {
     scroll: {
@@ -152,22 +152,6 @@ let Canvas = {
     onScrollCallBack(_item, _scrollPosition, _scrollSpeed) {
         if(_item.options.includes('footer')) footer(_item , _scrollPosition)
         if(_item.options.includes('rotate')) iconRotate(_item, _scrollPosition,  _scrollSpeed)
-    },
-
-    navigationToSmall(_status) {
-        if(window.innerWidth < 768) return
-        if (_status) {
-            if( !this.navigation.classList.contains('ovp-nav-small')){
-                navigationToSmall(this.navigation, true);
-                this.navigation.classList.add( 'ovp-nav-small' )
-            }
-        } else {
-            if( this.navigation.classList.contains('ovp-nav-small')){
-                navigationToSmall(this.navigation, false);
-                this.navigation.classList.remove( 'ovp-nav-small' )
-            }
-        }
-
     },
 
     addScrollSpeedElement(_el){

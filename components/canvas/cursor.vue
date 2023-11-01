@@ -88,12 +88,12 @@ export default {
 
 <style lang="scss" >
 
-body {
-  cursor: none;
-  * {
-    cursor: none;
-  }
-}
+//body {
+//  cursor: none;
+//  * {
+//    cursor: none;
+//  }
+//}
 
 #uniqueCursor{
   display: block;

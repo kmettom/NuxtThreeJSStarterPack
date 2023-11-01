@@ -1,13 +1,11 @@
 <template>
-<div>
-  home page
-<!--  <SectionExamples />-->
-
-</div>
-
+  <div>
+  second page
+  </div>
 </template>
 <script setup>
 import { onMounted, watch } from "vue";
+// const { data } =  await useAsyncData('services', () => queryContent('/services').findOne())
 
 // useSeoMeta({
 //   title: data._rawValue?.seo.title,
@@ -22,13 +20,13 @@ const props = defineProps({
   pageActive: Boolean
 });
 
-const pageAniIn = () => {
-  console.log('animate page in')
+
+const pageAnimateIn = () => {
 };
 
 onMounted(() => {
   if (props.pageActive) {
-    pageAniIn();
+    pageAnimateIn();
   }
 });
 
@@ -36,14 +34,13 @@ watch(
   () => props.pageActive,
   (newValue, oldValue) => {
     if (newValue) {
-      pageAniIn();
+      pageAnimateIn();
     }
   }
 );
 
 
 </script>
-
 <style lang="scss" scoped>
 
 </style>

@@ -1,9 +1,9 @@
 {
-  "name": "ov-partners",
-  "description": "ovpartners website",
+  "name": "nuxt-three-js-starter-pack",
+  "description": "Starter pack for Nuxt.js and Three.js with developed animation features",
   "version": "1.0.0",
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "private": true,
   "scripts": {

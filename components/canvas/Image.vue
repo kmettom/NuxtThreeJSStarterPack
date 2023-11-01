@@ -52,13 +52,9 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped >
-@import "assets/scss/_media_queries";
 
 img{
   opacity: 0;
-  @include respond-width($w-s){
-    opacity: 1;
-  }
 }
 
 </style>
