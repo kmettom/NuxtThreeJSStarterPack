@@ -3,7 +3,6 @@
   home page
 <!--  <SectionExamples />-->
 
-
 <!--  <CanvasImage :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />-->
 
 <!--  <CanvasImage :meshId="'estate'" :imageHover="focusImageShow['estate']" :srcLink="img_estate" />-->
@@ -13,7 +12,28 @@
       v-scrollSpeed="0.2"
       :text="'Fast scroll speed | shader 1'"
       :imgLink="'imgs/01.jpg'"
+      :shader="'example2'"
   />
+
+  <SectionExampleBlock
+      v-scrollActive="0.5"
+      :text="'Slow scroll speed | shader default'"
+      :imgLink="'imgs/03.jpg'"
+  />
+
+  <SectionExampleBlock
+      v-scrollSpeed="0.2"
+      :text="'Slow scroll speed | shader default'"
+      :imgLink="'imgs/04.jpg'"
+  />
+
+  <SectionExampleBlock
+      v-scrollSpeed="0.4"
+      :text="'Faster scroll speed | shader 1'"
+      :imgLink="'imgs/05.jpg'"
+      :shader="'example1'"
+  />
+
 
 
 </div>

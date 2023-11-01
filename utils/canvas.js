@@ -12,7 +12,7 @@ import ovpVertex from './shaders/ovpVertex.glsl';
 import scrollFragment from './shaders/scrollFragment.glsl';
 import scrollVertex from './shaders/scrollVertex.glsl';
 
-import { content, footer, header, iconRotate } from "~/utils/animations";
+// import {  } from "~/utils/animations";
 
 const CanvasOptions = {
     scroll: {
@@ -129,30 +129,12 @@ let Canvas = {
     },
 
     onActiveElCallback(_item, _active){
-        if(_item.options.includes('header')) header(_item , _active)
-        if(_item.options.includes('content')) content(_item , _active)
-        if(_item.options.includes('line')) line(_item , _active)
-        if(_item.options.includes('navigationbgdark')) {
-            if(!this.navigation) return
-            if(_active){
-                this.navigation.classList.add('ovp-navigation-light')
-            }else{
-                this.navigation.classList.remove('ovp-navigation-light')
-            }
-        }
-        if(_item.options.includes('appbgdark')) {
-            if(_active){
-                _item.bgContainer.classList.add("dark");
-            } else {
-                _item.bgContainer.classList.remove("dark");
-            }
-        }
+        // if(_item.options.includes('content')) content(_item , _active)
     },
 
     onScrollCallBack(_item, _scrollPosition, _scrollSpeed) {
-        if(_item.options.includes('footer')) footer(_item , _scrollPosition)
-        if(_item.options.includes('rotate')) iconRotate(_item, _scrollPosition,  _scrollSpeed)
-    },
+
+        },
 
     addScrollSpeedElement(_el){
         if(_el.options?.includes('fixed')){
@@ -196,12 +178,8 @@ let Canvas = {
 
     addScrollActiveElement(_settings){
         _settings.containedMeshId = this.findMeshID(_settings.elNode, true);
-        if(_settings.options.includes('header')) _settings.elNode.classList.add('ovp-title-overflow')
         if(_settings.options.includes('top')) _settings.rangeFromTop = true;
         if(_settings.options.includes('once')) _settings.aniInOnly = true;
-        if(_settings.options.includes('navigationbgdark')) _settings.navigationLight = true;
-        if(_settings.options.includes('appbgdark')) _settings.bgContainer = document.querySelector('#appContainer')
-        // if(_settings.options.includes('appbgdark')) _settings.bgContainer = document.querySelector('#scrollContainer')
         this.scroll.DOM.scrollactive.push(_settings);
         this.onActiveElCallback(_settings, false)
     },

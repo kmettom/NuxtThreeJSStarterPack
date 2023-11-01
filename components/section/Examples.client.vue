@@ -34,12 +34,12 @@
         :shader="'example1'"
     />
 
-    <SectionExampleBlock
-        v-scrollSpeed="0"
-        :text="'Normal scroll speed | shader 2'"
-        :imgLink="'imgs/01.jpg'"
-        :shader="'example2'"
-    />
+<!--    <SectionExampleBlock-->
+<!--        v-scrollSpeed="0"-->
+<!--        :text="'Normal scroll speed | shader 2'"-->
+<!--        :imgLink="'imgs/01.jpg'"-->
+<!--        :shader="'example2'"-->
+<!--    />-->
 
   </section>
 </template>

@@ -6,54 +6,5 @@
     "ogDescription": "OVP Home Page ogDescription",
     "ogImage": "https://example.com/image.png",
     "twitterCard": "summary_large_image"
-  },
-  "header": {
-    "txt1": "Driving",
-    "txt2": "success",
-    "txt3": "through",
-    "txt4": "change",
-    "btnText":"contact us",
-    "btnTextHover":"contact us",
-    "subtext": "Boutique strategy consultancy specializing in delivering robust business solutions."
-  },
-  "about": {
-    "title": "ABOUT US",
-    "text": "OV Partners is a boutique strategy consultancy specializing in delivering robust business solutions and facilitating partnerships between industry experts and entrepreneurs. With a relentless passion for innovation, we collaborate with businesses to navigate transformations, optimizing strategies and fostering a culture of adaptability."
-  },
-  "approach": {
-    "sectionTitle1": "Our",
-    "sectionTitle2": "Approach",
-    "title1": "Discovery",
-    "text1": "We immerse ourselves in your business to understand your challenges, opportunities, and unique value propositions.",
-    "title2": "Deep Drive",
-    "text2": "Our team employs cutting-edge tools to analyse market trends, competition, and consumer behaviour, generating insights that drive informed decisions.",
-    "title3": "Innovate",
-    "text3": "Creativity is at the core of our solutions. We devise innovative strategies that break the mould and position your business ahead of the curve.",
-    "title4": "Collaborate",
-    "text4": "A strategy without execution is merely an idea. We collaborate with you to execute the strategy seamlessly, monitoring progress and adapting as needed."
-  },
-  "expertise": {
-    "sectionTitle1": "Areas of",
-    "sectionTitle2": "expertise",
-    "title1": "Technology",
-    "text1": "In a world driven by digital innovation, we empower your business to confidently navigate the digital age. We seamlessly weave cutting-edge solutions into your strategy, amplifying customer experiences and elevating operational efficiency to new heights.",
-    "title2": "Change management",
-    "text2": "Change is the cornerstone of progress. We specialize in guiding organizations through transitions, fostering a culture of adaptability and ensuring that change leads to growth.",
-    "title3": "Market insights",
-    "text3": "Informed decisions drive success. Our experts analyse market trends and consumer behaviour, providing you with the insights needed to make strategic, data-driven choices.",
-    "title4": "Project management",
-    "text4": "From ideation to execution, we orchestrate the entire process. Our project management expertise ensures that strategies are not just planned, but flawlessly executed.",
-    "btnText":"Read more",
-    "btnHoverText":"Read more"
-  },
-  "focus": {
-    "sectionTitle1": "Sector",
-    "sectionTitle2": "Focus",
-    "title1": "Real Estate",
-    "text1": "Residential | Commercial | Mixed Use \nProviding project management consultancy services for refurbishment and development properties. ",
-    "title2": "FMCG",
-    "text2": "Healthcare | Cosmetics | Food & Beverage\nIdentifying market niches and new market opportunities for existing products and services. Assisting clients with new product development.",
-    "title3": "Technology",
-    "text3": "Payments Processing | Interactive Games\nWorking closely with developers, industry experts and regulators to develop disruptive mobile technology solutions."
   }
 }
