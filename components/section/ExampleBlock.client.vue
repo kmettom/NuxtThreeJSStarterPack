@@ -14,8 +14,6 @@
 
 <script setup >
 
-import gsap from 'gsap';
-
 const props = defineProps([
   'text',
   'shader',

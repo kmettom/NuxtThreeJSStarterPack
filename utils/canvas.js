@@ -1,4 +1,4 @@
-import {gsap} from "gsap";
+import { gsap } from "gsap";
 import * as THREE from 'three';
 import Scroll from './scroll.js';
 
@@ -6,39 +6,26 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 
+import ovpFragment from './shaders/ovpFragment.glsl';
+import ovpVertex from './shaders/ovpVertex.glsl';
+
 import scrollFragment from './shaders/scrollFragment.glsl';
 import scrollVertex from './shaders/scrollVertex.glsl';
 
-import defaultFragment from './shaders/defaultFragment.glsl';
-import defaultVertex from './shaders/defaultVertex.glsl';
-
-import example1Fragment from './shaders/example1Fragment.glsl';
-import example1Vertex from './shaders/example1Vertex.glsl';
-
-import example2Fragment from './shaders/example2Fragment.glsl';
-import example2Vertex from './shaders/example2Vertex.glsl';
-
+import { content, footer, header, iconRotate, navigationToSmall } from "~/utils/animations";
 
 const CanvasOptions = {
-    default: {
-        fragmentShader: defaultFragment,
-        vertexShader: defaultVertex,
-    },
     scroll: {
         fragmentShader: scrollFragment,
         vertexShader: scrollVertex,
     },
-    example1: {
-        fragmentShader: example1Fragment,
-        vertexShader: example1Vertex,
-    },
-    example2: {
-        fragmentShader: example2Fragment,
-        vertexShader: example2Vertex,
+    default: {
+        fragmentShader: ovpFragment,
+        vertexShader: ovpVertex,
     },
 };
 let Canvas = {
-    scrollPosition: 0,
+    navigation: null,
     scrollInProgress : false,
     canvasContainer : null,
     scrollableContent : null,
@@ -47,19 +34,22 @@ let Canvas = {
     scene: new THREE.Scene(),
     materials: [],
     imageStore: [],
+    trackViewPortElements:[],
     scroll: null,
     currentScroll: 0,
     options : CanvasOptions,
-    init(_canvasElement, _scrollableContent) {
-
-        this.canvasContainer = _canvasElement;
-        this.scrollableContent = _scrollableContent;
-
+    animations: {
+        welcome: {},
+        curtain: {},
+        cursorCallBack: () => {},
+    },
+    initScroll(){
         this.scroll = new Scroll({
             dom: this.scrollableContent,
             activeCallback: this.activateImage,
         });
-
+    },
+    setCanvasAndCamera(){
         this.width = this.canvasContainer.offsetWidth;
         this.height = this.canvasContainer.offsetHeight;
 
@@ -72,19 +62,52 @@ let Canvas = {
         });
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio , 1.5));
         this.canvasContainer.appendChild( this.renderer.domElement );
+    },
+    init(_canvasElement, _scrollableContent) {
+
+        this.canvasContainer = _canvasElement;
+        this.scrollableContent = _scrollableContent;
+
+        this.initScroll()
+
+        this.setCanvasAndCamera()
+
         this.setSize();
-        this.composerPass()
+        this.composerPass();
+        this.curtainInit();
+
+        this.setResizeListener()
+
         this.render();
     },
+    setResizeListener(){
+        window.addEventListener("resize", () => {
 
+            this.width = this.canvasContainer.offsetWidth;
+            this.height = this.canvasContainer.offsetHeight;
+
+            this.setSize();
+            this.animations.curtain.mesh.scale.set( window.innerWidth , 0 );
+
+           this.resizeImageStore()
+
+        })
+    },
+    resizeImageStore(){
+        // all meshes should be resized to new size
+        for (var i = 0; i < this.imageStore.length; i++) {
+            let bounds = this.imageStore[i].img.getBoundingClientRect();
+            this.imageStore[i].mesh.scale.set(bounds.width , bounds.height)
+            this.imageStore[i].width = bounds.width;
+            this.imageStore[i].height = bounds.height;
+        }
+        this.setImageMeshPositions()
+    },
     setImageMeshPositions(){
         if(!this.imageStore) return;
-
         for (var i = 0; i < this.imageStore.length ; i++) {
-
-            this.imageStore[i].mesh.position.x = ( this.imageStore[i].left - this.width/2 + this.imageStore[i].width/2);
+            this.imageStore[i].mesh.position.x = ( this.imageStore[i].img.getBoundingClientRect().left - this.width/2 + this.imageStore[i].width/2);
             this.imageStore[i].mesh.position.y =  - this.imageStore[i].img.getBoundingClientRect().top + this.height/2 - this.imageStore[i].height/2;
-
         }
     },
 
@@ -105,17 +128,98 @@ let Canvas = {
         })
     },
 
-    onActiveElCallback(_el, _status){
-        console.log("onActiveElCallback", _el, _status);
+    onActiveElCallback(_item, _active){
+        if(_item.options.includes('header')) header(_item , _active)
+        if(_item.options.includes('content')) content(_item , _active)
+        if(_item.options.includes('line')) line(_item , _active)
+        if(_item.options.includes('navigationbgdark')) {
+            if(!this.navigation) return
+            if(_active){
+                this.navigation.classList.add('ovp-navigation-light')
+            }else{
+                this.navigation.classList.remove('ovp-navigation-light')
+            }
+        }
+        if(_item.options.includes('appbgdark')) {
+            if(_active){
+                _item.bgContainer.classList.add("dark");
+            } else {
+                _item.bgContainer.classList.remove("dark");
+            }
+        }
+    },
+
+    onScrollCallBack(_item, _scrollPosition, _scrollSpeed) {
+        if(_item.options.includes('footer')) footer(_item , _scrollPosition)
+        if(_item.options.includes('rotate')) iconRotate(_item, _scrollPosition,  _scrollSpeed)
+    },
+
+    navigationToSmall(_status) {
+        if(window.innerWidth < 768) return
+        if (_status) {
+            if( !this.navigation.classList.contains('ovp-nav-small')){
+                navigationToSmall(this.navigation, true);
+                this.navigation.classList.add( 'ovp-nav-small' )
+            }
+        } else {
+            if( this.navigation.classList.contains('ovp-nav-small')){
+                navigationToSmall(this.navigation, false);
+                this.navigation.classList.remove( 'ovp-nav-small' )
+            }
+        }
+
     },
 
     addScrollSpeedElement(_el){
+        if(_el.options?.includes('fixed')){
+            setTimeout(() => { // timeout for rendering when page is changed
+                _el.containerId = _el.scrollSpeed
+                _el.scrollSpeed = 1
+                _el.bounds = _el.elNode.getBoundingClientRect()
+                _el.containerEl = document.getElementById(_el.containerId)
+                _el.childEl= _el.elNode.children[0]
+                _el.containerBottom = _el.containerEl.getBoundingClientRect().bottom
+                _el.margin = 60
+                this.scroll.DOM.scrollspeed.push(_el);
+            }, 750);
+            return
+        }
         this.scroll.DOM.scrollspeed.push(_el);
     },
 
-    addScrollActiveElement(_el){
-        _el.containedMeshId = this.findMeshID(_el.elNode, true);
-        this.scroll.DOM.scrollactive.push(_el);
+    removeScrollSpeedElement(_elNode){
+        if(this.scroll.DOM.scrollspeed.length === 0 || !_elNode ) return
+        for (var i = 0; i < this.scroll.DOM.scrollspeed.length; i++) {
+            if(this.scroll.DOM.scrollspeed[i].elNode.isEqualNode(_elNode)){
+                this.scroll.DOM.scrollspeed.splice(i, 1);
+                break;
+            }
+        }
+    },
+
+    removeScrollActiveElement(_elNode) {
+        if(!_elNode || this.scroll.DOM.scrollactive.length === 0) return
+        for (var i = 0; i < this.scroll.DOM.scrollactive.length; i++) {
+            if(this.scroll.DOM.scrollactive[i].elNode.isEqualNode(_elNode)){
+                if(this.scroll.DOM.scrollactive[i].options.includes('appbgdark')){
+                   this.scroll.DOM.scrollactive[i].bgContainer.classList.remove("dark");
+                }
+                this.scroll.DOM.scrollactive.splice(i, 1);
+                break;
+            }
+        }
+    },
+
+    addScrollActiveElement(_settings){
+        _settings.containedMeshId = this.findMeshID(_settings.elNode, true);
+        if(_settings.options.includes('header')) _settings.elNode.classList.add('ovp-title-overflow')
+        if(_settings.options.includes('top')) _settings.rangeFromTop = true;
+        if(_settings.options.includes('once')) _settings.aniInOnly = true;
+        if(_settings.options.includes('navigationbgdark')) _settings.navigationLight = true;
+        if(_settings.options.includes('appbgdark')) _settings.bgContainer = document.querySelector('#appContainer')
+        // if(_settings.options.includes('appbgdark')) _settings.bgContainer = document.querySelector('#scrollContainer')
+        this.scroll.DOM.scrollactive.push(_settings);
+        this.onActiveElCallback(_settings, false)
     },
 
     findMeshID(_elParent, _isActiveScroll){
@@ -126,87 +230,29 @@ let Canvas = {
 
         let el = _elParent.querySelector("[data-mesh-id]");
         if(!el) return false;
+
         el.dataset.scrollActive = _isActiveScroll ? "true" : undefined;
         return el.dataset.meshId;
     },
 
-    // addImageAsMesh(_img, _shader) {
-    //
-    //     let fragmentShader= this.options.default.fragmentShader;
-    //     let vertexShader = this.options.default.vertexShader;
-    //
-    //     if(_shader){
-    //         fragmentShader = this.options[_shader].fragmentShader;
-    //         vertexShader = this.options[_shader].vertexShader;
-    //     }
-    //
-    //     let geometry;
-    //     let bounds = _img.getBoundingClientRect();
-    //     let position = { top : bounds.top , left: bounds.left};
-    //     position.top += this.currentScroll;
-    //
-    //     geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
-    //
-    //     const registerMesh = () => {
-    //
-    //         let _id = `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
-    //         _img.dataset.meshId = _id;
-    //
-    //         let texture = new THREE.TextureLoader().load( _img.src );
-    //         texture.needsUpdate = true;
-    //
-    //         let material = new THREE.ShaderMaterial({
-    //             uniforms:{
-    //                 time: {value:0},
-    //                 uImage: {value: texture},
-    //                 vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
-    //                 hoverState: {value: 0},
-    //                 aniIn: {value: 0},
-    //             },
-    //             fragmentShader: fragmentShader,
-    //             vertexShader: vertexShader,
-    //             transparent: true,
-    //             name: _id,
-    //         });
-    //
-    //         this.materials.push(material);
-    //
-    //         let mesh = new THREE.Mesh( geometry, material );
-    //         mesh.name =  _id;
-    //
-    //         this.scene.add(mesh);
-    //
-    //         const newMesh = {
-    //             name: _id,
-    //             img: _img,
-    //             mesh: mesh,
-    //             top: position.top,
-    //             left: position.left,
-    //             width: bounds.width,
-    //             height: bounds.height,
-    //             thumbOutAction: {value: 0},
-    //         }
-    //
-    //         this.imageStore.push(newMesh);
-    //
-    //         setTimeout(() => {
-    //             // this.activateImage(_id, true);
-    //             if(!_img.dataset.scrollActive) this.activateImage(_id, true);
-    //         },250)
-    //
-    //         this.setImageMeshPositions();
-    //
-    //         return _id;
-    //     };
-    //
-    //     return new Promise((resolve) => {
-    //         _img.addEventListener("load", () => {
-    //             resolve(registerMesh()) ;
-    //         });
-    //     })
-    // },
+    removeImageMesh(_id){
+        let toRemove = this.scene.getObjectByName(_id);
+        if(!toRemove) return;
+        this.scene.remove(toRemove);
+        toRemove.geometry.dispose();
+        toRemove.material.dispose();
+        toRemove = undefined;
 
-    addImageAsMeshB(_img, _shader) {
+        for (var i = 0; i < this.imageStore.length; i++) {
+            if(this.imageStore[i].name === _id){
+                this.imageStore.splice(i, 1);
+                this.materials.splice(i, 1);
+                break;
+            }
+        }
+    },
+
+    addImageAsMesh(_img, _shader, _meshId, _mouseListeners) {
 
         let fragmentShader= this.options.default.fragmentShader;
         let vertexShader = this.options.default.vertexShader;
@@ -221,9 +267,12 @@ let Canvas = {
         let position = { top : bounds.top , left: bounds.left};
         position.top += this.currentScroll;
 
-        geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
+        geometry = new THREE.PlaneGeometry( 1, 1 );
+        // geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
+        // const geometry = new THREE.PlaneGeometry( 1, 1);
 
-        let _id = `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
+
+        let _id = _meshId ? _meshId : `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
         _img.dataset.meshId = _id;
 
         let texture = new THREE.TextureLoader().load( _img.src );
@@ -248,6 +297,8 @@ let Canvas = {
         let mesh = new THREE.Mesh( geometry, material );
         mesh.name =  _id;
 
+        mesh.scale.set(bounds.width , bounds.height)
+
         this.scene.add(mesh);
 
         const newMesh = {
@@ -264,22 +315,47 @@ let Canvas = {
         this.imageStore.push(newMesh);
 
         setTimeout(() => {
-            if(_img.dataset.scrollActive !== "true") {
-                this.activateImage(_id, true);
-            }
+            if(!_img.dataset.scrollActive) this.activateImage(_id, true);
         },250)
 
         this.setImageMeshPositions();
+        if(_mouseListeners)
         this.meshMouseListeners(newMesh, material);
+    },
 
+curtainInit(){
+    const geometry = new THREE.PlaneGeometry( 1, 1);
+    const material = new THREE.MeshBasicMaterial({ color: '#172d4a' });
+    const rectangle = new THREE.Mesh(geometry, material);
+    rectangle.name = 'curtain'
+
+    this.animations.curtain.settings = {
+        position: - window.innerHeight / 2,
+    }
+    rectangle.position.set(0,this.animations.curtain.settings.position)
+    rectangle.scale.set(window.innerWidth ,1)
+    this.scene.add(rectangle);
+    this.animations.curtain.mesh = this.scene.getObjectByName(rectangle.name);
+},
+
+    curtainAnimation(_duration, _direction){
+
+        this.animations.curtain.settings = {
+            fullScreenPercent: 0.3,
+            start: 1 ,
+            duration: _duration / 2,
+            position: - window.innerHeight / 2,
+            current: 0,
+            end: window.innerHeight,
+        }
+
+        this.animations.curtain.active = true;
     },
 
     meshMouseListeners(_mesh, _material) {
 
         _mesh.img.addEventListener('mouseenter',(event)=>{
             _mesh.mesh.renderOrder = 1;
-            this.hoverInProgress = true;
-
             gsap.to(_material.uniforms.hoverState, {
                 duration: 0.5,
                 value:1
@@ -288,9 +364,6 @@ let Canvas = {
 
         _mesh.img.addEventListener('mouseout',()=>{
             _mesh.mesh.renderOrder = 0;
-
-            this.hoverInProgress = false;
-
             gsap.to(_material.uniforms.hoverState,{
                 duration: 0.5,
                 value:0
@@ -328,7 +401,53 @@ let Canvas = {
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         this.renderer.render(this.scene, this.camera); // -> Also needed
     },
-    render() {
+    scrollToTop(_delay){
+        setTimeout( () => {
+            this.scroll.render( 0 , false );
+        } , _delay)
+    },
+
+    curtainAnimationRender(currentTime) {
+
+            if (!this.animations.curtain.settings.startTime) {
+                this.animations.curtain.settings.startTime = currentTime;
+            }
+            let currentStep = this.animations.curtain.settings.current
+
+            const elapsed = currentTime - this.animations.curtain.settings.startTime;
+            const progressReal = Math.min(elapsed / this.animations.curtain.settings.duration, 1)
+            let progressRender;
+
+            const valAniUp = 0.5 - this.animations.curtain.settings.fullScreenPercent / 2
+            const valAniDown = 0.5 + this.animations.curtain.settings.fullScreenPercent / 2
+            if(progressReal <= valAniUp ){
+                progressRender =  progressReal / valAniUp * 0.5
+            }else if(progressReal > valAniUp && progressReal < valAniDown){
+                progressRender = 0.5
+            }else if(progressReal >= valAniDown){
+                progressRender = (( progressReal - valAniDown) / valAniUp * 0.5) + 0.5
+            }
+
+            this.animations.curtain.settings.current = progressRender * this.animations.curtain.settings.end;
+
+            this.animations.curtain.mesh.position.set(0, this.animations.curtain.settings.position + currentStep )
+
+            if( progressRender < 0.5 ){
+                this.animations.curtain.mesh.scale.set( window.innerWidth, currentStep * 2);
+            }else {
+                let reverseStep = currentStep - this.animations.curtain.settings.end
+                this.animations.curtain.mesh.scale.set( window.innerWidth, reverseStep * 2 );
+            }
+            if(progressRender == 1) {
+                this.animations.curtain.mesh.position.set( 0 , this.animations.curtain.settings.end )
+                this.animations.curtain.mesh.scale.set( window.innerWidth, 0 );
+                this.animations.curtain.active = false;
+            }
+
+    },
+
+    render(currentTime) {
+        this.animations.cursorCallBack()
 
         this.time+=0.05;
 
@@ -347,15 +466,19 @@ let Canvas = {
             this.materials[i].uniforms.time.value = this.time;
         }
 
-        // if(this.resizeInProgress ) {
-        //   this.resetImageMeshPosition();
-        // }
-
+        if(this.animations.curtain.active) {
+           this.curtainAnimationRender(currentTime);
+        }
         this.composer.render()
-        window.requestAnimationFrame(this.render.bind(this));
+
+        try {
+          requestAnimationFrame(this.render.bind(this));
+        } catch (_) {
+          setImmediate(this.render.bind(this));
+        }
     },
 
 }
 
-export {Canvas};
+export { Canvas };
 

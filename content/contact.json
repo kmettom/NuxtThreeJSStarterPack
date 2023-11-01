@@ -1,0 +1,31 @@
+{
+  "seo": {
+    "title": "OVP Contact",
+    "ogTitle": "OVP Home Page ogTitle",
+    "description": "OVP Home Page description",
+    "ogDescription": "OVP Home Page ogDescription",
+    "ogImage": "https://example.com/image.png",
+    "twitterCard": "summary_large_image"
+  },
+  "header": {
+    "txt1": "Contact",
+    "txt2": "us"
+  },
+  "direct": {
+    "title": "Direct",
+    "tex1": "OV Partners",
+    "tex2": "9 Bonhill Street,",
+    "tex3": "London, England,",
+    "tex4": "EC2A 4DJ"
+  },
+  "form": {
+    "title": "Fill the form",
+    "btnText": "Contact us",
+    "btnTextHover": "Contact us"
+  },
+  "market": {
+    "title": "Market insights ",
+    "tex1": "We’re always on the lookout for dynamic talent.",
+    "tex2": "teams@ovpartners.net"
+  }
+}

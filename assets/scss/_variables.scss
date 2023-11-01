@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+}
+:root {
+  /* fonts */
+  --body-07-regular: "Neue Montreal";
+  --h2-eiko-italic-book: "Eiko Italic";
+
+  /* font sizes */
+  --body-07-regular-size: 12px;
+  --body-04-regular-size: 18px;
+  --h2-eiko-italic-book-size: 70px;
+  --body-03-regular-size: 20px;
+  --body-05-regular-size: 16px;
+  --subtitle-02-regular-size: 30px;
+  --h1-eiko-italic-light-size: 110px;
+  --body-06-regular-size: 14px;
+  --subtitle-01-regular-size: 36px;
+  --body-01-regular-size: 26px;
+
+  /* Colors */
+  --ovp-neutral-white: #fff;
+  --ovp-neutral-black-80: #3a3a3a;
+  --ovp-primary-blue-02: #172d4a;
+  --ovp-secondary-yellow: #ffe34e;
+  --ovp-primary-blue-01: #679ecb;
+  --ovp-neutral-black-60: #6b6b6b;
+
+    /* NEW Colors */
+    --white: #fff;
+    --blue-primary: #679ecb;
+    --blue-secondary: #172d4a;
+    --yellow: #ffe34e;
+    --grey: #6b6b6b;
+    --grey-light: #CECECE;
+    --grey-dark: #3a3a3a;
+    --neutral: #f3f3f3;
+
+  /* Gaps */
+  --gap-xl: 20px;
+  --gap-3xs: 10px;
+  --gap-41xl: 60px;
+  --gap-9xs: 4px;
+  --gap-215xl: 234px;
+  --gap-7xs: 6px;
+  --gap-18xl: 37px;
+  --gap-11xl: 30px;
+  --gap-330xl: 349px;
+  --gap-base: 16px;
+  --gap-11xs: 2px;
+
+  /* Paddings */
+  --padding-81xl: 100px;
+  --padding-3xs: 10px;
+  --padding-4: 15px;
+  --padding-5xl: 24px;
+  --padding-21xl: 40px;
+
+  /* border radiuses */
+  --br-xl: 20px;
+  --br-81xl: 100px;
+  --br-11xs: 2px;
+  --br-3xs: 10px;
+}

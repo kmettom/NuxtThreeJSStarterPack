@@ -4,40 +4,40 @@
     <SectionExampleBlock
         v-scrollSpeed="0.2"
         :text="'Fast scroll speed | shader 1'"
-        :imgLink="'img/01.jpg'"
+        :imgLink="'imgs/01.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
         v-scrollSpeed="0"
         :text="'Normal scroll speed | shader 2'"
-        :imgLink="'img/02.jpg'"
+        :imgLink="'imgs/02.jpg'"
         :shader="'example2'"
     />
 
       <SectionExampleBlock
               v-scrollActive="0.5"
               :text="'Slow scroll speed | shader default'"
-              :imgLink="'img/03.jpg'"
+              :imgLink="'imgs/03.jpg'"
       />
 
     <SectionExampleBlock
         v-scrollSpeed="-0.2"
         :text="'Slow scroll speed | shader default'"
-        :imgLink="'img/04.jpg'"
+        :imgLink="'imgs/04.jpg'"
     />
 
     <SectionExampleBlock
         v-scrollSpeed="0.4"
         :text="'Faster scroll speed | shader 1'"
-        :imgLink="'img/05.jpg'"
+        :imgLink="'imgs/05.jpg'"
         :shader="'example1'"
     />
 
     <SectionExampleBlock
         v-scrollSpeed="0"
         :text="'Normal scroll speed | shader 2'"
-        :imgLink="'img/01.jpg'"
+        :imgLink="'imgs/01.jpg'"
         :shader="'example2'"
     />
 
