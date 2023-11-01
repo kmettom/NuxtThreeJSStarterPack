@@ -6,7 +6,9 @@
          @mouseleave="exampleHover( false)"
     >
       <h3 ref="textToAnimate">{{text}}</h3>
-      <CanvasImage :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />
+
+      <CanvasImage :meshId="meshId || imgLink" :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />
+
     </div>
   </div>
 
@@ -19,6 +21,7 @@ const props = defineProps([
   'shader',
   'imgLink',
   'scrollActiveImage',
+  'meshId',
 ]);
 
 let imageHover = ref(Boolean);

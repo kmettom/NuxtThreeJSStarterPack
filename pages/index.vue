@@ -6,6 +6,8 @@
 
 <!--  <CanvasImage :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />-->
 
+<!--  <CanvasImage :meshId="'estate'" :imageHover="focusImageShow['estate']" :srcLink="img_estate" />-->
+
 
   <SectionExampleBlock
       v-scrollSpeed="0.2"
