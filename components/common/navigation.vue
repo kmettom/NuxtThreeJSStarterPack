@@ -18,8 +18,6 @@ const props = defineProps({
   pageActive: Boolean
 });
 
-
-
 onMounted(() => {
 });
 
@@ -27,7 +25,9 @@ onMounted(() => {
 <style lang="scss">
 
 .ovp-navigation {
-
+  position: fixed;
+  top: 0px;
+  left: 0px;
 }
 
 </style>

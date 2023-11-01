@@ -6,6 +6,7 @@
         :text="'Fast scroll speed | shader 1'"
         :imgLink="'imgs/01.jpg'"
         :shader="'example1'"
+        :meshId="'example1'"
     />
 
     <SectionExampleBlock
@@ -13,18 +14,21 @@
         :text="'Normal scroll speed | shader 2'"
         :imgLink="'imgs/02.jpg'"
         :shader="'example2'"
+        :meshId="'example2'"
     />
 
-      <SectionExampleBlock
-              v-scrollActive="0.5"
-              :text="'Slow scroll speed | shader default'"
-              :imgLink="'imgs/03.jpg'"
-      />
+    <SectionExampleBlock
+        v-scrollActive="0.5"
+        :text="'Slow scroll speed | shader default'"
+        :imgLink="'imgs/03.jpg'"
+        :meshId="'example3'"
+    />
 
     <SectionExampleBlock
         v-scrollSpeed="-0.2"
         :text="'Slow scroll speed | shader default'"
         :imgLink="'imgs/04.jpg'"
+        :meshId="'example4'"
     />
 
     <SectionExampleBlock
@@ -32,6 +36,7 @@
         :text="'Faster scroll speed | shader 1'"
         :imgLink="'imgs/05.jpg'"
         :shader="'example1'"
+        :meshId="'example5'"
     />
 
 <!--    <SectionExampleBlock-->

@@ -1,11 +1,5 @@
 <template>
-  <img @load="imageLoaded" ref="img" alt="picture" width="380" height="380" :src="srcLink"  loading="lazy" />
-<!--  <NuxtImg-->
-<!--      @load="imageLoaded"-->
-<!--      ref="img" alt="picture" :src="srcLink"-->
-<!--      width="380" height="380"-->
-<!--  />-->
-
+  <img @load="imageLoaded" ref="img" alt="picture" width="380" height="380" :src="srcLink" />
 </template>
 
 <script setup >
@@ -28,7 +22,8 @@ onMounted(async() => {
 
 const addImageToCanvas = (_timeout) => {
   setTimeout(() => {
-    if( img.value.getBoundingClientRect()?.width === 0){
+    // console.log("img.value" , img.value, props.meshId)
+    if( !img.value || img.value.getBoundingClientRect()?.width === 0){
       addImageToCanvas(true)
       return
     }

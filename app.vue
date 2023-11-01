@@ -8,6 +8,8 @@
       <div id="scrollContainer"  >
         <div id="scrollableContent"  ref="scrollableContent" >
 
+
+
           <NuxtPage :pageActive="contentActive"
                     :transition="{
                       name: 'curtain',
@@ -44,7 +46,6 @@ useHead({
 onMounted( () => {
   welcomeInit.value = true
   Canvas.init(canvas.value, scrollableContent.value);
-  // Canvas.initScroll();
 
 });
 

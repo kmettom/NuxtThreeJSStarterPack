@@ -1,17 +1,21 @@
 <template>
 <div>
-  home page
-<!--  <SectionExamples />-->
+  <div class="examples">
+    home page
 
-<!--  <CanvasImage :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />-->
-
-<!--  <CanvasImage :meshId="'estate'" :imageHover="focusImageShow['estate']" :srcLink="img_estate" />-->
 
 
   <SectionExampleBlock
       v-scrollSpeed="0.2"
       :text="'Fast scroll speed | shader 1'"
       :imgLink="'imgs/01.jpg'"
+      :shader="'example1'"
+  />
+
+  <SectionExampleBlock
+      v-scrollSpeed="0"
+      :text="'Normal scroll speed | shader 2'"
+      :imgLink="'imgs/02.jpg'"
       :shader="'example2'"
   />
 
@@ -22,7 +26,7 @@
   />
 
   <SectionExampleBlock
-      v-scrollSpeed="0.2"
+      v-scrollSpeed="-0.2"
       :text="'Slow scroll speed | shader default'"
       :imgLink="'imgs/04.jpg'"
   />
@@ -34,7 +38,7 @@
       :shader="'example1'"
   />
 
-
+  </div>
 
 </div>
 
@@ -77,6 +81,34 @@ watch(
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
+
+$examplesize: 400px;
+
+.examples{
+  margin-left: 20px;
+  padding-top: 150px;
+  padding-bottom: 300px;
+}
+.example-container{
+  pointer-events: none;
+  &:nth-child(3n + 2){
+    .example{
+      margin-left: $examplesize;
+    }
+  }
+  &:nth-child(3n){
+    .example{
+      margin-left: calc(#{$examplesize} * 2);
+    }
+  }
+  img{
+    max-width: $examplesize;
+  }
+}
+.example{
+  pointer-events: initial;
+  display: inline-block;
+}
 
 </style>
