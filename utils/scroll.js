@@ -9,6 +9,7 @@ export default class Scroll{
       scrollable: _options.dom,
       scrollspeed : [],
       scrollactive : [],
+      scrollspeedBackup : [],
     };
 
     this.activeCallback = _options.activeCallback;

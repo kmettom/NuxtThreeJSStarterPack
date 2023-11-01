@@ -3,6 +3,17 @@
   home page
 <!--  <SectionExamples />-->
 
+
+<!--  <CanvasImage :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />-->
+
+
+  <SectionExampleBlock
+      v-scrollSpeed="0.2"
+      :text="'Fast scroll speed | shader 1'"
+      :imgLink="'imgs/01.jpg'"
+  />
+
+
 </div>
 
 </template>
