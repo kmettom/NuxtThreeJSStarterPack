@@ -3,7 +3,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     nuxtApp.vueApp.directive('scrollSpeed', {
         mounted (el, binding) {
-            if(window.innerWidth < 768) return;
             Canvas.addScrollSpeedElement({elNode: el , scrollSpeed: binding.value, options: binding.arg })
         },
         unmounted (el, binding) {

@@ -7,9 +7,7 @@
     >
       <h3 ref="textToAnimate">{{text}}</h3>
 
-<!--      <CanvasImage :meshId="meshId || imgLink" :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />-->
-
-      <CanvasImage :meshId="meshId || imgLink" :imageHover="imageHover" :srcLink="imgLink" />
+      <CanvasImage :meshId="meshId || imgLink" :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />
 
     </div>
   </div>

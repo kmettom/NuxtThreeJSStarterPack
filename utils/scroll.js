@@ -106,26 +106,6 @@ export default class Scroll{
     }
   }
 
-  setNavigation(item, bounds){
-    let activeBorderTop = 1;
-    let activeBorderBottom = 1;
-    if(item.options.includes('appbgdark')){
-      activeBorderTop = window.innerHeight * 0.7;
-      activeBorderBottom = window.innerHeight * 0.2;
-    }
-    if(bounds.top < activeBorderTop && bounds.bottom > activeBorderBottom ){
-      if(!item.elNode.classList.contains("active")){
-        Canvas.onActiveElCallback(item, true);
-        item.elNode.classList.add("active");
-      }
-    } else {
-      if(item.elNode.classList.contains("active") ){
-        item.elNode.classList.remove("active");
-        Canvas.onActiveElCallback(item, false);
-      }
-    }
-  }
-
   setElementActive(item, _status){
     if(_status){
       item.elNode.classList.add("active");
@@ -146,11 +126,8 @@ export default class Scroll{
       const bounds = item.elNode.getBoundingClientRect();
       const activeRange = item.scrollActive ? (1 - item.scrollActive) * window.innerHeight : 0;
 
-      if(item.options.includes('navigationbgdark')){
-       this.setNavigation(item, bounds)
-      }else{
         if( bounds.top < window.innerHeight - activeRange  && (item.rangeFromTop || bounds.bottom > activeRange)  ){
-          if(item.options.includes('scroll')) Canvas.onScrollCallBack(item,   window.innerHeight - bounds.top , this.speed )
+          if(item.options?.includes('scroll')) Canvas.onScrollCallBack(item,   window.innerHeight - bounds.top , this.speed )
 
           if(!item.elNode.classList.contains("active")){
             this.setElementActive(item, true )
@@ -161,7 +138,7 @@ export default class Scroll{
             this.setElementActive(item, false )
           }
         }
-      }
+
     }
   }
 

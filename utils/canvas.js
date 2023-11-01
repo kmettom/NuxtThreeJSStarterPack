@@ -6,13 +6,19 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 
-import ovpFragment from './shaders/ovpFragment.glsl';
-import ovpVertex from './shaders/ovpVertex.glsl';
-
 import scrollFragment from './shaders/scrollFragment.glsl';
 import scrollVertex from './shaders/scrollVertex.glsl';
 
-// import {  } from "~/utils/animations";
+import defaultFragment from './shaders/defaultFragment.glsl';
+import defaultVertex from './shaders/defaultVertex.glsl';
+
+import example1Fragment from './shaders/example1Fragment.glsl';
+import example1Vertex from './shaders/example1Vertex.glsl';
+
+import example2Fragment from './shaders/example2Fragment.glsl';
+import example2Vertex from './shaders/example2Vertex.glsl';
+
+import { aniInExample } from "~/utils/animations";
 
 const CanvasOptions = {
     scroll: {
@@ -20,8 +26,16 @@ const CanvasOptions = {
         vertexShader: scrollVertex,
     },
     default: {
-        fragmentShader: ovpFragment,
-        vertexShader: ovpVertex,
+        fragmentShader: defaultFragment,
+        vertexShader: defaultVertex,
+    },
+    example1: {
+        fragmentShader: example1Fragment,
+        vertexShader: example1Vertex,
+    },
+    example2: {
+        fragmentShader: example2Fragment,
+        vertexShader: example2Vertex,
     },
 };
 let Canvas = {
@@ -129,7 +143,7 @@ let Canvas = {
     },
 
     onActiveElCallback(_item, _active){
-        // if(_item.options.includes('content')) content(_item , _active)
+        // if(_item.options?.includes('content')) content(_item , _active)
     },
 
     onScrollCallBack(_item, _scrollPosition, _scrollSpeed) {
@@ -167,9 +181,6 @@ let Canvas = {
         if(!_elNode || this.scroll.DOM.scrollactive.length === 0) return
         for (var i = 0; i < this.scroll.DOM.scrollactive.length; i++) {
             if(this.scroll.DOM.scrollactive[i].elNode.isEqualNode(_elNode)){
-                if(this.scroll.DOM.scrollactive[i].options.includes('appbgdark')){
-                   this.scroll.DOM.scrollactive[i].bgContainer.classList.remove("dark");
-                }
                 this.scroll.DOM.scrollactive.splice(i, 1);
                 break;
             }
@@ -178,8 +189,8 @@ let Canvas = {
 
     addScrollActiveElement(_settings){
         _settings.containedMeshId = this.findMeshID(_settings.elNode, true);
-        if(_settings.options.includes('top')) _settings.rangeFromTop = true;
-        if(_settings.options.includes('once')) _settings.aniInOnly = true;
+        if(_settings.options?.includes('top')) _settings.rangeFromTop = true;
+        if(_settings.options?.includes('once')) _settings.aniInOnly = true;
         this.scroll.DOM.scrollactive.push(_settings);
         this.onActiveElCallback(_settings, false)
     },

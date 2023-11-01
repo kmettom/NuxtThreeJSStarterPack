@@ -1,13 +1,13 @@
 <template>
-  <div class="ovp-navigation" ref="ovpnav">
+  <div class="">
 
     <NuxtLink aria-label="" to="/">
       home page
     </NuxtLink>
 
-        <NuxtLink aria-label="" to="/second">
-         second page
-        </NuxtLink>
+    <NuxtLink aria-label="" to="/second">
+      second page
+    </NuxtLink>
 
   </div>
 </template>
@@ -19,10 +19,8 @@ const props = defineProps({
 });
 
 
-const ovpnav = ref(null);
 
 onMounted(() => {
-  // Canvas.navigation = ovpnav.value;
 });
 
 </script>

@@ -1,7 +1,7 @@
 
 import { gsap } from "gsap"
 
-export function example(_el, _active) {
+export function aniInExample(_el, _active) {
     const elToAni = _el.elNode.querySelectorAll('.ani-section-title')
     if(!elToAni) return
     if (_active) {
