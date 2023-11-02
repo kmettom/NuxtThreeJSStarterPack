@@ -148,7 +148,7 @@ let Canvas = {
 
     onScrollCallBack(_item, _scrollPosition, _scrollSpeed) {
 
-        },
+    },
 
     addScrollSpeedElement(_el){
         if(_el.options?.includes('fixed')){
@@ -191,6 +191,7 @@ let Canvas = {
         _settings.containedMeshId = this.findMeshID(_settings.elNode, true);
         if(_settings.options?.includes('top')) _settings.rangeFromTop = true;
         if(_settings.options?.includes('once')) _settings.aniInOnly = true;
+        _settings.elNode.classList.add('scroll-reactive')
         this.scroll.DOM.scrollactive.push(_settings);
         this.onActiveElCallback(_settings, false)
     },

@@ -5,9 +5,17 @@ html{
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
   text-rendering: optimizeLegibility;
-  //text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
+
+.scroll-reactive{
+  transition: ease opacity 0.3s;
+  opacity: 0;
+  &.active{
+    opacity: 1;
+  }
+}
+
 
 
 
