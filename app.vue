@@ -8,14 +8,11 @@
       <div id="scrollContainer"  >
         <div id="scrollableContent"  ref="scrollableContent" >
 
-
-
           <NuxtPage :pageActive="contentActive"
                     :transition="{
-                      name: 'curtain',
+                      name: 'pagetransition',
                       onBeforeEnter: (el) => {
-                        Canvas.curtainAnimation(2000)
-                        Canvas.scrollToTop(700)
+                        Canvas.scrollToTop(0)
                       },
                     }"
           />
@@ -62,16 +59,6 @@ const welcomeFinished = () => {
 @import "assets/scss/style";
 
 #appContainer{
-  background-color: var(--white);
-  transition: ease background-color 0.3s;
-  will-change: background-color;
-
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
 
 }
 
@@ -87,16 +74,6 @@ const welcomeFinished = () => {
   will-change: transform;
 }
 
-.curtain-enter-active,
-.curtain-leave-active {
-  transition: all 0.4s;
-}
-.curtain-enter-from,
-.curtain-leave-to {
-  opacity: 0;
-  filter: blur(1rem);
-}
-
 #animationContainer {
   width: 100vw;
   height: 100vh;
@@ -106,7 +83,7 @@ const welcomeFinished = () => {
   right: 0px;
   margin: 0 auto;
   pointer-events: none;
-  z-index: 10; //-1
+  z-index: -1;
 }
 
 </style>

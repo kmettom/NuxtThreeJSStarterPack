@@ -3,8 +3,6 @@
   <div class="examples">
     home page
 
-
-
   <SectionExampleBlock
       v-scrollSpeed="0.2"
       :text="'Fast scroll speed | shader 1'"
