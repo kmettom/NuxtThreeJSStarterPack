@@ -157,11 +157,11 @@ export default class Scroll{
     }
 
   }
-  scrollRenderToFluid(){
+  scrollRenderToFluid(_scrollTo){
     window.scrollBy( 0 , _scrollTo.toString() );
     document.documentElement.scrollTop = _scrollTo
   }
-  scrollRenderTo() {
+  scrollRenderTo(_scrollTo) {
     this.scrollTo.executed = false;
     this.scrollTo.target = Number(_scrollTo);
     window.scrollBy( 0 , _scrollTo.toString());
