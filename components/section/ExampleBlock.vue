@@ -7,7 +7,7 @@
     >
       <h3 ref="textToAnimate">{{text}}</h3>
 
-      <CanvasImage :meshId="meshId || imgLink" :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />
+      <CanvasImage :meshId="meshId" :imageHover="imageHover" :shader="shader" :srcLink="imgLink" />
 
     </div>
   </div>
@@ -20,7 +20,6 @@ const props = defineProps([
   'text',
   'shader',
   'imgLink',
-  'scrollActiveImage',
   'meshId',
 ]);
 

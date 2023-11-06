@@ -1,9 +1,9 @@
 {
   "seo": {
-    "title": "OVP Home Page",
-    "ogTitle": "OVP Home Page ogTitle",
-    "description": "OVP Home Page description",
-    "ogDescription": "OVP Home Page ogDescription",
+    "title": "Home Page",
+    "ogTitle": "Home Page ogTitle",
+    "description": "Home Page description",
+    "ogDescription": "Home Page ogDescription",
     "ogImage": "https://example.com/image.png",
     "twitterCard": "summary_large_image"
   }

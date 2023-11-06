@@ -2,7 +2,7 @@
 
   <div id="appContainer" >
 
-    <CommonWelcome :welcomeInit="welcomeInit" @welcomeComplete="welcomeFinished()"/>
+<!--    <CommonWelcome :welcomeInit="welcomeInit" @welcomeComplete="welcomeFinished()"/>-->
     <CommonNavigation :pageActive="contentActive" />
 
       <div id="scrollContainer"  >
@@ -12,7 +12,7 @@
                     :transition="{
                       name: 'pagetransition',
                       onBeforeEnter: (el) => {
-                        Canvas.scrollToTop(0)
+                        // Canvas.scrollToTop(0)
                       },
                     }"
           />
@@ -21,7 +21,6 @@
       </div>
 
     <div ref="canvas" id="animationContainer"></div>
-    <CanvasCursor v-if="contentActive"/>
 
   </div>
 
@@ -41,11 +40,10 @@ useHead({
 })
 
 onMounted( () => {
-  welcomeInit.value = true
+  // welcomeInit.value = true
   Canvas.init(canvas.value, scrollableContent.value);
-
+  welcomeFinished()
 });
-
 
 let contentActive = ref(false);
 const welcomeFinished = () => {

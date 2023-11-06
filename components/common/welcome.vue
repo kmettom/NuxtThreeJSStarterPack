@@ -6,7 +6,6 @@
 
 </template>
 <script>
-import gsap from 'gsap'
 import {Canvas} from "~/utils/canvas";
 
 export default {

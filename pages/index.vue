@@ -1,44 +1,51 @@
 <template>
-<div>
   <div class="examples">
     home page
 
-  <SectionExampleBlock
-      v-scrollSpeed="0.2"
-      :text="'Fast scroll speed | shader 1'"
-      :imgLink="'imgs/01.jpg'"
-      :shader="'example1'"
-  />
+<!--  <SectionExampleBlock-->
+<!--      v-scrollSpeed="0.2"-->
+<!--      :text="'Fast scroll speed | shader 1'"-->
+<!--      :imgLink="'imgs/01.jpg'"-->
+<!--      :shader="'example1'"-->
+<!--      :mesh-id="'example1'"-->
+<!--  />-->
 
-  <SectionExampleBlock
-      v-scrollSpeed="0"
-      :text="'Normal scroll speed | shader 2'"
-      :imgLink="'imgs/02.jpg'"
-      :shader="'example2'"
-  />
+<!--  <SectionExampleBlock-->
+<!--      v-scrollSpeed="0"-->
+<!--      :text="'Normal scroll speed | shader 2'"-->
+<!--      :imgLink="'imgs/02.jpg'"-->
+<!--      :shader="'example2'"-->
+<!--      :mesh-id="'example2'"-->
+<!--  />-->
+
+    <CanvasImage :meshId="'ex3'" :shader="'example1'" :srcLink="'imgs/01.jpg'" />
+
+    <CanvasImage :meshId="'ex4'" :shader="'example2'" :srcLink="'imgs/02.jpg'" />
+
+    <CanvasImage :meshId="'ex5'" :shader="'example1'" :srcLink="'imgs/02.jpg'" />
 
   <SectionExampleBlock
       v-scrollActive="0.5"
       :text="'Slow scroll speed | shader default'"
       :imgLink="'imgs/03.jpg'"
+      :mesh-id="'ex6'"
   />
 
   <SectionExampleBlock
       v-scrollSpeed="-0.2"
       :text="'Slow scroll speed | shader default'"
       :imgLink="'imgs/04.jpg'"
+      :mesh-id="'ex7'"
   />
 
-  <SectionExampleBlock
-      v-scrollSpeed="0.4"
-      :text="'Faster scroll speed | shader 1'"
-      :imgLink="'imgs/05.jpg'"
-      :shader="'example1'"
-  />
+<!--  <SectionExampleBlock-->
+<!--      v-scrollSpeed="0.4"-->
+<!--      :text="'Faster scroll speed | shader 1'"-->
+<!--      :imgLink="'imgs/05.jpg'"-->
+<!--      :shader="'example1'"-->
+<!--  />-->
 
   </div>
-
-</div>
 
 </template>
 <script setup>
