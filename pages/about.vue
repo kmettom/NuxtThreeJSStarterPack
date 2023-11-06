@@ -1,6 +1,12 @@
 <template>
   <div>
-  second page
+
+    <h1>About</h1>
+
+    <ul>
+      <li>Author</li>
+      <li>Performance</li>
+    </ul>
   </div>
 </template>
 <script setup>

@@ -2,7 +2,7 @@
 
   <div id="appContainer" >
 
-<!--    <CommonWelcome :welcomeInit="welcomeInit" @welcomeComplete="welcomeFinished()"/>-->
+    <CommonWelcome :welcomeInit="welcomeInit" @welcomeComplete="welcomeFinished()"/>
     <CommonNavigation :pageActive="contentActive" />
 
       <div id="scrollContainer"  >
@@ -12,7 +12,7 @@
                     :transition="{
                       name: 'pagetransition',
                       onBeforeEnter: (el) => {
-                        // Canvas.scrollToTop(0)
+                        Canvas.scrollToTop(0)
                       },
                     }"
           />

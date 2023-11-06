@@ -22,11 +22,10 @@ onMounted(async() => {
 
 const addImageToCanvas = (_timeout) => {
   setTimeout(() => {
-    console.log("img.value" , img.value, props.meshId, img.value.getBoundingClientRect()?.width)
-    // if( !img.value || img.value.getBoundingClientRect()?.width === 0){
-    //   addImageToCanvas(true)
-    //   return
-    // }
+    if( !img.value || img.value.getBoundingClientRect()?.width === 0){
+      addImageToCanvas(true)
+      return
+    }
     Canvas.addImageAsMesh( img.value, props.shader , props.meshId, false)
   } , _timeout ? 200 : 0)
 

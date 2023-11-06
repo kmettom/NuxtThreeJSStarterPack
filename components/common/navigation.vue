@@ -2,11 +2,10 @@
   <div class="">
 
     <NuxtLink aria-label="" to="/">
-      home page
+      Showcase
     </NuxtLink>
-
     <NuxtLink aria-label="" to="/second">
-      second page
+      About
     </NuxtLink>
 
   </div>
