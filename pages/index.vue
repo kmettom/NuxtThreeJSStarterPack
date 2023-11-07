@@ -126,7 +126,7 @@ watch(
 }
 
 #fixedElContainer {
-  height: 850px;
+  height: 1250px;
   position: relative;
   margin-top: 75px;
 
