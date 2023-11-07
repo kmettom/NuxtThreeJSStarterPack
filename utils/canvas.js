@@ -143,7 +143,10 @@ let Canvas = {
     },
 
     onActiveElCallback(_item, _active){
-        // if(_item.options?.includes('content')) content(_item , _active)
+        if(_item.options?.includes('examplecallback')) {
+            // do something when _active is true or false
+            console.log("Example callback triggered, element active state: " , _active )
+        }
     },
 
     onScrollCallBack(_item, _scrollPosition, _scrollSpeed) {

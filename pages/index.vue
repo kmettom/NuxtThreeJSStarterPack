@@ -14,7 +14,7 @@
         integrated Smooth scroll and WebGl.
         <br/>
         <br/>
-        Feel free to download and use from <a href="https://github.com/kmettom/NuxtThreeJSStarterPack">GitHub
+        Feel free to download and use from <a target="_blank"  href="https://github.com/kmettom/NuxtThreeJSStarterPack">GitHub
         repository</a>
       </p>
     </div>
@@ -50,7 +50,7 @@
       <h2>Show on scroll elements by directive</h2>
       <p>v-scrollActive directive will animate in and out the element it is used on. Define the percentage of active screen.</p>
       <p> &lt;div v-scrollActive="0.85"&gt; </p>
-      <div class="inline-example from-left img-l-wrapper" v-scrollActive="0.85">
+      <div class="inline-example from-left img-l-wrapper" v-scrollActive:examplecallback="0.85">
         <h3>Active 85% of screen</h3>
         <CanvasImage :meshId="'ex2'" :shader="'example2'"  :srcLink="'imgs/03l.jpg'"/>
       </div>
