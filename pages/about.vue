@@ -4,10 +4,16 @@
       Go To Showcase
     </NuxtLink>
     <h1 class="headline">About</h1>
-    <p class="section">
+    <p class="">
       This is a showcase of examples and usage of NuxtThreeJSStarterPack, Nuxt framework with implemented ThreeJS library.
     </p>
-    <div class="section">
+    <div class="image-hover-block img-l-wrapper"
+         @mouseover="hoverImage = true"
+         @mouseleave="hoverImage = false"
+    >
+      <CanvasImage :imageHover="hoverImage" :meshId="'about'" :shader="'example1'" :srcLink="'imgs/01l.jpg'"/>
+    </div>
+    <div class="">
       <p>
         Developed by: <a target="_blank" href="https://tomaskmet.com">Tomas Kmet</a>
         <br/>
@@ -22,6 +28,8 @@ import { onMounted, watch } from "vue";
 const props = defineProps({
   pageActive: Boolean
 });
+
+const hoverImage = ref(false);
 
 const pageAnimateIn = () => {
 };
