@@ -1,0 +1,21 @@
+
+html{
+  -webkit-font-smoothing: antialiased;
+  vertical-align: baseline;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  background: #BFC0B2;
+  color: #1B1818;
+  font-family: sans-serif;
+}
+
+
+@import '_common.scss';
+@import '_animations.scss';
+
+
+
+
+

@@ -1,43 +1,71 @@
 <template>
-  <div id="appContainer"  >
 
-    <div id="scrollContainer"  >
-      <div ref="scrollableContent" >
-        <SectionExamples />
+  <div id="appContainer" >
+
+    <CommonWelcome :welcomeInit="welcomeInit" @welcomeComplete="welcomeFinished()"/>
+<!--    <CommonNavigation :pageActive="contentActive" />-->
+
+      <div id="scrollContainer"  >
+        <div id="scrollableContent"  ref="scrollableContent" >
+
+          <NuxtPage :pageActive="contentActive"
+                    :transition="{
+                      name: 'pagetransition',
+                      onBeforeEnter: (el) => {
+                        Canvas.scrollToTop(0)
+                      },
+                    }"
+          />
+
+        </div>
       </div>
-    </div>
 
     <div ref="canvas" id="animationContainer"></div>
 
   </div>
 
 </template>
-<script  setup >
+<script setup>
 
 import {Canvas} from "~/utils/canvas";
 
 const canvas = ref("canvas");
+const welcomeInit = ref(false);
 const scrollableContent = ref("scrollableContent");
 
+useHead({
+  htmlAttrs: {
+    lang: 'en',
+  }
+})
+
 onMounted( () => {
+  // welcomeInit.value = true
   Canvas.init(canvas.value, scrollableContent.value);
+  welcomeFinished()
 });
 
-</script>
+let contentActive = ref(false);
+const welcomeFinished = () => {
+  contentActive.value = true;
+}
+
+</script >
 
 <style lang="scss" >
 
-body{
-  background: #C0C0B7;
-  color: #151412;
-  font-family: sans-serif;
-}
+@import "assets/scss/style";
 
 #scrollContainer{
   position: fixed;
   height: 100%;
   left: 0;
+  width: 100%;
   overflow: hidden;
+}
+
+#scrollableContent{
+  will-change: transform;
 }
 
 #animationContainer {
@@ -50,14 +78,6 @@ body{
   margin: 0 auto;
   pointer-events: none;
   z-index: -1;
-}
-
-.show-on-scroll{
-  opacity: 0;
-  transition: opacity 0.35s;
-  &.active{
-    opacity: 1;
-  }
 }
 
 </style>
