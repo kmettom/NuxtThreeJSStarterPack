@@ -3,7 +3,7 @@
   <div id="appContainer" >
 
     <CommonWelcome :welcomeInit="welcomeInit" @welcomeComplete="welcomeFinished()"/>
-    <CommonNavigation :pageActive="contentActive" />
+<!--    <CommonNavigation :pageActive="contentActive" />-->
 
       <div id="scrollContainer"  >
         <div id="scrollableContent"  ref="scrollableContent" >
@@ -55,10 +55,6 @@ const welcomeFinished = () => {
 <style lang="scss" >
 
 @import "assets/scss/style";
-
-#appContainer{
-
-}
 
 #scrollContainer{
   position: fixed;

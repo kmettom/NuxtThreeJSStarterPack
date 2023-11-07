@@ -191,7 +191,7 @@ let Canvas = {
         _settings.containedMeshId = this.findMeshID(_settings.elNode, true);
         if(_settings.options?.includes('top')) _settings.rangeFromTop = true;
         if(_settings.options?.includes('once')) _settings.aniInOnly = true;
-        _settings.elNode.classList.add('scroll-reactive')
+        _settings.elNode.classList.add('show-on-scroll')
         this.scroll.DOM.scrollactive.push(_settings);
         this.onActiveElCallback(_settings, false)
     },

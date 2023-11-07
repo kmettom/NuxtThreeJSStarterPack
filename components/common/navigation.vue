@@ -1,13 +1,12 @@
 <template>
   <div class="">
-
-    <NuxtLink aria-label="" to="/">
+    <NuxtLink aria-label="showcase" to="/">
       Showcase
     </NuxtLink>
-    <NuxtLink aria-label="" to="/second">
+    <br/>
+    <NuxtLink aria-label="about" to="/about">
       About
     </NuxtLink>
-
   </div>
 </template>
 <script setup>
@@ -25,6 +24,8 @@ onMounted(() => {
 
 .ovp-navigation {
   position: fixed;
+  z-index: 10;
+  display: block;
   top: 0px;
   left: 0px;
 }

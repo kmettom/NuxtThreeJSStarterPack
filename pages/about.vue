@@ -1,11 +1,13 @@
 <template>
-  <div>
-
-    <h1>About</h1>
-
+  <div class="page-container">
+    <NuxtLink aria-label="showcase" to="/">
+      Showcase
+    </NuxtLink>
+    <h1 class="headline">Showcase</h1>
     <ul>
       <li>Author</li>
       <li>Performance</li>
+      <li>Functionality</li>
     </ul>
   </div>
 </template>

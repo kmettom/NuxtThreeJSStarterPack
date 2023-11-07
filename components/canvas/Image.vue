@@ -1,5 +1,5 @@
 <template>
-  <img @load="imageLoaded" ref="img" alt="picture" width="380" height="380" :src="srcLink" />
+  <img @load="imageLoaded" ref="img" alt="picture" :src="srcLink" />
 </template>
 
 <script setup >
