@@ -1,7 +1,7 @@
 .show-on-scroll{
   transition: ease all 0.5s;
   opacity: 0;
-  $movepx: 35px;
+  $movepx: 45px;
   &.from-bottom{
     transform: translate(0px , $movepx );
   }

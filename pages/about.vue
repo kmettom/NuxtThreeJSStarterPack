@@ -1,12 +1,15 @@
 <template>
   <div class="page-container">
     <NuxtLink aria-label="showcase" to="/">
-      Showcase
+      Go To Showcase
     </NuxtLink>
     <h1 class="headline">About</h1>
-    <div>
+    <p class="section">
+      This is a showcase of examples and usage of NuxtThreeJSStarterPack, Nuxt framework with implemented ThreeJS library.
+    </p>
+    <div class="section">
       <p>
-        Author: <a target="_blank" href="https://tomaskmet.com">Tomas Kmet</a>
+        Developed by: <a target="_blank" href="https://tomaskmet.com">Tomas Kmet</a>
         <br/>
         GitHub: <a target="_blank"  href="https://github.com/kmettom/NuxtThreeJSStarterPack" >NuxtThreeJSStarterPack</a>
       </p>
