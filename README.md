@@ -182,7 +182,7 @@ SctollActive elements will ge assigned a 'show-on-scroll' classes and 'active' c
       transition: ease all 0.5s;
       opacity: 0;
       &.active{
-      opacity: 1;        
+        opacity: 1;        
       }
     }
 ```
