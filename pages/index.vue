@@ -14,7 +14,7 @@
            @mouseleave="hoverImage1 = false"
       >
         <h3>Shader 1</h3>
-        <CanvasImage :meshId="'ex1a'" :shader="'example1'" :imageHover="hoverImage1" :srcLink="'imgs/01l.webp'"/>
+        <CanvasImage :width="'550'" :height="'365'" :meshId="'ex1a'" :shader="'example1'" :imageHover="hoverImage1" :srcLink="'imgs/01l.webp'"/>
       </div>
 
       <div class="image-hover-block inline-example img-l-wrapper"
@@ -22,7 +22,7 @@
            @mouseleave="hoverImage2 = false"
       >
         <h3>Shader 2</h3>
-        <CanvasImage :meshId="'ex1b'" :shader="'example2'" :imageHover="hoverImage2" :srcLink="'imgs/02l.webp'"/>
+        <CanvasImage :width="'550'" :height="'365'" :meshId="'ex1b'" :shader="'example2'" :imageHover="hoverImage2" :srcLink="'imgs/02l.webp'"/>
       </div>
 
     </div>
@@ -36,16 +36,16 @@
         <div class="inline-example from-top" v-scrollSpeed:fixed="'fixedElContainer'">
           <div>
             <h3>Fixed element</h3>
-            <CanvasImage :meshId="'ex6'" :srcLink="'imgs/03s.webp'"/>
+            <CanvasImage :width="'375'" :height="'250'" :meshId="'ex6'" :srcLink="'imgs/03s.webp'"/>
           </div>
         </div>
         <div class="inline-example from-bottom " v-scrollSpeed="-0.1">
           <h3>Scroll speed -10%</h3>
-          <CanvasImage :meshId="'ex5a'" :srcLink="'imgs/01s.webp'"/>
+          <CanvasImage :width="'375'" :height="'250'"  :meshId="'ex5a'" :srcLink="'imgs/01s.webp'"/>
         </div>
         <div class="inline-example from-bottom " v-scrollSpeed="-0.15">
           <h3>Scroll speed -15%</h3>
-          <CanvasImage :meshId="'ex5b'" :srcLink="'imgs/02s.webp'"/>
+          <CanvasImage :width="'375'" :height="'250'"   :meshId="'ex5b'" :srcLink="'imgs/02s.webp'"/>
         </div>
       </div>
 
@@ -57,11 +57,11 @@
         screen.</p>
       <div class="inline-example from-left img-l-wrapper" v-scrollActive:examplecallback="0.85">
         <h3>Active 85% of screen</h3>
-        <CanvasImage :meshId="'ex2a'" :shader="'example2'" :srcLink="'imgs/03l.webp'"/>
+        <CanvasImage :width="'550'" :height="'365'" :meshId="'ex2a'" :shader="'example2'" :srcLink="'imgs/03l.webp'"/>
       </div>
       <div class="inline-example from-right img-l-wrapper" v-scrollActive="0.5">
         <h3>Active 50% of screen</h3>
-        <CanvasImage :meshId="'ex2c'" :shader="'example1'" :srcLink="'imgs/05l.webp'"/>
+        <CanvasImage :width="'550'" :height="'365'" :meshId="'ex2c'" :shader="'example1'" :srcLink="'imgs/05l.webp'"/>
       </div>
     </div>
 
@@ -69,11 +69,11 @@
       <p>Define the scroll to animate the element only from top and/or only once</p>
       <div class="inline-example from-top img-l-wrapper" v-scrollActive:top:once="0.7">
         <h3>Active 70% of screen, only from top and once</h3>
-        <CanvasImage :meshId="'ex4a'" :shader="'example1'" :srcLink="'imgs/05l.webp'"/>
+        <CanvasImage :width="'550'" :height="'365'" :meshId="'ex4a'" :shader="'example1'" :srcLink="'imgs/05l.webp'"/>
       </div>
       <div class="inline-example from-bottom " v-scrollActive:top:once="0.7">
         <h3>Active 70% of screen, only from top and once</h3>
-        <CanvasImage :meshId="'ex4b'" :srcLink="'imgs/07s.webp'"/>
+        <CanvasImage :width="'375'" :height="'250'"  :meshId="'ex4b'" :srcLink="'imgs/07s.webp'"/>
       </div>
     </div>
 

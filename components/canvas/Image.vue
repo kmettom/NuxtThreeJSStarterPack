@@ -1,10 +1,10 @@
 <template>
   <span ref="img" class="webgl-img">
-      <NuxtImg @load="imageLoaded" alt="picture" :src="srcLink" />
+      <NuxtImg @load="imageLoaded" :width="width" :height="height" alt="picture" :src="srcLink"/>
   </span>
 </template>
 
-<script setup >
+<script setup>
 
 import {Canvas} from "~/utils/canvas";
 
@@ -13,23 +13,25 @@ let props = defineProps([
   'shader',
   'imageHover',
   'meshId',
+  'width',
+  'height',
 ]);
 
 const img = ref("img");
 const imgLoaded = ref(false);
 
-onMounted(async() => {
+onMounted(async () => {
   addImageToCanvas(false)
 })
 
 const addImageToCanvas = (_timeout) => {
   setTimeout(() => {
-    if( !img.value || img.value.children[0].getBoundingClientRect()?.width === 0){
+    if (!img.value || img.value.children[0].getBoundingClientRect()?.width === 0) {
       addImageToCanvas(true)
       return
     }
-    Canvas.addImageAsMesh( img.value.children[0], props.shader , props.meshId, false)
-  } , _timeout ? 200 : 0)
+    Canvas.addImageAsMesh(img.value.children[0], props.shader, props.meshId, false)
+  }, _timeout ? 200 : 0)
 
 };
 
@@ -47,9 +49,9 @@ onBeforeUnmount(() => {
 
 </script>
 
-<style lang="scss" scoped >
+<style lang="scss" scoped>
 
-img{
+img {
 
 }
 
