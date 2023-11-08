@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     //         { rel: 'stylesheet', href: '/path/to/your/css/file.css' }
     //     ]
     // },
+    routeRules: {
+        '/_nuxt/**': { headers: { 'cache-control': 's-maxage=86400' } },
+    },
     modules: [
         // '@nuxt/content',
         ['@nuxt-modules/compression',
