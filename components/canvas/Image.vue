@@ -24,7 +24,6 @@ onMounted(async() => {
 
 const addImageToCanvas = (_timeout) => {
   setTimeout(() => {
-    console.log(img)
     if( !img.value || img.value.children[0].getBoundingClientRect()?.width === 0){
       addImageToCanvas(true)
       return
@@ -34,8 +33,7 @@ const addImageToCanvas = (_timeout) => {
 
 };
 
-const imageLoaded = (_data) => {
-  console.log("imageLoaded" , _data)
+const imageLoaded = () => {
   imgLoaded.value = true
 };
 
