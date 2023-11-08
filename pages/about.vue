@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <NuxtLink aria-label="showcase" to="/">
+    <NuxtLink aria-label="Go To Showcase" to="/">
       Go To Showcase
     </NuxtLink>
     <h1 class="headline">About</h1>
