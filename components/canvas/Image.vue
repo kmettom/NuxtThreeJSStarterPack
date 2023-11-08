@@ -1,6 +1,5 @@
 <template>
-<!--  <img @load="imageLoaded" ref="img" alt="picture" :src="srcLink" />-->
-  <span ref="img" >
+  <span ref="img" class="webgl-img">
       <NuxtImg @load="imageLoaded" alt="picture" :src="srcLink" />
   </span>
 </template>
@@ -53,7 +52,7 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped >
 
 img{
-  opacity: 0;
+
 }
 
 </style>

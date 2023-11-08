@@ -3,13 +3,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     nuxtApp.vueApp.directive('scrollSpeed', {
         mounted (el, binding) {
-            console.log('scrollSpeeda add')
             setTimeout(() => {
                 Canvas.addScrollSpeedElement({elNode: el , scrollSpeed: binding.value, options: binding.arg })
-            },500)
+            },150)
         },
         unmounted (el, binding) {
-            console.log('scrollSpeeda remove')
             Canvas.removeScrollSpeedElement(el)
         }
     });
@@ -18,7 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         mounted (el, binding, vnode) {
             setTimeout(() => {
                 Canvas.addScrollActiveElement({elNode: el , scrollActive: binding.value, options:binding.arg })
-            },500)
+            },150)
         },
         unmounted (el) {
             Canvas.removeScrollActiveElement(el)

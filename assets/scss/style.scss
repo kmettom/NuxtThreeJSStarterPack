@@ -11,6 +11,12 @@ html{
   font-family: sans-serif;
 }
 
+.webgl-img{
+  img{
+    opacity: 0;
+  }
+}
+
 
 @import '_common.scss';
 @import '_animations.scss';
