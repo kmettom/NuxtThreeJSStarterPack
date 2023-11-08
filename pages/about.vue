@@ -25,6 +25,13 @@
 <script setup>
 import { onMounted, watch } from "vue";
 
+useSeoMeta({
+  title: 'About Nuxt ThreeJS Starter Pack - Tomas Kmet - Web developer',
+  ogTitle: 'About Nuxt ThreeJS Starter Pack - Tomas Kmet - Web developer',
+  description: 'About Nuxt ThreeJS Starter Pack - Tomas Kmet - Web developer',
+  ogDescription: 'About Nuxt ThreeJS Starter Pack - Tomas Kmet - Web developer',
+})
+
 const props = defineProps({
   pageActive: Boolean
 });

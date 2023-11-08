@@ -87,6 +87,13 @@
 <script setup>
 import {onMounted, watch} from "vue";
 
+useSeoMeta({
+  title: 'Showcase Nuxt ThreeJS Starter Pack - Tomas Kmet - Web developer',
+  ogTitle: 'Showcase Nuxt ThreeJS Starter Pack - Tomas Kmet - Web developer',
+  description: 'Showcase Nuxt ThreeJS Starter Pack - Tomas Kmet - Web developer',
+  ogDescription: 'Showcase Nuxt ThreeJS Starter Pack - Tomas Kmet - Web developer',
+})
+
 const hoverImage1 = ref(false);
 const hoverImage2 = ref(false);
 
