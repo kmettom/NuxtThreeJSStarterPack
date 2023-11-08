@@ -8,11 +8,11 @@ export default defineNuxtConfig({
     //     ]
     // },
     modules: [
-        '@nuxt/content',
+        // '@nuxt/content',
         ['@nuxt-modules/compression',
             { algorithm: 'brotliCompress' }
         ],
-        "@nuxt/image" ,
+        // "@nuxt/image" ,
         // 'nuxt-purgecss',
     ],
     build: {
