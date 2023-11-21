@@ -2,7 +2,7 @@
 
 This is a starter template for Nuxt 3 with ThreeJS. It includes:
 
-- Smoothscroll
+- Smooth scroll
 - One RequestAnimation Frame call Renders both smooth scroll and Canvas
 - CanvasImage component
     - adds the loaded image to Scene's Mesh
