@@ -15,7 +15,11 @@ This is a starter template for Nuxt 3 with ThreeJS. It includes:
     - adds active class to element when it is in viewport
     - automatically includes appear animation for a Mesh object added through CanvasImage component
 
-Working example: https://nuxtthreejsstarterpack.tomaskmet.com/
+Working example: https://nuxtthreejsstarterpack-96d93fa72c56.herokuapp.com/
+
+Upcoming features 
+- Responsiveness management - easily turn on/off canvas animations depending on screen size
+- add text to mesh and apply shader (mouse or scroll interaction) as directive
 
 ## Setup
 
