@@ -28,6 +28,7 @@
 <script setup>
 
 import {Canvas} from "~/utils/canvas";
+import {Display} from "~/utils/display";
 
 const canvas = ref("canvas");
 const welcomeInit = ref(false);
@@ -40,7 +41,10 @@ useHead({
 })
 
 onMounted( () => {
-  // welcomeInit.value = true
+  Display.init();
+
+  console.log(Display.isMobile)
+
   Canvas.init(canvas.value, scrollableContent.value);
   welcomeFinished()
 });
