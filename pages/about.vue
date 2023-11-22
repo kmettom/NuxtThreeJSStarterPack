@@ -39,6 +39,7 @@ const props = defineProps({
 const hoverImage = ref(false);
 
 const pageAnimateIn = () => {
+  console.log('Example method - animate page transition')
 };
 
 onMounted(() => {

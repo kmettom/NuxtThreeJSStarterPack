@@ -102,7 +102,7 @@ const props = defineProps({
 });
 
 const pageAniIn = () => {
-  console.log('animate page in')
+  console.log('Example method - animate page transition')
 };
 
 onMounted(() => {
