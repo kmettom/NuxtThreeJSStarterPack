@@ -42,10 +42,7 @@ useHead({
 
 onMounted( () => {
   Display.init();
-
   welcomeInit.value = true
-  console.log(Display.isMobile)
-
   Canvas.init(canvas.value, scrollableContent.value);
 });
 
