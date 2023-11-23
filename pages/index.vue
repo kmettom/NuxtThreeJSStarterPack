@@ -3,7 +3,11 @@
     <NuxtLink aria-label="Go To About" to="/about">
       Go To About
     </NuxtLink>
-    <h1 class="headline">Showcase</h1>
+    <h1 class="headline">
+      <CanvasText :meshId="'test'" :shader="'example1'">
+        Showcase
+      </CanvasText>
+    </h1>
 
     <div class="section">
       <h2>Easily add images to Scene Mesh</h2>

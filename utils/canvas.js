@@ -1,5 +1,8 @@
 import { gsap } from "gsap";
 import * as THREE from 'three';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+
 import Scroll from './scroll.js';
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -125,7 +128,7 @@ let Canvas = {
         }
     },
 
-    hoverImage(_id, _state) {
+    hoverMesh(_id, _state) {
         const mesh = this.scene.getObjectByName(_id);
         if(!mesh) return;
         gsap.to(mesh.material.uniforms.hoverState , {
@@ -228,7 +231,21 @@ let Canvas = {
             }
         }
     },
+    addTextAsMesh(_shader, _meshId, _htmlEl){
+        // CSS2DRenderer
 
+        console.log("_shader, _meshId, _htmlEl" , _shader, _meshId, _htmlEl);
+
+        var textDiv = document.createElement('div');
+        textDiv.className = 'label';
+        textDiv.textContent = 'Hello, Three.js! xxxxxxxxxx';
+
+        const textObject = new CSS2DObject(textDiv);
+
+        textObject.position.set(100, 100, 0);
+        this.scene.add(textObject);
+
+    },
     addImageAsMesh(_img, _shader, _meshId, _mouseListeners) {
 
         let fragmentShader= this.options.default.fragmentShader;
