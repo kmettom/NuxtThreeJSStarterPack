@@ -233,18 +233,6 @@ let Canvas = {
 
         console.log("_shader, _meshId, _htmlEl" , _shader, _meshId, _htmlEl);
 
-        var textDiv = document.createElement('div');
-        textDiv.className = 'label';
-        textDiv.textContent = 'Hello, Three.js! xxxxxxxxxx';
-
-        const textObject = new CSS2DObject(textDiv);
-
-        textObject.position.set(0, 0, 0);
-        textObject.scale.set(500 , 500)
-
-        this.scene.add(textObject);
-
-        console.log(this.scene , textObject)
         // this.scene
 
     },
