@@ -57,7 +57,6 @@ let Canvas = {
     options : CanvasOptions,
     animations: {
         welcome: {},
-        curtain: {},
         cursorCallBack: () => {},
     },
     initScroll(){
@@ -91,7 +90,6 @@ let Canvas = {
 
         this.setSize();
         this.composerPass();
-        this.curtainInit();
 
         this.setResizeListener()
 
@@ -104,7 +102,6 @@ let Canvas = {
             this.height = this.canvasContainer.offsetHeight;
 
             this.setSize();
-            this.animations.curtain.mesh.scale.set( window.innerWidth , 0 );
 
            this.resizeImageStore()
 
@@ -242,8 +239,13 @@ let Canvas = {
 
         const textObject = new CSS2DObject(textDiv);
 
-        textObject.position.set(100, 100, 0);
+        textObject.position.set(0, 0, 0);
+        textObject.scale.set(500 , 500)
+
         this.scene.add(textObject);
+
+        console.log(this.scene , textObject)
+        // this.scene
 
     },
     addImageAsMesh(_img, _shader, _meshId, _mouseListeners) {
@@ -317,35 +319,6 @@ let Canvas = {
         this.meshMouseListeners(newMesh, material);
     },
 
-curtainInit(){
-    const geometry = new THREE.PlaneGeometry( 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: '#172d4a' });
-    const rectangle = new THREE.Mesh(geometry, material);
-    rectangle.name = 'curtain'
-
-    this.animations.curtain.settings = {
-        position: - window.innerHeight / 2,
-    }
-    rectangle.position.set(0,this.animations.curtain.settings.position)
-    rectangle.scale.set(window.innerWidth ,1)
-    this.scene.add(rectangle);
-    this.animations.curtain.mesh = this.scene.getObjectByName(rectangle.name);
-},
-
-    curtainAnimation(_duration, _direction){
-
-        this.animations.curtain.settings = {
-            fullScreenPercent: 0.3,
-            start: 1 ,
-            duration: _duration / 2,
-            position: - window.innerHeight / 2,
-            current: 0,
-            end: window.innerHeight,
-        }
-
-        this.animations.curtain.active = true;
-    },
-
     meshMouseListeners(_mesh, _material) {
 
         _mesh.img.addEventListener('mouseenter',(event)=>{
@@ -401,44 +374,6 @@ curtainInit(){
         } , _delay)
     },
 
-    curtainAnimationRender(currentTime) {
-
-            if (!this.animations.curtain.settings.startTime) {
-                this.animations.curtain.settings.startTime = currentTime;
-            }
-            let currentStep = this.animations.curtain.settings.current
-
-            const elapsed = currentTime - this.animations.curtain.settings.startTime;
-            const progressReal = Math.min(elapsed / this.animations.curtain.settings.duration, 1)
-            let progressRender;
-
-            const valAniUp = 0.5 - this.animations.curtain.settings.fullScreenPercent / 2
-            const valAniDown = 0.5 + this.animations.curtain.settings.fullScreenPercent / 2
-            if(progressReal <= valAniUp ){
-                progressRender =  progressReal / valAniUp * 0.5
-            }else if(progressReal > valAniUp && progressReal < valAniDown){
-                progressRender = 0.5
-            }else if(progressReal >= valAniDown){
-                progressRender = (( progressReal - valAniDown) / valAniUp * 0.5) + 0.5
-            }
-
-            this.animations.curtain.settings.current = progressRender * this.animations.curtain.settings.end;
-
-            this.animations.curtain.mesh.position.set(0, this.animations.curtain.settings.position + currentStep )
-
-            if( progressRender < 0.5 ){
-                this.animations.curtain.mesh.scale.set( window.innerWidth, currentStep * 2);
-            }else {
-                let reverseStep = currentStep - this.animations.curtain.settings.end
-                this.animations.curtain.mesh.scale.set( window.innerWidth, reverseStep * 2 );
-            }
-            if(progressRender == 1) {
-                this.animations.curtain.mesh.position.set( 0 , this.animations.curtain.settings.end )
-                this.animations.curtain.mesh.scale.set( window.innerWidth, 0 );
-                this.animations.curtain.active = false;
-            }
-
-    },
 
     render(currentTime) {
         this.animations.cursorCallBack()
@@ -460,9 +395,6 @@ curtainInit(){
             this.materials[i].uniforms.time.value = this.time;
         }
 
-        if(this.animations.curtain.active) {
-           this.curtainAnimationRender(currentTime);
-        }
         this.composer.render()
 
         try {
