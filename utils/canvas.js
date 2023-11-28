@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
+import font from './font/PPFormula-CondensedBlack.json';
+import fontTexture from './font/PPFormula-CondensedBlack.png';
+
 import Scroll from './scroll.js';
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -232,9 +235,30 @@ let Canvas = {
         // CSS2DRenderer
 
         console.log("_shader, _meshId, _htmlEl" , _shader, _meshId, _htmlEl);
+        //load font with fontloader
+        const loader = new THREE.FontLoader();
+        loader.load( '/fonts/Roboto_Regular.json', (font) => {
+            //create text geometry
+            const geometry = new TextGeometry( _htmlEl.innerHTML, {
+                font: font,
+                size: 80,
+                height: 5,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 10,
+                bevelSize: 8,
+                bevelOffset: 0,
+                bevelSegments: 5
+            } );
+            //create material
+            const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+            //create mesh
+            const mesh = new THREE.Mesh( geometry, material );
+            //add mesh to scene
+            this.scene.add( mesh );
+        } );
 
         // this.scene
-
     },
     addImageAsMesh(_img, _shader, _meshId, _mouseListeners) {
 
