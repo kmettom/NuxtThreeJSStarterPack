@@ -2,9 +2,11 @@ import { gsap } from "gsap";
 import * as THREE from 'three';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
-import font from './font/PPFormula-CondensedBlack.json';
-import fontTexture from './font/PPFormula-CondensedBlack.png';
+// import font from './font/helvetiker_regular.typeface.json';
+// import font from './font/PPFormula-CondensedBlack.json';
+// import fontTexture from './font/PPFormula-CondensedBlack.png';
 
 import Scroll from './scroll.js';
 
@@ -236,10 +238,12 @@ let Canvas = {
 
         console.log("_shader, _meshId, _htmlEl" , _shader, _meshId, _htmlEl);
         //load font with fontloader
-        const loader = new THREE.FontLoader();
-        loader.load( '/fonts/Roboto_Regular.json', (font) => {
+        const loader = new FontLoader();
+
+        loader.load( '/font/helvetiker_regular.typeface.json', (font) => {
+            console.log("font" , font)
             //create text geometry
-            const geometry = new TextGeometry( _htmlEl.innerHTML, {
+            const geometry = new TextGeometry( _htmlEl, {
                 font: font,
                 size: 80,
                 height: 5,
