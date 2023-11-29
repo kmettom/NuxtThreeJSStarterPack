@@ -20,6 +20,9 @@ import scrollVertex from './shaders/scrollVertex.glsl';
 import defaultFragment from './shaders/defaultFragment.glsl';
 import defaultVertex from './shaders/defaultVertex.glsl';
 
+import textFragment from './shaders/textFragment.glsl';
+import textVertex from './shaders/textVertex.glsl';
+
 import example1Fragment from './shaders/example1Fragment.glsl';
 import example1Vertex from './shaders/example1Vertex.glsl';
 
@@ -36,6 +39,8 @@ const CanvasOptions = {
     default: {
         fragmentShader: defaultFragment,
         vertexShader: defaultVertex,
+        textShader: textFragment,
+        textVertex: textVertex,
     },
     example1: {
         fragmentShader: example1Fragment,
@@ -233,33 +238,78 @@ let Canvas = {
             }
         }
     },
-    addTextAsMesh(_shader, _meshId, _htmlEl){
-        // CSS2DRenderer
+    addTextAsMesh(_shader, _id, _htmlEl){
 
-        console.log("_shader, _meshId, _htmlEl" , _shader, _meshId, _htmlEl);
+        console.log("_shader, _meshId, _htmlEl" , _shader, _id, _htmlEl);
+
+        let fragmentShader= this.options.default.textShader;
+        let vertexShader = this.options.default.textVertex;
+
+        let bounds = _htmlEl.getBoundingClientRect();
+        let position = { top : bounds.top , left: bounds.left};
+        position.top += this.currentScroll;
         //load font with fontloader
         const loader = new FontLoader();
 
         loader.load( '/font/helvetiker_regular.typeface.json', (font) => {
-            console.log("font" , font)
             //create text geometry
-            const geometry = new TextGeometry( _htmlEl, {
+            const geometry = new TextGeometry( _htmlEl.innerHTML, {
                 font: font,
                 size: 80,
                 height: 5,
                 curveSegments: 12,
-                bevelEnabled: true,
-                bevelThickness: 10,
-                bevelSize: 8,
+                bevelEnabled: false,
+                bevelThickness: 1,
+                bevelSize: 1,
                 bevelOffset: 0,
                 bevelSegments: 5
             } );
+
             //create material
-            const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+            // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+            let texture = new THREE.TextureLoader().load( 'http://localhost:4200/_ipx/s_550x365/imgs/01l.webp' );
+            texture.needsUpdate = true;
+
+            const material = new THREE.ShaderMaterial( {
+                uniforms:{
+                    time: {value:0},
+                    uImage: {value: texture},
+                    vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
+                    hoverState: {value: 0},
+                    aniIn: {value: 0},
+                },
+                fragmentShader: fragmentShader,
+                vertexShader: vertexShader,
+                transparent: true,
+                name: _id,
+            } );
+
+
             //create mesh
             const mesh = new THREE.Mesh( geometry, material );
+            mesh.name =  _id;
             //add mesh to scene
             this.scene.add( mesh );
+
+            const newMesh = {
+                name: _id,
+                img: _htmlEl,
+                mesh: mesh,
+                top: position.top,
+                left: position.left,
+                width: bounds.width,
+                height: bounds.height,
+                thumbOutAction: {value: 0},
+            }
+
+            this.imageStore.push(newMesh);
+
+            this.setImageMeshPositions();
+
+            this.activateImage(_id, true)
+            this.meshMouseListeners(newMesh, material);
+
         } );
 
         // this.scene
@@ -280,12 +330,11 @@ let Canvas = {
         position.top += this.currentScroll;
 
         geometry = new THREE.PlaneGeometry( 1, 1 );
-        // geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
-        // const geometry = new THREE.PlaneGeometry( 1, 1);
-
 
         let _id = _meshId ? _meshId : `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
         _img.dataset.meshId = _id;
+
+        // console.log("_img.src" , _img.src)
 
         let texture = new THREE.TextureLoader().load( _img.src );
         texture.needsUpdate = true;

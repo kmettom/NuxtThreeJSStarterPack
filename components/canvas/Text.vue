@@ -17,10 +17,8 @@ let props = defineProps([
 const html = ref("html");
 
 onMounted(async () => {
-  // slot html content variable
-  const innerHTML = html.value?.innerText;
-  console.log( '$el - ' , innerHTML)
-  Canvas.addTextAsMesh( props.shader, props.meshId, innerHTML  )
+  const HTML = html.value;
+  Canvas.addTextAsMesh( props.shader, props.meshId, HTML  )
 })
 
 watch(() => props.textHover, (_status) => {

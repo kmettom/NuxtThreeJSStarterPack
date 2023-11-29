@@ -4,8 +4,8 @@
       Go To About
     </NuxtLink>
     <h1 class="headline">
-      <CanvasText :meshId="'test'" :shader="'example1'">
-        Showcase
+      <CanvasText :meshId="'testxxx'" :shader="'example1'">
+        Showcase x
       </CanvasText>
     </h1>
 

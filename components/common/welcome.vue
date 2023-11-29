@@ -24,8 +24,10 @@ export default {
   data() {
     return {
       show: false,
-      welcomeAniDuration: 0.5,
-      welcomeAniDelay: 0.15,
+      welcomeAniDuration: 0, //0.5
+      welcomeAniDelay: 0, //0.25
+      welcomeHideDuration: 0, //0.5
+      welcomeHideDelay: 0, //0.5
     }
   },
   methods: {
@@ -44,8 +46,8 @@ export default {
       gsap.to('.welcome-by', {duration: 0.3, opacity: 1})
 
       gsap.to('.welcome', {
-        duration: 0.5,
-        delay: this.welcomeAniDuration + 0.5,
+        duration: this.welcomeHideDuration,
+        delay: this.welcomeAniDuration + this.welcomeHideDelay,
         height: 0,
         ease: 'power4.in',
         onComplete: () => {
