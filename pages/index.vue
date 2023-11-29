@@ -5,7 +5,7 @@
     </NuxtLink>
     <h1 class="headline">
       <CanvasText :meshId="'testxxx'" :shader="'example1'">
-        Showcase x
+        Showcase
       </CanvasText>
     </h1>
 

@@ -238,7 +238,7 @@ let Canvas = {
             }
         }
     },
-    addTextAsMesh(_shader, _id, _htmlEl){
+    addTextAsMesh(_shader, _id, _htmlEl, _text){
 
         console.log("_shader, _meshId, _htmlEl" , _shader, _id, _htmlEl);
 
@@ -253,7 +253,7 @@ let Canvas = {
 
         loader.load( '/font/helvetiker_regular.typeface.json', (font) => {
             //create text geometry
-            const geometry = new TextGeometry( _htmlEl.innerHTML, {
+            const geometry = new TextGeometry( _text, {
                 font: font,
                 size: 80,
                 height: 5,

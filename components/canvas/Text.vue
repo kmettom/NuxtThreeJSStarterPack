@@ -17,8 +17,10 @@ let props = defineProps([
 const html = ref("html");
 
 onMounted(async () => {
-  const HTML = html.value;
-  Canvas.addTextAsMesh( props.shader, props.meshId, HTML  )
+  let innerHTML = html.value?.innerHTML;
+  //remove slot related characters in innerHTML string
+  let text = innerHTML.replace('<!--]-->', '').replace('<!--[-->','');
+  Canvas.addTextAsMesh( props.shader, props.meshId, html.value, text )
 })
 
 watch(() => props.textHover, (_status) => {
