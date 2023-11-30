@@ -21,6 +21,7 @@ onMounted(async () => {
   //remove slot related characters in innerHTML string
   let text = innerHTML.replace('<!--]-->', '').replace('<!--[-->','');
   Canvas.addTextAsMesh( props.shader, props.meshId, html.value, text )
+  Canvas.addTextAsMSDF( props.shader, props.meshId, html.value, text )
 })
 
 watch(() => props.textHover, (_status) => {
