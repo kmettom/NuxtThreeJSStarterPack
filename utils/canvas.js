@@ -1,8 +1,17 @@
 import { gsap } from "gsap";
 import * as THREE from 'three';
+// import {THREE} from 'three';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { uniforms, MSDFTextGeometry, MSDFTextMaterial } from "three-msdf-text-utils";
+
+// import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+// import {loadFont} from 'load-bmfont';
+
+// import { createGeometry } from 'three-bmfont-text';
+
+// import { createTextGeometry } from 'three-bmfont-text-es';
+// import * as loadFont from "load-bmfont";
 
 // import font from './font/helvetiker_regular.typeface.json';
 // import font from './font/PPFormula-CondensedBlack.json';
@@ -33,6 +42,7 @@ import MSDFfragment from './shaders/MSDFfragment.glsl';
 import MSDFvertex from './shaders/MSDFvertex.glsl';
 
 import { aniInExample } from "~/utils/animations";
+// import {uniforms} from "three-msdf-text-utils";
 
 const CanvasOptions = {
     scroll: {
@@ -241,6 +251,7 @@ let Canvas = {
             }
         }
     },
+
     async addTextAsMSDF(_shader, _id, _htmlEl, _text){
 
         console.log("_shader, _meshId, _htmlEl" , _shader, _id, _htmlEl);
@@ -253,8 +264,8 @@ let Canvas = {
         position.top += this.currentScroll;
 
         //load font with fontloader
-        const fontLoader = new FontLoader();
-        const atlasLoader = new THREE.TextureLoader();
+        // const fontLoader = new FontLoader();
+        // const atlasLoader = new THREE.TextureLoader();
 
         //*****************************
         // MSDF
@@ -264,40 +275,35 @@ let Canvas = {
         const atlasUrl = '/font/PPFormula-CondensedBlack.png'
 
         const loadFontAtlas = (path) => {
-            const promise = new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 const loader = new THREE.TextureLoader();
                 loader.load(path, resolve);
             });
 
-            return promise;
         }
 
         const loadFont = (path) => {
-            const promise = new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 const loader = new FontLoader();
                 loader.load(path, resolve);
             });
 
-            return promise;
         }
-
 
         Promise.all([
             loadFontAtlas(atlasUrl),
             loadFont(fontUrl),
         ]).then(([atlas, font]) => {
+
+            font.data[0].image.lineHeight = '100px'
+
             console.log("atlas" , atlas)
             console.log("font" , font)
 
-            const geometry = new TextGeometry({
+            const geometry = new MSDFTextGeometry({
+                text: "hooo test",
                 font: font.data,
-                text: 'Hello world',
-            })
-
-            // const geometry = new MSDFTextGeometry({
-            //     text: "h",
-            //     font: font.data,
-            // });
+            });
 
             const material = new MSDFTextMaterial();
             material.uniforms.uMap.value = atlas;
@@ -326,79 +332,35 @@ let Canvas = {
             // });
             // material.uniforms.uMap.value = atlas;
 
-            const mesh = new THREE.Mesh(geometry, material);
-            this.scene.add (mesh)
+            let mesh = new THREE.Mesh(geometry, material);
+            mesh.name = "MSDFText";
+            this.scene.add(mesh)
 
-            console.log("this.scene" , this.scene   )
+            console.log("this.scene" , this.scene   );
+
+            const newMesh = {
+                name: _id,
+                img: _htmlEl,
+                mesh: mesh,
+                top: position.top,
+                left: position.left,
+                width: bounds.width * 2,
+                height: bounds.height * 2,
+                thumbOutAction: {value: 0},
+            }
+
+            this.imageStore.push(newMesh);
+
+            this.setImageMeshPositions();
+
+            this.activateImage(_id, true)
+            this.meshMouseListeners(newMesh, material);
         });
 
         //*****************************
         // MSDF
         //*****************************
 
-
-        // fontLoader.load( '/font/helvetiker_regular.typeface.json', (font) => {
-        //
-        //     console.log("fotn2" , font )
-        //     //create text geometry
-        //     const geometry = new TextGeometry( _text, {
-        //         font: font,
-        //         size: 80,
-        //         height: 5,
-        //         curveSegments: 12,
-        //         bevelEnabled: false,
-        //         bevelThickness: 1,
-        //         bevelSize: 1,
-        //         bevelOffset: 0,
-        //         bevelSegments: 5
-        //     } );
-        //
-        //     //create material
-        //     // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-        //
-        //     let texture = new THREE.TextureLoader().load( 'http://localhost:4200/_ipx/s_550x365/imgs/01l.webp' );
-        //     texture.needsUpdate = true;
-        //
-        //     const material = new THREE.ShaderMaterial( {
-        //         uniforms:{
-        //             time: {value:0},
-        //             uImage: {value: texture},
-        //             vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
-        //             hoverState: {value: 0},
-        //             aniIn: {value: 0},
-        //         },
-        //         fragmentShader: fragmentShader,
-        //         vertexShader: vertexShader,
-        //         transparent: true,
-        //         name: _id,
-        //     } );
-        //
-        //     console.log("geometry" , geometry);
-        //     //create mesh
-        //     const mesh = new THREE.Mesh( geometry, material );
-        //     mesh.name =  _id;
-        //     //add mesh to scene
-        //     this.scene.add( mesh );
-        //
-        //     const newMesh = {
-        //         name: _id,
-        //         img: _htmlEl,
-        //         mesh: mesh,
-        //         top: position.top,
-        //         left: position.left,
-        //         width: bounds.width,
-        //         height: bounds.height,
-        //         thumbOutAction: {value: 0},
-        //     }
-        //
-        //     this.imageStore.push(newMesh);
-        //
-        //     this.setImageMeshPositions();
-        //
-        //     this.activateImage(_id, true)
-        //     this.meshMouseListeners(newMesh, material);
-        //
-        // } );
     },
 
     addTextAsMesh(_shader, _id, _htmlEl, _text){
