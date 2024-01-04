@@ -269,13 +269,9 @@ let Canvas = {
             loadFont(fontUrl),
         ]).then(([atlas, font]) => {
 
-            console.log("font" , font)
-
             const geometry = new MSDFTextGeometry({
                 text: _text.toUpperCase(),
                 font: font.data,
-                // width: bounds.width,
-                // lineHeight: bounds.height,
             });
 
             const material = new THREE.ShaderMaterial({
@@ -288,12 +284,6 @@ let Canvas = {
                     derivatives: false, //true,
                 },
                 uniforms: {
-                    // Common
-                    // ...uniforms.common,
-                    // // Rendering
-                    // ...uniforms.rendering,
-                    // // Strokes
-                    // ...uniforms.strokes,
                     uColor: { value: new THREE.Color(0x000000) },
                     // Common
                     uOpacity: { value: 1 },
@@ -314,7 +304,12 @@ let Canvas = {
 
             let mesh = new THREE.Mesh(geometry, material);
             mesh.name = _id;
-            mesh.scale.set(1, -1, 1);
+
+
+            const scaleCoefY = 1 + bounds.height / mesh.geometry._layout._height;
+            const scaleCoefX = 1 + bounds.width / mesh.geometry._layout._width;
+
+            mesh.scale.set(scaleCoefY, -scaleCoefY, 1);
 
             this.scene.add(mesh)
 
@@ -340,7 +335,6 @@ let Canvas = {
             //     alphabet += String.fromCharCode(i);
             // }
 
-            console.log('scene' , this.scene, bounds, mesh.geometry._layout._width)
         });
 
         //*****************************
