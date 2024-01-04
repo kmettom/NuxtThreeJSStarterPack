@@ -129,6 +129,9 @@ watch(
 
 <style lang="scss">
 
+.headline{
+  font-size: 120px;
+}
 
 .inline-example {
   vertical-align: top;

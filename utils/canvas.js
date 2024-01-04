@@ -1,21 +1,9 @@
 import { gsap } from "gsap";
 import * as THREE from 'three';
-// import {THREE} from 'three';
+
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { uniforms, MSDFTextGeometry, MSDFTextMaterial } from "three-msdf-text-utils";
-
-// import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-// import {loadFont} from 'load-bmfont';
-
-// import { createGeometry } from 'three-bmfont-text';
-
-// import { createTextGeometry } from 'three-bmfont-text-es';
-// import * as loadFont from "load-bmfont";
-
-// import font from './font/helvetiker_regular.typeface.json';
-// import font from './font/PPFormula-CondensedBlack.json';
-// import fontTexture from './font/PPFormula-CondensedBlack.png';
 
 import Scroll from './scroll.js';
 
@@ -38,11 +26,8 @@ import example1Vertex from './shaders/example1Vertex.glsl';
 import example2Fragment from './shaders/example2Fragment.glsl';
 import example2Vertex from './shaders/example2Vertex.glsl';
 
-import MSDFfragment from './shaders/MSDFfragment.glsl';
-import MSDFvertex from './shaders/MSDFvertex.glsl';
-
-import { aniInExample } from "~/utils/animations";
-// import {uniforms} from "three-msdf-text-utils";
+import MSDFfragment from './shaders/MSDFfragment_test.glsl';
+import MSDFvertex from './shaders/MSDFvertex_test.glsl';
 
 const CanvasOptions = {
     scroll: {
@@ -254,18 +239,9 @@ let Canvas = {
 
     async addTextAsMSDF(_shader, _id, _htmlEl, _text){
 
-        console.log("_shader, _meshId, _htmlEl" , _shader, _id, _htmlEl);
-
-        let fragmentShader= this.options.default.textShader;
-        let vertexShader = this.options.default.textVertex;
-
         let bounds = _htmlEl.getBoundingClientRect();
         let position = { top : bounds.top , left: bounds.left};
         position.top += this.currentScroll;
-
-        //load font with fontloader
-        // const fontLoader = new FontLoader();
-        // const atlasLoader = new THREE.TextureLoader();
 
         //*****************************
         // MSDF
@@ -279,7 +255,6 @@ let Canvas = {
                 const loader = new THREE.TextureLoader();
                 loader.load(path, resolve);
             });
-
         }
 
         const loadFont = (path) => {
@@ -287,7 +262,6 @@ let Canvas = {
                 const loader = new FontLoader();
                 loader.load(path, resolve);
             });
-
         }
 
         Promise.all([
@@ -295,48 +269,39 @@ let Canvas = {
             loadFont(fontUrl),
         ]).then(([atlas, font]) => {
 
-            font.data[0].image.lineHeight = '100px'
-
-            console.log("atlas" , atlas)
-            console.log("font" , font)
-
             const geometry = new MSDFTextGeometry({
-                text: "hooo test",
+                text: _text.toUpperCase(),
                 font: font.data,
             });
 
-            const material = new MSDFTextMaterial();
-            material.uniforms.uMap.value = atlas;
+            const material = new THREE.ShaderMaterial({
+                side: THREE.DoubleSide,
+                transparent: true,
+                defines: {
+                    IS_SMALL: false,
+                },
+                extensions: {
+                    derivatives: true,
+                },
+                uniforms: {
+                    // Common
+                    ...uniforms.common,
+                    // Rendering
+                    ...uniforms.rendering,
+                    // Strokes
+                    ...uniforms.strokes,
+                },
+                vertexShader: MSDFvertex,
+                fragmentShader: MSDFfragment,
+            });
 
-            // const material = new THREE.ShaderMaterial({
-            //     // side: DoubleSide,
-            //     transparent: true,
-            //     defines: {
-            //         IS_SMALL: false,
-            //     },
-            //     extensions: {
-            //         derivatives: true,
-            //     },
-            //     uniforms: {
-            //         // Common
-            //         ...uniforms.common,
-            //
-            //         // Rendering
-            //         ...uniforms.rendering,
-            //
-            //         // Strokes
-            //         ...uniforms.strokes,
-            //     },
-            //     vertexShader: MSDFvertex,
-            //     fragmentShader: MSDFfragment,
-            // });
-            // material.uniforms.uMap.value = atlas;
+            material.uniforms.uMap.value = atlas;
 
             let mesh = new THREE.Mesh(geometry, material);
             mesh.name = "MSDFText";
-            this.scene.add(mesh)
+            mesh.scale.set(1, -1, 1);
 
-            console.log("this.scene" , this.scene   );
+            this.scene.add(mesh)
 
             const newMesh = {
                 name: _id,
@@ -344,17 +309,23 @@ let Canvas = {
                 mesh: mesh,
                 top: position.top,
                 left: position.left,
-                width: bounds.width * 2,
-                height: bounds.height * 2,
-                thumbOutAction: {value: 0},
+                width: bounds.width,
+                height: bounds.height,
             }
 
             this.imageStore.push(newMesh);
 
             this.setImageMeshPositions();
 
-            this.activateImage(_id, true)
+            // this.activateImage(_id, true)
             this.meshMouseListeners(newMesh, material);
+
+            let alphabet = '';
+            for (let i = 65; i <= 90; i++) {
+                alphabet += String.fromCharCode(i);
+            }
+
+            console.log('alphabet' , alphabet)
         });
 
         //*****************************
@@ -364,8 +335,6 @@ let Canvas = {
     },
 
     addTextAsMesh(_shader, _id, _htmlEl, _text){
-
-        console.log("_shader, _meshId, _htmlEl" , _shader, _id, _htmlEl);
 
         let fragmentShader= this.options.default.textShader;
         let vertexShader = this.options.default.textVertex;

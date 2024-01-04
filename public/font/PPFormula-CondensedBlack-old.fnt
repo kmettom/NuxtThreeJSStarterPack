@@ -1,4 +1,4 @@
-[{
+{
   "version": "1.0",
   "image": {
     "name": "/home/videosdownloader/public_html/image/public/uploadt/PPFormula-CondensedBlack.ttf",
@@ -133,4 +133,4 @@
     "elapsedTime": "0:01.174",
     "version": "ImageMagick 7.0.10-58 Q16 x86_64 2021-01-14 https://imagemagick.org"
   }
-}]
+}
