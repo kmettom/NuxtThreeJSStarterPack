@@ -129,8 +129,17 @@ watch(
 
 <style lang="scss">
 
+@font-face {
+  font-family: 'PP Formula Black';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('public/font/PPFormula-CondensedBlack.ttf') format('truetype');
+}
+
 .headline{
-  font-size: 120px;
+  font-size: 100px;
+  font-family: 'PP Formula Black', sans-serif;
 }
 
 .inline-example {

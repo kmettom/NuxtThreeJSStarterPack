@@ -270,7 +270,7 @@ let Canvas = {
         ]).then(([atlas, font]) => {
 
             const geometry = new MSDFTextGeometry({
-                text: _text.toUpperCase(),
+                text: _text.replaceAll(' ' , ''),
                 font: font.data,
             });
 
@@ -306,8 +306,11 @@ let Canvas = {
             mesh.name = _id;
 
 
-            const scaleCoefY = 1 + bounds.height / mesh.geometry._layout._height;
-            const scaleCoefX = 1 + bounds.width / mesh.geometry._layout._width;
+
+            let scaleCoefX = bounds.height / mesh.geometry._layout._height;
+            if(scaleCoefX < 1) scaleCoefX = mesh.geometry._layout._height / bounds.height;
+            let scaleCoefY = bounds.width / mesh.geometry._layout._width;
+            if(scaleCoefY < 1) scaleCoefY = mesh.geometry._layout._width / bounds.width;
 
             mesh.scale.set(scaleCoefY, -scaleCoefY, 1);
 
@@ -327,97 +330,11 @@ let Canvas = {
 
             this.setImageMeshPositions();
 
-            // this.activateImage(_id, true)
+            this.activateImage(_id, true)
             this.meshMouseListeners(newMesh, material);
 
-            // let alphabet = '';
-            // for (let i = 65; i <= 90; i++) {
-            //     alphabet += String.fromCharCode(i);
-            // }
-
         });
-
-        //*****************************
-        // MSDF
-        //*****************************
-
     },
-
-    // addTextAsMesh(_shader, _id, _htmlEl, _text){
-    //
-    //     let fragmentShader= this.options.default.textShader;
-    //     let vertexShader = this.options.default.textVertex;
-    //
-    //     let bounds = _htmlEl.getBoundingClientRect();
-    //     let position = { top : bounds.top , left: bounds.left};
-    //
-    //     position.top += this.currentScroll;
-    //     //load font with fontloader
-    //     const loader = new FontLoader();
-    //
-    //     loader.load( '/font/helvetiker_regular.typeface.json', (font) => {
-    //         //create text geometry
-    //         const geometry = new TextGeometry( _text, {
-    //             font: font,
-    //             size: 40,
-    //             height: 5,
-    //             curveSegments: 12,
-    //             bevelEnabled: false,
-    //             bevelThickness: 1,
-    //             bevelSize: 1,
-    //             bevelOffset: 0,
-    //             bevelSegments: 5
-    //         } );
-    //
-    //         //create material
-    //         // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    //
-    //         let texture = new THREE.TextureLoader().load( 'http://localhost:4200/_ipx/s_550x365/imgs/01l.webp' );
-    //         texture.needsUpdate = true;
-    //
-    //         const material = new THREE.ShaderMaterial( {
-    //             uniforms:{
-    //                 time: {value:0},
-    //                 uImage: {value: texture},
-    //                 vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
-    //                 hoverState: {value: 0},
-    //                 aniIn: {value: 0},
-    //             },
-    //             fragmentShader: fragmentShader,
-    //             vertexShader: vertexShader,
-    //             transparent: true,
-    //             name: _id,
-    //         } );
-    //
-    //
-    //         //create mesh
-    //         const mesh = new THREE.Mesh( geometry, material );
-    //         mesh.name =  _id;
-    //         //add mesh to scene
-    //         this.scene.add( mesh );
-    //
-    //         const newMesh = {
-    //             name: _id,
-    //             img: _htmlEl,
-    //             mesh: mesh,
-    //             top: position.top,
-    //             left: position.left,
-    //             width: bounds.width,
-    //             height: bounds.height,
-    //             thumbOutAction: {value: 0},
-    //         }
-    //
-    //         this.imageStore.push(newMesh);
-    //
-    //         this.setImageMeshPositions();
-    //
-    //         this.activateImage(_id, true)
-    //         this.meshMouseListeners(newMesh, material);
-    //
-    //     } );
-    //
-    //     // this.scene
-    // },
     addImageAsMesh(_img, _shader, _meshId, _mouseListeners) {
 
         let fragmentShader= this.options.default.fragmentShader;

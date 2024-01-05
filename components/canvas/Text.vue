@@ -18,9 +18,8 @@ const html = ref("html");
 
 onMounted(async () => {
   let innerHTML = html.value?.innerHTML;
-  //remove slot related characters in innerHTML string
-  let text = innerHTML.replace('<!--]-->', '').replace('<!--[-->','');
-  // Canvas.addTextAsMesh( props.shader, props.meshId, html.value, text )
+  // let text = innerHTML.replace('<!--]-->', '').replace('<!--[-->', '');
+  let text = innerHTML.slice(0, innerHTML.indexOf('<!--]-->')).slice(innerHTML.indexOf('<!--[-->') + 9);
   await Canvas.addTextAsMSDF( props.shader, props.meshId, html.value, text )
 })
 
