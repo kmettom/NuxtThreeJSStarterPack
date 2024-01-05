@@ -237,7 +237,7 @@ let Canvas = {
         }
     },
 
-    async addTextAsMSDF(_shader, _id, _htmlEl, _text){
+    addTextAsMSDF(_shader, _id, _htmlEl, _text){
 
         let bounds = _htmlEl.getBoundingClientRect();
         let position = { top : bounds.top , left: bounds.left};
@@ -305,14 +305,12 @@ let Canvas = {
             let mesh = new THREE.Mesh(geometry, material);
             mesh.name = _id;
 
+            // const scaleCoefX = bounds.height / mesh.geometry._layout._height;
+            const scaleCoefY = bounds.width / mesh.geometry._layout._width;
 
+            console.log('scale' , scaleCoefY , bounds.width , mesh.geometry._layout._width)
 
-            let scaleCoefX = bounds.height / mesh.geometry._layout._height;
-            if(scaleCoefX < 1) scaleCoefX = mesh.geometry._layout._height / bounds.height;
-            let scaleCoefY = bounds.width / mesh.geometry._layout._width;
-            if(scaleCoefY < 1) scaleCoefY = mesh.geometry._layout._width / bounds.width;
-
-            mesh.scale.set(scaleCoefY, -scaleCoefY, 1);
+            mesh.scale.set(1*scaleCoefY, -1*scaleCoefY, 1);
 
             this.scene.add(mesh)
 

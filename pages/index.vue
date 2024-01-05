@@ -138,7 +138,7 @@ watch(
 }
 
 .headline{
-  font-size: 100px;
+  font-size:150px;
   font-family: 'PP Formula Black', sans-serif;
 }
 

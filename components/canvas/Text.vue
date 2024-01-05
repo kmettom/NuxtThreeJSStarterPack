@@ -20,7 +20,7 @@ onMounted(async () => {
   let innerHTML = html.value?.innerHTML;
   // let text = innerHTML.replace('<!--]-->', '').replace('<!--[-->', '');
   let text = innerHTML.slice(0, innerHTML.indexOf('<!--]-->')).slice(innerHTML.indexOf('<!--[-->') + 9);
-  await Canvas.addTextAsMSDF( props.shader, props.meshId, html.value, text )
+  Canvas.addTextAsMSDF( props.shader, props.meshId, html.value, text )
 })
 
 watch(() => props.textHover, (_status) => {
