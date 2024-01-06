@@ -44,7 +44,7 @@ watch(() => props.imageHover, (_status) => {
 });
 
 onBeforeUnmount(() => {
-  Canvas.removeImageMesh(props.meshId);
+  Canvas.removeMesh(props.meshId);
 });
 
 </script>

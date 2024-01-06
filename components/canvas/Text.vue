@@ -18,9 +18,9 @@ const html = ref("html");
 
 onMounted(async () => {
   let innerHTML = html.value?.innerHTML;
-  // let text = innerHTML.replace('<!--]-->', '').replace('<!--[-->', '');
-  let text = innerHTML.slice(0, innerHTML.indexOf('<!--]-->')).slice(innerHTML.indexOf('<!--[-->') + 9);
-  Canvas.addTextAsMSDF( props.shader, props.meshId, html.value, text )
+  //remove nuxt slot comment from innerHTML, only once
+  if(innerHTML.includes('<!--]-->')) innerHTML = innerHTML.slice(0, innerHTML.indexOf('<!--]-->')).slice(innerHTML.indexOf('<!--[-->') + 9);
+  Canvas.addTextAsMSDF( props.shader, props.meshId, html.value, innerHTML )
 })
 
 watch(() => props.textHover, (_status) => {
@@ -28,7 +28,7 @@ watch(() => props.textHover, (_status) => {
 });
 
 onBeforeUnmount(() => {
-  Canvas.removeImageMesh(props.meshId);
+  Canvas.removeMesh(props.meshId);
 });
 
 </script>
@@ -36,7 +36,8 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 
 span{
-  opacity: 0.1;
+  opacity: 0.3;
+  color: red;
 }
 
 img {

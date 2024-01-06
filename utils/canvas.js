@@ -70,7 +70,7 @@ let Canvas = {
     initScroll(){
         this.scroll = new Scroll({
             dom: this.scrollableContent,
-            activeCallback: this.activateImage,
+            activeCallback: this.activateMesh,
         });
     },
     setCanvasAndCamera(){
@@ -123,9 +123,9 @@ let Canvas = {
             this.imageStore[i].width = bounds.width;
             this.imageStore[i].height = bounds.height;
         }
-        this.setImageMeshPositions()
+        this._setMeshPositions()
     },
-    setImageMeshPositions(){
+    _setMeshPositions(){
         if(!this.imageStore) return;
         for (var i = 0; i < this.imageStore.length ; i++) {
             this.imageStore[i].mesh.position.x = ( this.imageStore[i].img.getBoundingClientRect().left - this.width/2 + this.imageStore[i].width/2);
@@ -142,7 +142,7 @@ let Canvas = {
         })
     },
 
-    activateImage(_id, _state) {
+    activateMesh(_id, _state) {
         const mesh = this.scene.getObjectByName(_id);
         gsap.to(mesh.material.uniforms.aniIn , {
             duration: 1.25,
@@ -220,7 +220,7 @@ let Canvas = {
         return el.dataset.meshId;
     },
 
-    removeImageMesh(_id){
+    removeMesh(_id){
         let toRemove = this.scene.getObjectByName(_id);
         if(!toRemove) return;
         this.scene.remove(toRemove);
@@ -295,6 +295,12 @@ let Canvas = {
                     uStrokeColor: { value: new THREE.Color("#ff0000") },
                     uStrokeOutsetWidth: { value: 0.0 },
                     uStrokeInsetWidth: { value: 0.3 },
+                    // new generic
+                    time: {value:0},
+                    // uImage: {value: texture},
+                    // vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
+                    hoverState: {value: 0},
+                    aniIn: {value: 0},
                 },
                 vertexShader: MSDFvertex,
                 fragmentShader: MSDFfragment,
@@ -307,8 +313,7 @@ let Canvas = {
 
             // const scaleCoefX = bounds.height / mesh.geometry._layout._height;
             const scaleCoefY = bounds.width / mesh.geometry._layout._width;
-
-            console.log('scale' , scaleCoefY , bounds.width , mesh.geometry._layout._width)
+            console.log('s-' , _text, scaleCoefY , bounds.width , mesh.geometry._layout._width)
 
             mesh.scale.set(1*scaleCoefY, -1*scaleCoefY, 1);
 
@@ -320,15 +325,17 @@ let Canvas = {
                 mesh: mesh,
                 top: position.top,
                 left: position.left,
-                width: 1, //bounds.width,
-                height: 1 // bounds.height,
+                width: 0, //bounds.width,
+                height: bounds.height * 1.43 // bounds.height,
             }
 
             this.imageStore.push(newMesh);
 
-            this.setImageMeshPositions();
+            this._setMeshPositions();
 
-            this.activateImage(_id, true)
+            setTimeout(() => {
+                if(!_htmlEl.dataset.scrollActive) this.activateMesh(_id, true);
+            },250)
             this.meshMouseListeners(newMesh, material);
 
         });
@@ -352,8 +359,6 @@ let Canvas = {
 
         let _id = _meshId ? _meshId : `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
         _img.dataset.meshId = _id;
-
-        // console.log("_img.src" , _img.src)
 
         let texture = new THREE.TextureLoader().load( _img.src );
         texture.needsUpdate = true;
@@ -395,10 +400,10 @@ let Canvas = {
         this.imageStore.push(newMesh);
 
         setTimeout(() => {
-            if(!_img.dataset.scrollActive) this.activateImage(_id, true);
+            if(!_img.dataset.scrollActive) this.activateMesh(_id, true);
         },250)
 
-        this.setImageMeshPositions();
+        this._setMeshPositions();
         if(_mouseListeners)
         this.meshMouseListeners(newMesh, material);
     },
@@ -471,7 +476,7 @@ let Canvas = {
         //animate on scroll
         if( this.scrollInProgress){
             this.customPass.uniforms.scrollSpeed.value = this.scroll.speedTarget;
-            this.setImageMeshPositions();
+            this._setMeshPositions();
         }
 
         //animate on hover

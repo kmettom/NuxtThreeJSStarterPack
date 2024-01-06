@@ -57,6 +57,11 @@ const welcomeFinished = () => {
 
 @import "assets/scss/style";
 
+.headline{
+  font-size: 100px;
+  font-family: 'PP Formula Black', sans-serif;
+}
+
 #scrollContainer{
   position: fixed;
   height: 100%;

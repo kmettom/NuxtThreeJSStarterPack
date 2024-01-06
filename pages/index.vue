@@ -5,7 +5,7 @@
     </NuxtLink>
     <h1 class="headline">
       <CanvasText :meshId="'headline-1'" :shader="'example1'">
-        SHOWCASE
+        Showcase
       </CanvasText>
     </h1>
 
@@ -135,11 +135,6 @@ watch(
   font-weight: 800;
   font-display: swap;
   src: url('public/font/PPFormula-CondensedBlack.ttf') format('truetype');
-}
-
-.headline{
-  font-size:150px;
-  font-family: 'PP Formula Black', sans-serif;
 }
 
 .inline-example {
