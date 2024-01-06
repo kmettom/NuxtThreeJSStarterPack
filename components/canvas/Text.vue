@@ -20,7 +20,10 @@ onMounted(async () => {
   let innerHTML = html.value?.innerHTML;
   //remove nuxt slot comment from innerHTML, only once
   if(innerHTML.includes('<!--]-->')) innerHTML = innerHTML.slice(0, innerHTML.indexOf('<!--]-->')).slice(innerHTML.indexOf('<!--[-->') + 9);
-  Canvas.addTextAsMSDF( props.shader, props.meshId, html.value, innerHTML )
+  // delay canvas initialization to wait for font loaded
+  setTimeout(() => {
+    Canvas.addTextAsMSDF( props.shader, props.meshId, html.value, innerHTML )
+  },50)
 })
 
 watch(() => props.textHover, (_status) => {
@@ -36,8 +39,7 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 
 span{
-  opacity: 0.3;
-  color: red;
+  opacity: 0;
 }
 
 img {
