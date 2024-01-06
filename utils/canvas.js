@@ -26,8 +26,8 @@ import example1Vertex from './shaders/example1Vertex.glsl';
 import example2Fragment from './shaders/example2Fragment.glsl';
 import example2Vertex from './shaders/example2Vertex.glsl';
 
-import MSDFfragment from './shaders/MSDFfragment_test.glsl';
-import MSDFvertex from './shaders/MSDFvertex_test.glsl';
+import MSDFfragment from './shaders/MSDFfragment.glsl';
+import MSDFvertex from './shaders/MSDFvertex.glsl';
 
 const CanvasOptions = {
     scroll: {
@@ -302,7 +302,9 @@ let Canvas = {
                     hoverState: {value: 0},
                     aniIn: {value: 0},
                 },
+                // vertexShader: textVertex,
                 vertexShader: MSDFvertex,
+                // fragmentShader: textFragment,
                 fragmentShader: MSDFfragment,
             });
 
