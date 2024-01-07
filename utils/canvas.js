@@ -284,7 +284,7 @@ let Canvas = {
                     derivatives: false, //true,
                 },
                 uniforms: {
-                    uColor: { value: new THREE.Color(0x000000) },
+                    uColor: { value: new THREE.Color('#1b1818') },
                     // Common
                     uOpacity: { value: 1 },
                     uMap: { value: null },
@@ -292,19 +292,17 @@ let Canvas = {
                     uThreshold: { value: 0.05 },
                     uAlphaTest: { value: 0.01 },
                     // Strokes
-                    uStrokeColor: { value: new THREE.Color("#ff0000") },
+                    // uStrokeColor: { value: new THREE.Color("#ff0000") },
                     uStrokeOutsetWidth: { value: 0.0 },
-                    uStrokeInsetWidth: { value: 0.3 },
+                    uStrokeInsetWidth: { value: 0.3 }, //0.3
                     // new generic
-                    time: {value:0},
+                    time: {value:1},
                     // uImage: {value: texture},
-                    // vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
+                    vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
                     hoverState: {value: 0},
                     aniIn: {value: 0},
                 },
-                // vertexShader: textVertex,
                 vertexShader: MSDFvertex,
-                // fragmentShader: textFragment,
                 fragmentShader: MSDFfragment,
             });
 
@@ -315,7 +313,6 @@ let Canvas = {
 
             // const scaleCoefX = bounds.height / mesh.geometry._layout._height;
             const scaleCoefY = bounds.width / mesh.geometry._layout._width;
-            console.log('s-' , _text, scaleCoefY , bounds.width , mesh.geometry._layout._width)
 
             mesh.scale.set(1*scaleCoefY, -1*scaleCoefY, 1);
 

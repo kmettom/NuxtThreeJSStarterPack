@@ -13,6 +13,11 @@ uniform vec3 uStrokeColor;
 uniform float uStrokeOutsetWidth;
 uniform float uStrokeInsetWidth;
 
+//generic unifiorms
+uniform float time;
+uniform float hoverState;
+uniform float aniIn;
+
 // Utils: Median
 float median(float r, float g, float b) {
     return max(min(r, g), min(max(r, g), b));
@@ -24,7 +29,7 @@ void main() {
     vec3 s = texture2D(uMap, vUv).rgb;
 
     // Signed distance
-    float sigDist = median(s.r, s.g, s.b) - 0.5;
+    float sigDist = median(s.r, s.g, s.b) - 0.51;
 
     float afwidth = 1.4142135623730951 / 2.0;
 
@@ -56,11 +61,12 @@ void main() {
     if (alpha < uAlphaTest) discard;
 
     // Some animation
-//    alpha *= sin(uTime);
+    alpha *= sin(time);
 
     // Output: Common
 
-    vec4 filledFragColor = vec4(uColor, uOpacity * alpha);
+    vec4 filledFragColor = vec4(uColor, uOpacity*alpha*aniIn);
 
     gl_FragColor = filledFragColor;
+
 }

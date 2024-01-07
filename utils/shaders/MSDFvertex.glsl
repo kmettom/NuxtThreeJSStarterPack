@@ -31,11 +31,16 @@ varying float vWordIndex;
 
 varying float vLetterIndex;
 
+//generic unifiorms
+uniform float time;
+uniform float hoverState;
+uniform float aniIn;
+
 void main() {
     // Output
     vec4 mvPosition = vec4(position, 1.0);
     mvPosition = modelViewMatrix * mvPosition;
-    gl_Position = projectionMatrix * mvPosition;
+    gl_Position = projectionMatrix * mvPosition * aniIn;
 
     // Varyings
     vUv = uv;
