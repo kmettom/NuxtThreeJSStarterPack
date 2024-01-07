@@ -7,7 +7,11 @@ This is a starter template for Nuxt 3 with ThreeJS. It includes:
 - CanvasImage component
     - adds the loaded image to Scene's Mesh
     - applies the defined shaders
-    - hover and appear animation are implemented
+    - hover and appear variables for shaders implemented
+- CanvasText component
+  - adds text to Scene's Mesh as MSDF font
+  - applies the defined shaders
+  - hover and appear variables for shaders are implemented
 - Scroll Speed directive
     - adjusts the scroll speed of element
     - automatically handles scroll difference for Scene's Mesh objects added through CanvasImage component
@@ -15,11 +19,11 @@ This is a starter template for Nuxt 3 with ThreeJS. It includes:
     - adds active class to element when it is in viewport
     - automatically includes appear animation for a Mesh object added through CanvasImage component
 
+
 Working example: https://nuxt-three-js-starter-pack.vercel.app
 
 Upcoming features 
 - Responsiveness management - easily turn on/off canvas animations depending on screen size
-- add text to mesh and apply shader (mouse or scroll interaction) as directive
 - side scroll sections
 
 ## Setup
