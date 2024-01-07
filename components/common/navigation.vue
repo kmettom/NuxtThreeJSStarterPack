@@ -22,12 +22,5 @@ onMounted(() => {
 </script>
 <style lang="scss">
 
-.ovp-navigation {
-  position: fixed;
-  z-index: 10;
-  display: block;
-  top: 0px;
-  left: 0px;
-}
 
 </style>

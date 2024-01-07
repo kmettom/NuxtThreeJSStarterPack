@@ -3,7 +3,11 @@
     <NuxtLink aria-label="Go To About" to="/about">
       Go To About
     </NuxtLink>
-    <h1 class="headline">Showcase</h1>
+    <h1 class="headline">
+      <CanvasText :meshId="'headline-1'" :shader="'example1'">
+        Showcase
+      </CanvasText>
+    </h1>
 
     <div class="section">
       <h2>Easily add images to Scene Mesh</h2>
@@ -102,7 +106,7 @@ const props = defineProps({
 });
 
 const pageAniIn = () => {
-  console.log('animate page in')
+  console.log('Example method - animate page transition')
 };
 
 onMounted(() => {
@@ -125,6 +129,13 @@ watch(
 
 <style lang="scss">
 
+@font-face {
+  font-family: 'PP Formula Black';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('public/font/PPFormula-CondensedBlack.ttf') format('truetype');
+}
 
 .inline-example {
   vertical-align: top;

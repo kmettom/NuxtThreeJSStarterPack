@@ -3,7 +3,11 @@
     <NuxtLink aria-label="Go To Showcase" to="/">
       Go To Showcase
     </NuxtLink>
-    <h1 class="headline">About</h1>
+    <h1 class="headline">
+      <CanvasText :meshId="'headline-2'" :shader="'example1'">
+        About
+      </CanvasText>
+    </h1>
     <p class="">
       This is a showcase of examples and usage of NuxtThreeJSStarterPack, Nuxt framework with implemented ThreeJS library.
     </p>
@@ -39,6 +43,7 @@ const props = defineProps({
 const hoverImage = ref(false);
 
 const pageAnimateIn = () => {
+  console.log('Example method - animate page transition')
 };
 
 onMounted(() => {

@@ -40,11 +40,11 @@ const imageLoaded = () => {
 };
 
 watch(() => props.imageHover, (_status) => {
-  Canvas.hoverImage(props.meshId, _status);
+  Canvas.hoverMesh(props.meshId, _status);
 });
 
 onBeforeUnmount(() => {
-  Canvas.removeImageMesh(props.meshId);
+  Canvas.removeMesh(props.meshId);
 });
 
 </script>

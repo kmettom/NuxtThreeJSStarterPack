@@ -116,7 +116,7 @@ export default class Scroll{
     Canvas.onActiveElCallback(item, _status);
 
     if(item.containedMeshId){
-      Canvas.activateImage(item.containedMeshId , _status);
+      Canvas.activateMesh(item.containedMeshId , _status);
     }
   }
 

@@ -1,5 +1,10 @@
 import { gsap } from "gsap";
 import * as THREE from 'three';
+
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { uniforms, MSDFTextGeometry, MSDFTextMaterial } from "three-msdf-text-utils";
+
 import Scroll from './scroll.js';
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -12,13 +17,17 @@ import scrollVertex from './shaders/scrollVertex.glsl';
 import defaultFragment from './shaders/defaultFragment.glsl';
 import defaultVertex from './shaders/defaultVertex.glsl';
 
+import textFragment from './shaders/textFragment.glsl';
+import textVertex from './shaders/textVertex.glsl';
+
 import example1Fragment from './shaders/example1Fragment.glsl';
 import example1Vertex from './shaders/example1Vertex.glsl';
 
 import example2Fragment from './shaders/example2Fragment.glsl';
 import example2Vertex from './shaders/example2Vertex.glsl';
 
-import { aniInExample } from "~/utils/animations";
+import MSDFfragment from './shaders/MSDFfragment.glsl';
+import MSDFvertex from './shaders/MSDFvertex.glsl';
 
 const CanvasOptions = {
     scroll: {
@@ -28,6 +37,8 @@ const CanvasOptions = {
     default: {
         fragmentShader: defaultFragment,
         vertexShader: defaultVertex,
+        textShader: textFragment,
+        textVertex: textVertex,
     },
     example1: {
         fragmentShader: example1Fragment,
@@ -54,13 +65,12 @@ let Canvas = {
     options : CanvasOptions,
     animations: {
         welcome: {},
-        curtain: {},
         cursorCallBack: () => {},
     },
     initScroll(){
         this.scroll = new Scroll({
             dom: this.scrollableContent,
-            activeCallback: this.activateImage,
+            activeCallback: this.activateMesh,
         });
     },
     setCanvasAndCamera(){
@@ -88,7 +98,6 @@ let Canvas = {
 
         this.setSize();
         this.composerPass();
-        this.curtainInit();
 
         this.setResizeListener()
 
@@ -101,7 +110,6 @@ let Canvas = {
             this.height = this.canvasContainer.offsetHeight;
 
             this.setSize();
-            this.animations.curtain.mesh.scale.set( window.innerWidth , 0 );
 
            this.resizeImageStore()
 
@@ -115,9 +123,9 @@ let Canvas = {
             this.imageStore[i].width = bounds.width;
             this.imageStore[i].height = bounds.height;
         }
-        this.setImageMeshPositions()
+        this._setMeshPositions()
     },
-    setImageMeshPositions(){
+    _setMeshPositions(){
         if(!this.imageStore) return;
         for (var i = 0; i < this.imageStore.length ; i++) {
             this.imageStore[i].mesh.position.x = ( this.imageStore[i].img.getBoundingClientRect().left - this.width/2 + this.imageStore[i].width/2);
@@ -125,7 +133,7 @@ let Canvas = {
         }
     },
 
-    hoverImage(_id, _state) {
+    hoverMesh(_id, _state) {
         const mesh = this.scene.getObjectByName(_id);
         if(!mesh) return;
         gsap.to(mesh.material.uniforms.hoverState , {
@@ -134,7 +142,7 @@ let Canvas = {
         })
     },
 
-    activateImage(_id, _state) {
+    activateMesh(_id, _state) {
         const mesh = this.scene.getObjectByName(_id);
         gsap.to(mesh.material.uniforms.aniIn , {
             duration: 1.25,
@@ -212,7 +220,7 @@ let Canvas = {
         return el.dataset.meshId;
     },
 
-    removeImageMesh(_id){
+    removeMesh(_id){
         let toRemove = this.scene.getObjectByName(_id);
         if(!toRemove) return;
         this.scene.remove(toRemove);
@@ -229,6 +237,108 @@ let Canvas = {
         }
     },
 
+    addTextAsMSDF(_shader, _id, _htmlEl, _text){
+
+        let bounds = _htmlEl.getBoundingClientRect();
+        let position = { top : bounds.top , left: bounds.left};
+        position.top += this.currentScroll;
+
+        //*****************************
+        // MSDF
+        //*****************************
+
+        const fontUrl = '/font/PPFormula-CondensedBlack.fnt'
+        const atlasUrl = '/font/PPFormula-CondensedBlack.png'
+
+        const loadFontAtlas = (path) => {
+            return new Promise((resolve, reject) => {
+                const loader = new THREE.TextureLoader();
+                loader.load(path, resolve);
+            });
+        }
+
+        const loadFont = (path) => {
+            return new Promise((resolve, reject) => {
+                const loader = new FontLoader();
+                loader.load(path, resolve);
+            });
+        }
+
+        Promise.all([
+            loadFontAtlas(atlasUrl),
+            loadFont(fontUrl),
+        ]).then(([atlas, font]) => {
+
+            const geometry = new MSDFTextGeometry({
+                text: _text.replaceAll(' ' , ''),
+                font: font.data,
+            });
+
+            const material = new THREE.ShaderMaterial({
+                side: THREE.DoubleSide,
+                transparent: true,
+                defines: {
+                    IS_SMALL: false //false,
+                },
+                extensions: {
+                    derivatives: false, //true,
+                },
+                uniforms: {
+                    uColor: { value: new THREE.Color('#1b1818') },
+                    // Common
+                    uOpacity: { value: 1 },
+                    uMap: { value: null },
+                    // Rendering
+                    uThreshold: { value: 0.05 },
+                    uAlphaTest: { value: 0.01 },
+                    // Strokes
+                    // uStrokeColor: { value: new THREE.Color("#ff0000") },
+                    uStrokeOutsetWidth: { value: 0.0 },
+                    uStrokeInsetWidth: { value: 0.3 }, //0.3
+                    // new generic
+                    time: {value:1},
+                    // uImage: {value: texture},
+                    vectorVNoise: {value: new THREE.Vector2( 1.5 , 1.5 )}, // 1.5
+                    hoverState: {value: 0},
+                    aniIn: {value: 0},
+                },
+                vertexShader: MSDFvertex,
+                fragmentShader: MSDFfragment,
+            });
+
+            material.uniforms.uMap.value = atlas;
+
+            let mesh = new THREE.Mesh(geometry, material);
+            mesh.name = _id;
+
+            // const scaleCoefX = bounds.height / mesh.geometry._layout._height;
+            const scaleCoefY = bounds.width / mesh.geometry._layout._width;
+
+            mesh.scale.set(1*scaleCoefY, -1*scaleCoefY, 1);
+
+            this.scene.add(mesh)
+
+            const newMesh = {
+                name: _id,
+                img: _htmlEl,
+                mesh: mesh,
+                top: position.top,
+                left: position.left,
+                width: 0, //bounds.width,
+                height: bounds.height * 1.43 // bounds.height,
+            }
+
+            this.imageStore.push(newMesh);
+
+            this._setMeshPositions();
+
+            setTimeout(() => {
+                if(!_htmlEl.dataset.scrollActive) this.activateMesh(_id, true);
+            },250)
+            this.meshMouseListeners(newMesh, material);
+
+        });
+    },
     addImageAsMesh(_img, _shader, _meshId, _mouseListeners) {
 
         let fragmentShader= this.options.default.fragmentShader;
@@ -245,9 +355,6 @@ let Canvas = {
         position.top += this.currentScroll;
 
         geometry = new THREE.PlaneGeometry( 1, 1 );
-        // geometry = new THREE.PlaneGeometry( bounds.width , bounds.height );
-        // const geometry = new THREE.PlaneGeometry( 1, 1);
-
 
         let _id = _meshId ? _meshId : `meshImage_${ _shader || "default" }_${this.imageStore.length}`;
         _img.dataset.meshId = _id;
@@ -292,41 +399,12 @@ let Canvas = {
         this.imageStore.push(newMesh);
 
         setTimeout(() => {
-            if(!_img.dataset.scrollActive) this.activateImage(_id, true);
+            if(!_img.dataset.scrollActive) this.activateMesh(_id, true);
         },250)
 
-        this.setImageMeshPositions();
+        this._setMeshPositions();
         if(_mouseListeners)
         this.meshMouseListeners(newMesh, material);
-    },
-
-curtainInit(){
-    const geometry = new THREE.PlaneGeometry( 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: '#172d4a' });
-    const rectangle = new THREE.Mesh(geometry, material);
-    rectangle.name = 'curtain'
-
-    this.animations.curtain.settings = {
-        position: - window.innerHeight / 2,
-    }
-    rectangle.position.set(0,this.animations.curtain.settings.position)
-    rectangle.scale.set(window.innerWidth ,1)
-    this.scene.add(rectangle);
-    this.animations.curtain.mesh = this.scene.getObjectByName(rectangle.name);
-},
-
-    curtainAnimation(_duration, _direction){
-
-        this.animations.curtain.settings = {
-            fullScreenPercent: 0.3,
-            start: 1 ,
-            duration: _duration / 2,
-            position: - window.innerHeight / 2,
-            current: 0,
-            end: window.innerHeight,
-        }
-
-        this.animations.curtain.active = true;
     },
 
     meshMouseListeners(_mesh, _material) {
@@ -384,44 +462,6 @@ curtainInit(){
         } , _delay)
     },
 
-    curtainAnimationRender(currentTime) {
-
-            if (!this.animations.curtain.settings.startTime) {
-                this.animations.curtain.settings.startTime = currentTime;
-            }
-            let currentStep = this.animations.curtain.settings.current
-
-            const elapsed = currentTime - this.animations.curtain.settings.startTime;
-            const progressReal = Math.min(elapsed / this.animations.curtain.settings.duration, 1)
-            let progressRender;
-
-            const valAniUp = 0.5 - this.animations.curtain.settings.fullScreenPercent / 2
-            const valAniDown = 0.5 + this.animations.curtain.settings.fullScreenPercent / 2
-            if(progressReal <= valAniUp ){
-                progressRender =  progressReal / valAniUp * 0.5
-            }else if(progressReal > valAniUp && progressReal < valAniDown){
-                progressRender = 0.5
-            }else if(progressReal >= valAniDown){
-                progressRender = (( progressReal - valAniDown) / valAniUp * 0.5) + 0.5
-            }
-
-            this.animations.curtain.settings.current = progressRender * this.animations.curtain.settings.end;
-
-            this.animations.curtain.mesh.position.set(0, this.animations.curtain.settings.position + currentStep )
-
-            if( progressRender < 0.5 ){
-                this.animations.curtain.mesh.scale.set( window.innerWidth, currentStep * 2);
-            }else {
-                let reverseStep = currentStep - this.animations.curtain.settings.end
-                this.animations.curtain.mesh.scale.set( window.innerWidth, reverseStep * 2 );
-            }
-            if(progressRender == 1) {
-                this.animations.curtain.mesh.position.set( 0 , this.animations.curtain.settings.end )
-                this.animations.curtain.mesh.scale.set( window.innerWidth, 0 );
-                this.animations.curtain.active = false;
-            }
-
-    },
 
     render(currentTime) {
         this.animations.cursorCallBack()
@@ -435,7 +475,7 @@ curtainInit(){
         //animate on scroll
         if( this.scrollInProgress){
             this.customPass.uniforms.scrollSpeed.value = this.scroll.speedTarget;
-            this.setImageMeshPositions();
+            this._setMeshPositions();
         }
 
         //animate on hover
@@ -443,9 +483,6 @@ curtainInit(){
             this.materials[i].uniforms.time.value = this.time;
         }
 
-        if(this.animations.curtain.active) {
-           this.curtainAnimationRender(currentTime);
-        }
         this.composer.render()
 
         try {
