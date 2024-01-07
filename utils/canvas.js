@@ -1,9 +1,10 @@
 import { gsap } from "gsap";
 import * as THREE from 'three';
 
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import { uniforms, MSDFTextGeometry, MSDFTextMaterial } from "three-msdf-text-utils";
+import pkg from 'three-msdf-text-utils';
+// fix for CommonJS import deployment break
+const { MSDFTextGeometry } = pkg;
 
 import Scroll from './scroll.js';
 
