@@ -3,7 +3,7 @@
   "description": "Starter pack for Nuxt.js and Three.js with developed animation features",
   "version": "1.0.0",
   "engines": {
-    "node": "20.x"
+    "node": "18.x"
   },
   "private": true,
   "scripts": {
