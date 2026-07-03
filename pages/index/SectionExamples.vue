@@ -27,10 +27,6 @@
           </div>
 
           <div
-            v-set-data-attributes="{
-              cursorsize: 55,
-              cursoropacity: 0.9,
-            }"
             class="example-wrapper"
             @mouseenter="example1Hover = true"
             @mouseleave="example1Hover = false"
@@ -94,7 +90,7 @@
               <div class="code-example-wrapper">
                 <p class="example-txt">
                   Scroll speed: {{ example3Speed }}
-                  <span class="scroll-speed-ani" />
+                  <span ref="scrollSpeedAniEl" class="scroll-speed-ani" />
                 </p>
                 <img
                   v-canvas3-image="{
@@ -120,29 +116,29 @@
                 </CodeSnippet>
               </div>
             </div>
-            <div class="example-4 example-wrapper">
+            <div
+                v-action-on-scroll="{
+                  activeRange: 1,
+                  scrollSpeedSetTo: { value: 0.3, duration: 0 },
+                }"
+                class="example-4 example-wrapper">
               <!--              xxx1-->
               <div
-                v-action-on-scroll="{
+                  v-action-on-scroll="{
                   activeRange: 0.7,
-                  activateCallback: (item: ScrollActionBinding) => {
-                    const el = item.elNode.querySelector(
-                      '.example-activate-txt',
-                    );
-                    if (!el) return;
-                    const tl = gsap.timeline();
-                    tl.to(el, { x: -10, opacity: 1, duration: 0.5 });
-                    tl.to(el, { x: 0, opacity: 0, duration: 0.5 });
-                    uAniInExample4ValueTo(1);
+                  activateCallback: () => {
+                    console.log('activateCallback');
+                    example4Activate();
                   },
                   deactivateCallback: (item) => {
-                    uAniInExample4ValueTo(0);
+                    console.log('deactivateCallback');
+                    example4Deactivate()
                   },
                 }"
               >
                 <p class="example-txt">
                   Set Scroll speed of elements
-                  <span class="example-activate-txt">Activated 👋</span>
+                  <span ref="exampleActivateTxtEl" class="example-activate-txt">Activated 👋</span>
                 </p>
                 <img
                   v-canvas3-image="{
@@ -223,16 +219,29 @@ import type { ScrollActionBinding } from "../../../canvas3-nuxt/dist/runtime/typ
 
 const example1Hover = ref(false);
 const example3Speed = ref(0);
-const uAniInExample4Value = ref(0);
+const uAniInExample4Value = ref(0)
 const example2Hover = ref(false);
+const scrollSpeedAniEl = ref<HTMLElement | null>(null)
+const exampleActivateTxtEl = ref<HTMLElement | null>(null)
+
+const example4Activate = () => {
+  const tl = gsap.timeline();
+  tl.to(exampleActivateTxtEl.value, { x: -10, opacity: 1, duration: 0.5 });
+  tl.to(exampleActivateTxtEl.value, { x: 0, opacity: 0, duration: 0.5 });
+  uAniInExample4ValueTo(1);
+}
+
+const example4Deactivate = () => {
+  uAniInExample4ValueTo(0)
+}
 
 const uAniInExample4ValueTo = (value: number) => {
-  gsap.to(uAniInExample4Value, { duration: 0.5, value: value });
+  uAniInExample4Value.value = value;
 };
 
-const example3ScrollCallback = (item: ScrollActionBinding, speed: number) => {
-  example3Speed.value = speed;
-  gsap.to(item.elNode.querySelector(".scroll-speed-ani"), {
+const example3ScrollCallback = (item:any,speed: number) => {
+  // example3Speed.value = speed;
+  gsap.to(scrollSpeedAniEl.value, {
     width: `${speed * 100}%`,
     duration: 0.1,
   });
