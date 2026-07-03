@@ -2,10 +2,8 @@
   <div class="">
     <Container>
       <h2 class="heading-2">
-        <span v-action-on-scroll="{ activeRange: 0.9, activateOnce: true }">
-          <!--          <Canvas3Text :theme="'light'"> EXAMPLES </Canvas3Text>-->
-          EXAMPLES
-        </span>
+        <!--        v-action-on-scroll="{ activeRange: 0.9, activateOnce: true }"-->
+        <span> EXAMPLES </span>
       </h2>
       <div>
         <div class="examples-row">
@@ -84,7 +82,6 @@
             <div
               v-action-on-scroll="{
                 activeRange: 0.9,
-                activateOnce: false,
                 onScrollCallback: (
                   item: ScrollActionBinding,
                   speed: number,
@@ -116,7 +113,6 @@
                 <CodeSnippet>
                   v-action-on-scroll="{ <br />
                   &nbsp;&nbsp;activeRange: 0.9,<br />
-                  &nbsp;&nbsp;activateOnce: false,<br />
                   &nbsp;&nbsp;onScrollCallback: (item, speed) => {
                   <br />
                   &nbsp;&nbsp;&nbsp;&nbsp;// do something on scroll<br />
@@ -124,43 +120,50 @@
                 </CodeSnippet>
               </div>
             </div>
-            <div
-              v-action-on-scroll="{
-                activeRange: 0.2,
-                activateOnce: false,
-                scrollSpeedSetTo: { value: 0.3, duration: 0 },
-                bidirectionalActivation: true,
-                activateCallback: (item: ScrollActionBinding) => {
-                  const el = item.elNode.querySelector('.example-activate-txt');
-                  const tl = gsap.timeline();
-                  tl.to(el, { x: -10, opacity: 1, duration: 0.5 });
-                  tl.to(el, { x: 0, opacity: 0, duration: 0.5 });
-                },
-              }"
-              class="example-4 example-wrapper"
-            >
-              <p class="example-txt">
-                Set Scroll speed of elements
-                <span class="example-activate-txt">Activated 👋</span>
-              </p>
-              <!--                  TODO:-->
-              <!--              activateMeshUniforms refactor in Module Canvas3-->
-              <img
-                v-canvas3-image="{
-                  shaderName: 'example4',
-                  activateMeshUniforms: {
-                    uAniInExample4: { duration: 0, value: 1, ease: 'linear' },
+            <div class="example-4 example-wrapper">
+              <!--              xxx1-->
+              <div
+                v-action-on-scroll="{
+                  activeRange: 0.7,
+                  activateCallback: (item: ScrollActionBinding) => {
+                    const el = item.elNode.querySelector(
+                      '.example-activate-txt',
+                    );
+                    if (!el) return;
+                    const tl = gsap.timeline();
+                    tl.to(el, { x: -10, opacity: 1, duration: 0.5 });
+                    tl.to(el, { x: 0, opacity: 0, duration: 0.5 });
+                    uAniInExample4ValueTo(1);
+                  },
+                  deactivateCallback: (item) => {
+                    uAniInExample4ValueTo(0);
                   },
                 }"
-                :src="'/images/04.JPG'"
-                alt="sky"
-              />
+              >
+                <p class="example-txt">
+                  Set Scroll speed of elements
+                  <span class="example-activate-txt">Activated 👋</span>
+                </p>
+                <img
+                  v-canvas3-image="{
+                    shaderName: 'example4',
+                    activateMeshUniforms: {
+                      uAniInExample4: {
+                        duration: 0,
+                        value: uAniInExample4Value,
+                        ease: 'linear',
+                      },
+                    },
+                  }"
+                  :src="'/images/04.JPG'"
+                  alt="sky"
+                />
+              </div>
               <CodeSnippet>
                 v-action-on-scroll="{ <br />
                 &nbsp;&nbsp;activeRange: 0.7,<br />
                 &nbsp;&nbsp;scrollSpeedSetTo: { value: 0.3 },<br />
                 &nbsp;&nbsp;bidirectionalActivation: true,<br />
-                &nbsp;&nbsp;activateOnce: false,<br />
                 &nbsp;&nbsp;activateCallback: (item, speed) => {
                 <br />
                 &nbsp;&nbsp;&nbsp;&nbsp;// do something when activated<br />
@@ -190,6 +193,7 @@
                         ease: 'linear',
                       },
                     },
+                    shaderName: 'example1',
                   }"
                   :src="'/images/01.JPG'"
                   alt="building"
@@ -219,7 +223,12 @@ import type { ScrollActionBinding } from "../../../canvas3-nuxt/dist/runtime/typ
 
 const example1Hover = ref(false);
 const example3Speed = ref(0);
+const uAniInExample4Value = ref(0);
 const example2Hover = ref(false);
+
+const uAniInExample4ValueTo = (value: number) => {
+  gsap.to(uAniInExample4Value, { duration: 0.5, value: value });
+};
 
 const example3ScrollCallback = (item: ScrollActionBinding, speed: number) => {
   example3Speed.value = speed;
