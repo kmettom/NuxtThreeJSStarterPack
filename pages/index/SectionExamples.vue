@@ -250,7 +250,6 @@ const example4Deactivate = () => {
 const uAniInExample4ValueTo = (value: number) => {
   uAniInExample4Value.value = value;
 };
-
 </script>
 
 <style lang="scss" scoped>
