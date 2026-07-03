@@ -76,15 +76,7 @@
           </p>
           <div class="examples-row">
             <div
-              v-action-on-scroll="{
-                activeRange: 0.9,
-                onScrollCallback: (
-                  item: ScrollActionBinding,
-                  speed: number,
-                ) => {
-                  example3ScrollCallback(item, speed);
-                },
-              }"
+              v-action-on-scroll="example3ScrollOptions"
               class="example-wrapper"
             >
               <div class="code-example-wrapper">
@@ -117,28 +109,16 @@
               </div>
             </div>
             <div
-                v-action-on-scroll="{
-                  activeRange: 1,
-                  scrollSpeedSetTo: { value: 0.3, duration: 0 },
-                }"
-                class="example-4 example-wrapper">
+              v-action-on-scroll="example4OuterOptions"
+              class="example-4 example-wrapper"
+            >
               <!--              xxx1-->
-              <div
-                  v-action-on-scroll="{
-                  activeRange: 0.7,
-                  activateCallback: () => {
-                    console.log('activateCallback');
-                    example4Activate();
-                  },
-                  deactivateCallback: (item) => {
-                    console.log('deactivateCallback');
-                    example4Deactivate()
-                  },
-                }"
-              >
+              <div v-action-on-scroll="example4InnerOptions">
                 <p class="example-txt">
                   Set Scroll speed of elements
-                  <span ref="exampleActivateTxtEl" class="example-activate-txt">Activated 👋</span>
+                  <span ref="exampleActivateTxtEl" class="example-activate-txt"
+                    >Activated 👋</span
+                  >
                 </p>
                 <img
                   v-canvas3-image="{
@@ -219,33 +199,58 @@ import type { ScrollActionBinding } from "../../../canvas3-nuxt/dist/runtime/typ
 
 const example1Hover = ref(false);
 const example3Speed = ref(0);
-const uAniInExample4Value = ref(0)
+const uAniInExample4Value = ref(0);
 const example2Hover = ref(false);
-const scrollSpeedAniEl = ref<HTMLElement | null>(null)
-const exampleActivateTxtEl = ref<HTMLElement | null>(null)
+const scrollSpeedAniEl = ref<HTMLElement | null>(null);
+const exampleActivateTxtEl = ref<HTMLElement | null>(null);
+
+const onExample3Scroll = (item: ScrollActionBinding, speed: number) => {
+  example3Speed.value = speed;
+  gsap.to(scrollSpeedAniEl.value, {
+    width: `${speed * 100}%`,
+    duration: 0.1,
+  });
+};
+
+const onExample4Activate = () => {
+  example4Activate();
+};
+
+const onExample4Deactivate = () => {
+  example4Deactivate();
+};
+
+const example3ScrollOptions = computed(() => ({
+  activeRange: 0.9,
+  onScrollCallback: onExample3Scroll,
+}));
+
+const example4OuterOptions = {
+  activeRange: 1,
+  scrollSpeedSetTo: { value: 0.3, duration: 0 },
+};
+
+const example4InnerOptions = {
+  activeRange: 0.7,
+  activateCallback: onExample4Activate,
+  deactivateCallback: onExample4Deactivate,
+};
 
 const example4Activate = () => {
   const tl = gsap.timeline();
   tl.to(exampleActivateTxtEl.value, { x: -10, opacity: 1, duration: 0.5 });
   tl.to(exampleActivateTxtEl.value, { x: 0, opacity: 0, duration: 0.5 });
   uAniInExample4ValueTo(1);
-}
+};
 
 const example4Deactivate = () => {
-  uAniInExample4ValueTo(0)
-}
+  uAniInExample4ValueTo(0);
+};
 
 const uAniInExample4ValueTo = (value: number) => {
   uAniInExample4Value.value = value;
 };
 
-const example3ScrollCallback = (item:any,speed: number) => {
-  // example3Speed.value = speed;
-  gsap.to(scrollSpeedAniEl.value, {
-    width: `${speed * 100}%`,
-    duration: 0.1,
-  });
-};
 </script>
 
 <style lang="scss" scoped>
