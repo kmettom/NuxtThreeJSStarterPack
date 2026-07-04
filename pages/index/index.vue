@@ -1,42 +1,42 @@
 <template>
   <div>
     <div
-      v-action-on-scroll="setSectionActivationOptions('home', false)"
+      v-canvas3-scroll-action="setSectionActivationOptions('home', false)"
       class="page-section"
       data-nav-id="home"
     >
       <SectionHero />
     </div>
     <div
-      v-action-on-scroll="setSectionActivationOptions('about', false)"
+      v-canvas3-scroll-action="setSectionActivationOptions('about', false)"
       class="page-section"
       data-nav-id="about"
     >
       <SectionAbout />
     </div>
     <div
-      v-action-on-scroll="setSectionActivationOptions('examples', false)"
+      v-canvas3-scroll-action="setSectionActivationOptions('examples', false)"
       class="page-section"
       data-nav-id="examples"
     >
       <SectionExamples />
     </div>
     <div
-      v-action-on-scroll="setSectionActivationOptions('playground', true)"
+      v-canvas3-scroll-action="setSectionActivationOptions('playground', true)"
       class="page-section"
       data-nav-id="playground"
     >
       <SectionPlayground />
     </div>
     <div
-      v-action-on-scroll="setSectionActivationOptions('roadmap', true)"
+      v-canvas3-scroll-action="setSectionActivationOptions('roadmap', true)"
       class="page-section"
       data-nav-id="roadmap"
     >
       <SectionRoadmap />
     </div>
     <div
-      v-action-on-scroll="setSectionActivationOptions('contact', true)"
+      v-canvas3-scroll-action="setSectionActivationOptions('contact', true)"
       class="page-section"
       data-nav-id="contact"
     >

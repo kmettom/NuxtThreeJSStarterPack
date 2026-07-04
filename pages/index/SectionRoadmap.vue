@@ -4,23 +4,17 @@
       <h2 class="body-s about-headline">Road map</h2>
       <div class="body-l">
         <p
-          v-action-on-scroll="{
+          v-canvas3-scroll-action="{
             activeRange: 0.85,
             activateOnce: true,
             activateCallback: textAniCallback,
           }"
           class="roadmap-txt"
         >
-          → Canvas initiation improvements<br />
-          → 3D model imports<br />
-          <!--          → Responsiveness management - improve Display store<br />-->
-          → Enable/Disable canvas animations dynamically<br />
-          <!--          → Side scroll sections<br />-->
-          → Create Type for working with TypeScript<br />
-          → Canvas3Text MSDF font implement<br />
-
-          <!--          → Create SDK for generic usage<br />-->
-          <!--          → Refactor to Typescript <br/>-->
+          → 3D model imports and scroll 3D object scroll control and 3D object
+          story telling<br />
+          → Dynamic page section position - Fixed, Side scroll sections<br />
+          → Canvas3Text MSDF font directive<br />
         </p>
       </div>
     </Container>

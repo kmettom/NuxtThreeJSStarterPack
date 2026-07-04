@@ -2,7 +2,9 @@
   <div class="playground-section">
     <Container>
       <h2 class="heading-2">
-        <span v-action-on-scroll="{ activeRange: 0.9, activateOnce: true }">
+        <span
+          v-canvas3-scroll-action="{ activeRange: 0.9, activateOnce: true }"
+        >
           <!--          <Canvas3Text :theme="'light'"> EXAMPLES </Canvas3Text>-->
           Playground
         </span>

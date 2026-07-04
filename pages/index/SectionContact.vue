@@ -5,12 +5,18 @@
         <div class="contact-line">
           <div class="heading-1">
             <span
-              v-action-on-scroll="{ activeRange: 0.99, activateOnce: true }"
+              v-canvas3-scroll-action="{
+                activeRange: 0.99,
+                activateOnce: true,
+              }"
             >
               <!--              <Canvas3Text :theme="'light'"> GET </Canvas3Text>-->
               GET
               <span
-                v-action-on-scroll="{ activeRange: 0.99, activateOnce: true }"
+                v-canvas3-scroll-action="{
+                  activeRange: 0.99,
+                  activateOnce: true,
+                }"
                 class="canvas-text-spacing"
               >
                 <!--                <Canvas3Text :theme="'light'"> IN </Canvas3Text>-->
@@ -19,7 +25,7 @@
             </span>
           </div>
           <div
-            v-action-on-scroll="{
+            v-canvas3-scroll-action="{
               activeRange: 0.85,
               activateOnce: true,
               activateCallback: (item: ScrollActionBinding) => {
@@ -45,7 +51,7 @@
         </div>
         <div class="contact-line align-right">
           <div
-            v-action-on-scroll="{
+            v-canvas3-scroll-action="{
               activeRange: 0.85,
               activateOnce: true,
               activateCallback: (item: ScrollActionBinding) => {
@@ -59,9 +65,9 @@
                 >Instagram</a
               >
             </div>
-            <div>
-              <a href="https://x.com/KmetTom" target="_blank">X (Twitter)</a>
-            </div>
+            <!--            <div>-->
+            <!--              <a href="https://x.com/KmetTom" target="_blank">X (Twitter)</a>-->
+            <!--            </div>-->
             <div>
               <a href="https://www.linkedin.com/in/tomas-kmet/" target="_blank"
                 >LinkedIn</a
@@ -77,7 +83,10 @@
           </div>
           <div class="heading-1">
             <span
-              v-action-on-scroll="{ activeRange: 0.99, activateOnce: true }"
+              v-canvas3-scroll-action="{
+                activeRange: 0.99,
+                activateOnce: true,
+              }"
             >
               <!--              <Canvas3Text :theme="'light'"> TOUCH </Canvas3Text>-->
               TOUCH
