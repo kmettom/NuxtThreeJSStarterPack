@@ -2,7 +2,7 @@
   <div class="">
     <Container>
       <h2 class="heading-2">
-        <!--        v-action-on-scroll="{ activeRange: 0.9, activateOnce: true }"-->
+        <!--        v-canvas3-scroll-action="{ activeRange: 0.9, activateOnce: true }"-->
         <span> EXAMPLES </span>
       </h2>
       <div>
@@ -76,7 +76,7 @@
           </p>
           <div class="examples-row">
             <div
-              v-action-on-scroll="example3ScrollOptions"
+              v-canvas3-scroll-action="example3ScrollOptions"
               class="example-wrapper"
             >
               <div class="code-example-wrapper">
@@ -99,7 +99,7 @@
                   alt="sky"
                 />
                 <CodeSnippet>
-                  v-action-on-scroll="{ <br />
+                  v-canvas3-scroll-action="{ <br />
                   &nbsp;&nbsp;activeRange: 0.9,<br />
                   &nbsp;&nbsp;onScrollCallback: (item, speed) => {
                   <br />
@@ -109,11 +109,11 @@
               </div>
             </div>
             <div
-              v-action-on-scroll="example4OuterOptions"
+              v-canvas3-scroll-action="example4OuterOptions"
               class="example-4 example-wrapper"
             >
               <!--              xxx1-->
-              <div v-action-on-scroll="example4InnerOptions">
+              <div v-canvas3-scroll-action="example4InnerOptions">
                 <p class="example-txt">
                   Set Scroll speed of elements
                   <span ref="exampleActivateTxtEl" class="example-activate-txt"
@@ -123,9 +123,9 @@
                 <img
                   v-canvas3-image="{
                     shaderName: 'example4',
-                    activateMeshUniforms: {
+                    uniforms: {
                       uAniInExample4: {
-                        duration: 0,
+                        duration: 0.35,
                         value: uAniInExample4Value,
                         ease: 'linear',
                       },
@@ -136,7 +136,7 @@
                 />
               </div>
               <CodeSnippet>
-                v-action-on-scroll="{ <br />
+                v-canvas3-scroll-action="{ <br />
                 &nbsp;&nbsp;activeRange: 0.7,<br />
                 &nbsp;&nbsp;scrollSpeedSetTo: { value: 0.3 },<br />
                 &nbsp;&nbsp;bidirectionalActivation: true,<br />
@@ -148,7 +148,7 @@
             </div>
             <div
               id="fixedParent"
-              v-action-on-scroll="{
+              v-canvas3-scroll-action="{
                 activeRange: 0.9,
                 fixToParent: {
                   containerId: 'fixedParent',
@@ -175,9 +175,13 @@
                   alt="building"
                 />
                 <CodeSnippet>
-                  v-action-on-scroll="{<br />
+                  v-canvas3-scroll-action="{<br />
                   &nbsp;&nbsp;activeRange: 0.9,<br />
-                  &nbsp;&nbsp;fixToParentId: 'fixedParent',<br />
+                  &nbsp;&nbsp;fixToParent: {<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;containerId: 'fixedParent',<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;fixPosition: 0,<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;margin: 0,<br />
+                  &nbsp;&nbsp;},<br />
                   }"
                 </CodeSnippet>
               </div>
@@ -212,14 +216,6 @@ const onExample3Scroll = (item: ScrollActionBinding, speed: number) => {
   });
 };
 
-const onExample4Activate = () => {
-  example4Activate();
-};
-
-const onExample4Deactivate = () => {
-  example4Deactivate();
-};
-
 const example3ScrollOptions = computed(() => ({
   activeRange: 0.9,
   onScrollCallback: onExample3Scroll,
@@ -232,23 +228,15 @@ const example4OuterOptions = {
 
 const example4InnerOptions = {
   activeRange: 0.7,
-  activateCallback: onExample4Activate,
-  deactivateCallback: onExample4Deactivate,
-};
-
-const example4Activate = () => {
-  const tl = gsap.timeline();
-  tl.to(exampleActivateTxtEl.value, { x: -10, opacity: 1, duration: 0.5 });
-  tl.to(exampleActivateTxtEl.value, { x: 0, opacity: 0, duration: 0.5 });
-  uAniInExample4ValueTo(1);
-};
-
-const example4Deactivate = () => {
-  uAniInExample4ValueTo(0);
-};
-
-const uAniInExample4ValueTo = (value: number) => {
-  uAniInExample4Value.value = value;
+  activateCallback: () => {
+    const tl = gsap.timeline();
+    tl.to(exampleActivateTxtEl.value, { x: -10, opacity: 1, duration: 0.5 });
+    tl.to(exampleActivateTxtEl.value, { x: 0, opacity: 0, duration: 0.5 });
+    uAniInExample4Value.value = 1;
+  },
+  deactivateCallback: () => {
+    uAniInExample4Value.value = 0;
+  },
 };
 </script>
 

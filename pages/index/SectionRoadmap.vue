@@ -4,9 +4,9 @@
       <h2 class="body-s about-headline">Road map</h2>
       <div class="body-l">
         <p
-          v-action-on-scroll="{
+          v-canvas3-scroll-action="{
             activeRange: 0.85,
-            activateOnce: true,
+            // activateOnce: true,
             activateCallback: textAniCallback,
           }"
           class="roadmap-txt"

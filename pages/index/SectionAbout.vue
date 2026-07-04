@@ -2,7 +2,7 @@
   <Container id="about" additional-class="about-section">
     <h2 class="body-s about-headline">About</h2>
     <div class="body-l">
-      <!--      v-action-on-scroll="{-->
+      <!--      v-canvas3-scroll-action="{-->
       <!--      activeRange: 0.85,-->
       <!--      activateOnce: true,-->
       <!--      activateCallback: textAniCallback,-->
@@ -10,7 +10,7 @@
       <p class="about-txt">
         Nuxt starter pack with integrated three.js canvas.
       </p>
-      <!--      v-action-on-scroll="{-->
+      <!--      v-canvas3-scroll-action="{-->
       <!--      activeRange: 0.85,-->
       <!--      activateOnce: true,-->
       <!--      activateCallback: textAniCallback,-->

@@ -3,7 +3,7 @@
 <template>
   <div
     id="credentials"
-    v-action-on-scroll="{
+    v-canvas3-scroll-action="{
       activeRange: 0.9,
       fixToParent: {
         containerId: 'credentials',
