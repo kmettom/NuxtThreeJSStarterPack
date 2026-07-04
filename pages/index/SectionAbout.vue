@@ -19,7 +19,10 @@
         <br />
         <h3>Features:</h3>
         <br />
-        <p>→ Layout component initializing Canvas3 with smooth scroll and ThreeJS scene initialization</p>
+        <p>
+          → Layout component initializing Canvas3 with smooth scroll and ThreeJS
+          scene initialization
+        </p>
         <p>→ Single RequestAnimationFrame loop for performance</p>
         <p>
           → On scroll directive for scroll interactions, scroll speed change and
