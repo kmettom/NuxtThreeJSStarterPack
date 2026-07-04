@@ -2,7 +2,11 @@
   <div class="page-container">
     <h1 class="heading-1 play-headline">Playground</h1>
     <div class="playground-projects">
-      <nuxt-link class="play-link" href="/playground/eth-blocks">
+      <nuxt-link
+        class="play-link"
+        href="/playground/eth-blocks"
+        target="_blank"
+      >
         <div
           class="play-1"
           @mouseenter="ethBlockHover = true"
@@ -43,10 +47,10 @@ import { pageTransition } from "~/utils/animations/pageTransition";
 import { onMounted } from "vue";
 
 useSeoMeta({
-  title: "Canvas3 - Playground",
-  ogTitle: "Canvas3 - Playground",
-  description: "Canvas3 - Playground",
-  ogDescription: "Canvas3 - Playground",
+  title: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
+  ogTitle: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
+  description: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
+  ogDescription: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
 });
 
 const navigationStore = useNavigationStore();
