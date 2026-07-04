@@ -6,7 +6,7 @@
         <p
           v-canvas3-scroll-action="{
             activeRange: 0.85,
-            // activateOnce: true,
+            activateOnce: true,
             activateCallback: textAniCallback,
           }"
           class="roadmap-txt"
