@@ -1,38 +1,45 @@
 <template>
   <Container id="about" additional-class="about-section">
     <h2 class="body-s about-headline">About</h2>
-    <div
-      class="body-l"
-      v-canvas3-scroll-action="{
-        activeRange: 0.85,
-        activateOnce: true,
-        activateCallback: textAniCallback,
-      }"
-    >
-      <div class="about-txt">
+    <div class="body-l">
+      <div
+        v-canvas3-scroll-action="{
+          activeRange: 0.85,
+          activateOnce: true,
+          activateCallback: textAniCallback,
+        }"
+        class="about-txt"
+      >
         Nuxt starter pack with integrated three.js canvas.
       </div>
       <br />
-      <h3 class="about-txt">Features:</h3>
-      <br />
-      <div class="about-txt">
+      <h3
+        v-canvas3-scroll-action="{
+          activeRange: 0.85,
+          activateOnce: true,
+          activateCallback: textAniCallback,
+        }"
+        class="about-txt"
+      >
+        Features:
+      </h3>
+      <div
+        v-canvas3-scroll-action="{
+          activeRange: 0.85,
+          activateOnce: true,
+          activateCallback: textAniCallback,
+        }"
+        class="about-txt"
+      >
         → Layout component initializing Canvas3 with smooth scroll and ThreeJS
-        scene initialization
-      </div>
-      <div class="about-txt">
-        → Single RequestAnimationFrame loop for performance
-      </div>
-      <div class="about-txt">
+        scene initialization<br />
+        → Single RequestAnimationFrame loop for performance<br />
         → On scroll directive for scroll interactions, scroll speed change and
-        set element to active state
-      </div>
-      <div class="about-txt">
+        set element to active state<br />
         → Image into ThreeJS mesh directive for easy imports of images to the
-        scene with scroll control and option to define uniforms
-      </div>
-      <p class="about-txt">
+        scene with scroll control and option to define uniforms<br />
         → Canvas3 function exports for full control of ThreeJS scene and scroll
-      </p>
+      </div>
     </div>
   </Container>
 </template>
@@ -47,14 +54,17 @@ import type { ScrollActionBinding } from "../../../canvas3-nuxt/dist/runtime/typ
 
 gsap.registerPlugin(SplitText);
 
-function textAniCallback(item: ScrollActionBinding) {
-  console.log("item", item);
-  const items = item.elNode.querySelectorAll(".about-txt");
-  if (!items) return;
+function textAniCallback(itemEl: ScrollActionBinding) {
+  const parent = itemEl.elNode;
+  if (!parent) return;
   const tl = gsap.timeline();
-  const wrappedLines = new SplitText(items, { type: "lines" }).lines;
-  tl.set(items, { opacity: 1, overflow: "hidden" });
-  tl.set(items, { opacity: 1, overflow: "hidden" });
+  const lines = new SplitText(parent, {
+    type: "lines",
+  }).lines;
+  const wrappedLines = new SplitText(lines, { type: "lines" }).lines;
+  tl.set(wrappedLines, { opacity: 0, y: 50 });
+  tl.set(parent, { opacity: 1, overflow: "hidden" });
+  tl.set(lines, { opacity: 1, overflow: "hidden" });
   tl.fromTo(
     wrappedLines,
     { y: 50, opacity: 1 },
@@ -85,7 +95,7 @@ function textAniCallback(item: ScrollActionBinding) {
   font-weight: lighter;
 }
 .about-txt {
-  //opacity: 0;
+  opacity: 0;
   @include respond-width($w-m) {
     margin-bottom: 10px;
   }
@@ -93,11 +103,13 @@ function textAniCallback(item: ScrollActionBinding) {
     margin-top: 10px;
     margin-bottom: 10px;
   }
+
   &.about-1 {
     margin-bottom: 30px;
   }
-  div {
+  div{
     opacity: 0;
+    overflow: hidden;
   }
 }
 </style>
