@@ -60,8 +60,10 @@ function textAniCallback(itemEl: ScrollActionBinding) {
   const tl = gsap.timeline();
   const lines = new SplitText(parent, {
     type: "lines",
+    aria: "none",
   }).lines;
-  const wrappedLines = new SplitText(lines, { type: "lines" }).lines;
+  const wrappedLines = new SplitText(lines, { type: "lines", aria: "none" })
+    .lines;
   tl.set(wrappedLines, { opacity: 0, y: 50 });
   tl.set(parent, { opacity: 1, overflow: "hidden" });
   tl.set(lines, { opacity: 1, overflow: "hidden" });
@@ -107,7 +109,7 @@ function textAniCallback(itemEl: ScrollActionBinding) {
   &.about-1 {
     margin-bottom: 30px;
   }
-  div{
+  div {
     opacity: 0;
     overflow: hidden;
   }
