@@ -12,7 +12,7 @@
           uniforms: imageUniforms,
           shaderName: 'hero',
         }"
-        :src="'/images/08.JPG'"
+        :src="'/images/08.webp'"
         alt="background wave on beach"
       />
     </div>
@@ -78,6 +78,7 @@ onMounted(() => {
   justify-content: center;
 }
 .hero-line-canvas {
+  //color: var(--light-color);
   color: var(--dark-color);
 }
 
