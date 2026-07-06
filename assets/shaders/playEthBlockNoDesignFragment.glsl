@@ -5,39 +5,11 @@ uniform sampler2D uImage;
 
 uniform float uAniInImage;   // 0..1 reveal progress
 
-uniform float uBlockColor;
-
 uniform vec2 uMeshSize;
 uniform vec2 uTextureSize;
 
-vec3 blockRampColor(float t) {
-    vec3 red      = vec3(82.0 / 255.0, 26.0 / 255.0, 12.0 / 255.0); // #521A0C
-    vec3 blue     = vec3(0.0745, 0.1216, 0.1569);
-    vec3 neutral  = vec3(0.5);
-
-    vec3 lightRed  = mix(red, neutral, 0.5);
-    vec3 lightBlue = mix(blue, neutral, 0.5);
-
-    t = clamp(t, 0.0, 1.0);
-
-    if (t < 0.35) return red;
-    if (t < 0.45) return lightRed;
-    if (t < 0.55) return neutral;
-    if (t < 0.65) return lightBlue;
-    return blue;
-}
-
-
-vec3 applyColor(vec3 color) {
-    vec3 tint = blockRampColor(uBlockColor);
-    float luma = dot(color, vec3(0.2126, 0.7152, 0.0722));
-    vec3 tinted = tint * luma;
-    return mix(color, tinted, 1.0);
-}
-
 // --- tiny hash for per-tile randomness ---
 float hash21(vec2 p) {
-    // stable pseudo-random [0..1]
     p = fract(p * vec2(123.34, 456.21));
     p += dot(p, p + 45.32);
     return fract(p.x * p.y);
@@ -60,36 +32,28 @@ void main() {
     vec4 tex = texture2D(uImage, uv);
 
     // --- TILE REVEAL MASK ---
-    // clamp blocks to avoid div-by-0 / nonsense
     float cols = clamp(5.0, 50.0, 200.0);
 
-    // keep tiles ~square in mesh space:
-    // if mesh is wide, we need fewer rows; if tall, more rows
     float meshAR = uMeshSize.x / max(uMeshSize.y, 1.0);
     float rows = max(1.0, floor(cols / meshAR));
 
     vec2 grid = vec2(cols, rows);
 
-    // which tile are we in?
     vec2 tileId = floor(uv * grid);
 
-    // normalize x position 0..1 across columns
-    float x01 = (tileId.x + 0.5) / grid.x;
+    float y01 = 1.0 - ((tileId.y + 0.5) / grid.y);
+//    float x01 = (tileId.x + 0.5) / grid.x;
 
-    // add a little jitter per tile (so blocks don't pop in perfectly synced)
     float rnd = hash21(tileId);
 
-    // reveal timing:
     float jitter = (rnd - 0.5) * 0.15;
     float w = 0.10;
-    float t0 = clamp(x01 + jitter, 0.0, 1.0 - w);
+    float t0 = clamp(y01 + jitter, 0.0, 1.0 - w);
 
-    // progress drives the reveal
     float tileMask = smoothstep(t0, t0 + w, clamp(uAniInImage, 0.0, 1.0));
 
-    // --- your color grading ---
-    vec3 color = applyColor(tex.rgb);
+    // original image color
+    vec3 color = tex.rgb;
 
-    // final alpha = tileMask (this is the actual reveal)
     gl_FragColor = vec4(color, tex.a * tileMask);
 }

@@ -117,6 +117,7 @@ watch(
 }
 
 .navigation-items {
+  padding: 10px 15px 10px 0;
   display: flex;
   flex-direction: column;
   text-align: right;
