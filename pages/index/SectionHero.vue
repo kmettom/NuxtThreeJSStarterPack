@@ -56,19 +56,16 @@ onMounted(() => {
 <style lang="scss" scoped>
 .hero-section-wrapper {
   position: relative;
-  @include respond-width($w-m-s) {
-    height: 100vh;
+  @include respond-width($w-s) {
+    height: 550px;
   }
 }
 .hero-section {
   padding: 16vh;
   position: relative;
   text-align: center;
-  @include respond-width($w-m-s) {
-    padding-top: 35vh;
-  }
-  @include respond-width($w-xs) {
-    padding: 35vh 0 0 0;
+  @include respond-width($w-s) {
+    padding: 200px 0 0 0;
   }
 }
 
