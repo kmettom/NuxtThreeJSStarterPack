@@ -22,19 +22,16 @@
           ethBlockImageAniIn = false;
         "
       >
-        <div>Enter playground with more examples and experiments 👉</div>
+        <div class="playground-link-txt">
+          Enter playground with more examples and experiments 👉
+        </div>
       </NuxtLink>
       <img
         v-canvas3-image="{
           uniforms: {
             uAniInImage: {
               value: ethBlockImageAniIn ? 1 : 0,
-              duration: 0.35,
-              ease: 'linear',
-            },
-            uBlockColor: {
-              value: 0.5,
-              duration: 0.5,
+              duration: ethBlockImageAniIn ? 0.35 : 0.15,
               ease: 'linear',
             },
             uHover: {
@@ -45,7 +42,7 @@
           },
           shaderName: 'playEthBlockNoDesign',
         }"
-        :src="`/images/01.webp`"
+        :src="`/images/04.webp`"
         alt=""
         class="play-block-image"
       />
@@ -71,7 +68,7 @@ const ethBlockImageAniIn = ref(false);
   position: relative;
   color: inherit;
   &:hover {
-    text-decoration: none;
+    //text-decoration: none;
   }
 }
 

@@ -13,7 +13,7 @@
               v-canvas3-image="{
                 shaderName: 'example1',
               }"
-              :src="'/images/01.JPG'"
+              :src="'/images/01.webp'"
               alt="building"
             />
             <CodeSnippet>
@@ -46,7 +46,7 @@
                 },
                 shaderName: 'example2',
               }"
-              :src="'/images/02.JPG'"
+              :src="'/images/02.webp'"
               alt="building"
             />
             <CodeSnippet>
@@ -95,7 +95,7 @@
                     },
                     shaderName: 'example3',
                   }"
-                  :src="'/images/03.JPG'"
+                  :src="'/images/03.webp'"
                   alt="sky"
                 />
                 <CodeSnippet>
@@ -131,7 +131,7 @@
                       },
                     },
                   }"
-                  :src="'/images/04.JPG'"
+                  :src="'/images/04.webp'"
                   alt="sky"
                 />
               </div>
@@ -171,7 +171,7 @@
                     },
                     shaderName: 'example1',
                   }"
-                  :src="'/images/01.JPG'"
+                  :src="'/images/01.webp'"
                   alt="building"
                 />
                 <CodeSnippet>

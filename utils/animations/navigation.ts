@@ -1,6 +1,6 @@
 import { gsap } from "gsap";
 
-function navigationItems(timeline) {
+function navigationItems(timeline: gsap.core.Timeline) {
   timeline.fromTo(
     ".navigation-item",
     {
@@ -35,7 +35,7 @@ export function navigationFirstEnter() {
   navigationItems(tl);
 }
 
-export function navigationShow(isVisible) {
+export function navigationShow(isVisible: boolean) {
   const tl = gsap.timeline();
   tl.to(".navigation-bar", {
     duration: 0.5,
