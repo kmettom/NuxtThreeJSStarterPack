@@ -32,7 +32,7 @@ const imageIn = ref(false);
 
 const imageUniforms = computed(() => {
   return {
-    uAniInImage: { value: imageIn.value ? 1 : 0, duration: 0.75, ease: "ease" },
+    uAniInImage: { value: imageIn.value ? 1 : 0, duration: 0.45, ease: "ease" },
   };
 });
 

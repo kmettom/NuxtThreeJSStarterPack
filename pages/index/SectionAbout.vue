@@ -9,27 +9,27 @@
         activateCallback: textAniCallback,
       }"
     >
-      <p class="about-txt">
+      <div class="about-txt">
         Nuxt starter pack with integrated three.js canvas.
-      </p>
+      </div>
       <br />
       <h3 class="about-txt">Features:</h3>
       <br />
-      <p class="about-txt">
+      <div class="about-txt">
         → Layout component initializing Canvas3 with smooth scroll and ThreeJS
         scene initialization
-      </p>
-      <p class="about-txt">
+      </div>
+      <div class="about-txt">
         → Single RequestAnimationFrame loop for performance
-      </p>
-      <p>
+      </div>
+      <div class="about-txt">
         → On scroll directive for scroll interactions, scroll speed change and
         set element to active state
-      </p>
-      <p class="about-txt">
+      </div>
+      <div class="about-txt">
         → Image into ThreeJS mesh directive for easy imports of images to the
         scene with scroll control and option to define uniforms
-      </p>
+      </div>
       <p class="about-txt">
         → Canvas3 function exports for full control of ThreeJS scene and scroll
       </p>

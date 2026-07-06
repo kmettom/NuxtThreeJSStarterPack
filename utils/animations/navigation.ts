@@ -18,7 +18,7 @@ function navigationItems(timeline: gsap.core.Timeline) {
 
 export function navigationFirstEnter() {
   const tl = gsap.timeline({
-    delay: 0.5,
+    delay: 0.2,
   });
   tl.fromTo(
     ".navigation-bar",
@@ -27,7 +27,7 @@ export function navigationFirstEnter() {
       opacity: 0,
     },
     {
-      duration: 0.3,
+      duration: 0.2,
       y: 0,
       opacity: 1,
     },
