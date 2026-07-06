@@ -26,12 +26,17 @@
     />
   </NuxtLayout>
   <!--  <Cursor />-->
-  <img
-    alt="hidden image for font"
-    loading="eager"
-    src="/font/PPFormula-CondensedBlack.png"
-    style="display: none"
-  />
+
+  <!--  **********************************-->
+  <!--  MSDF TEXT FONT LOAD-->
+  <!--  **********************************-->
+
+  <!--  <img-->
+  <!--    alt="hidden image for font"-->
+  <!--    loading="eager"-->
+  <!--    src="/fonts/PPFormula-CondensedBlack.png"-->
+  <!--    style="display: none"-->
+  <!--  />-->
 </template>
 <script setup>
 import { Canvas3Options } from "~/constants/canvas3-options";
@@ -46,7 +51,6 @@ useSeoMeta({
   ogTitle: "Web developer - Tomas Kmet - creative - web3",
   ogDescription: "Web developer - Tomas Kmet - creative - web3",
 });
-
 useHead({
   htmlAttrs: {
     lang: "en",
@@ -54,9 +58,9 @@ useHead({
   style: [
     {
       children: `
-      html {
-              background-color: #1b1818;
-            }
+html {
+  background-color: #1b1818;
+}
       `,
     },
   ],

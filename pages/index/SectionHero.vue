@@ -12,6 +12,7 @@
           uniforms: imageUniforms,
           shaderName: 'hero',
         }"
+        fetchPriority="high"
         :src="'/images/08.webp'"
         alt="background wave on beach"
       />

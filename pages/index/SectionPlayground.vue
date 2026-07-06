@@ -45,7 +45,7 @@
           },
           shaderName: 'playEthBlockNoDesign',
         }"
-        :src="`/images/01.JPG`"
+        :src="`/images/01.webp`"
         alt=""
         class="play-block-image"
       />
