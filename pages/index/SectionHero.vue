@@ -61,7 +61,7 @@ onMounted(() => {
   }
 }
 .hero-section {
-  padding: 20vh;
+  padding: 125px;
   position: relative;
   text-align: center;
   @include respond-width($w-s) {

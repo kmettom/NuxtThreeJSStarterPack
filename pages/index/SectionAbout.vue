@@ -10,16 +10,15 @@
         }"
         class="about-txt"
       >
-        Nuxt starter pack with integrated three.js canvas.
+        @Canvas3/nuxt is a Nuxt module available on NPM, allowing for easy integration of threejs, smoothscroll, scroll control and importing images to scene as mesh.
       </div>
-      <br />
       <h3
         v-canvas3-scroll-action="{
           activeRange: 0.85,
           activateOnce: true,
           activateCallback: textAniCallback,
         }"
-        class="about-txt"
+        class="about-txt features-headline"
       >
         Features:
       </h3>
@@ -113,5 +112,9 @@ function textAniCallback(itemEl: ScrollActionBinding) {
     opacity: 0;
     overflow: hidden;
   }
+}
+.features-headline{
+  padding-top: 25vh;
+  padding-bottom: 20px;
 }
 </style>
