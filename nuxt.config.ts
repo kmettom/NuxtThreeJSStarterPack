@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
   sourcemap: {
     client: true,
-    server: true,
+    server: false,
   },
   devtools: { enabled: true },
   routeRules: {},
