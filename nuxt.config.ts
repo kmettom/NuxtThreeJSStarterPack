@@ -8,6 +8,10 @@ export default defineNuxtConfig({
       // nothing here — keep the token private
     },
   },
+  sourcemap: {
+    client: true,
+    server: false,
+  },
   devtools: { enabled: true },
   routeRules: {},
   modules: [
