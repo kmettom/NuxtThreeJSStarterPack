@@ -10,7 +10,7 @@
         }"
         class="about-txt"
       >
-        @Canvas3/nuxt is a Nuxt module available on NPM, allowing for easy integration of threejs, smoothscroll, scroll control and importing images to scene as mesh.
+        Canvas3 is a Nuxt module, allowing for easy integration of threejs, smoothscroll and scroll control.
       </div>
       <h3
         v-canvas3-scroll-action="{
