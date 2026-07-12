@@ -44,6 +44,7 @@ import WelcomeScreen from "~/components/common/WelcomeScreen.vue";
 // import Cursor from "~/components/common/Cursor.vue";
 import { waitOutDone } from "~/composables/useOutPromise";
 import { pageTransition } from "~/utils/animations/pageTransition";
+import { useAnimationAssets } from "~/stores/animationAssets";
 
 useSeoMeta({
   title: "Web developer - Tomas Kmet - creative - web3",
@@ -80,6 +81,7 @@ const layout = "canvas3";
 const welcomeInit = ref(false);
 
 const displayStore = useDisplayStore();
+const animationAssets = useAnimationAssets();
 
 const onCanvas3Ready = () => {
   pageTransition.init();
@@ -89,9 +91,10 @@ const onCanvas3Ready = () => {
   }, 1000);
 };
 
-onMounted(() => {
+onMounted(async () => {
   welcomeInit.value = true;
   displayStore.init();
+  await animationAssets.init();
 });
 
 const contentActive = ref(false);

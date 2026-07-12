@@ -10,7 +10,8 @@
         }"
         class="about-txt"
       >
-        Canvas3 is a Nuxt module, allowing for easy integration of threejs, smoothscroll and scroll control.
+        Canvas3 is a Nuxt module, allowing for easy integration of threejs,
+        smoothscroll and scroll control.
       </div>
       <h3
         v-canvas3-scroll-action="{
@@ -113,7 +114,7 @@ function textAniCallback(itemEl: ScrollActionBinding) {
     overflow: hidden;
   }
 }
-.features-headline{
+.features-headline {
   padding-top: 25vh;
   padding-bottom: 20px;
 }
