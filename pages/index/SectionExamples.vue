@@ -13,7 +13,7 @@
               v-canvas3-image="{
                 shaderName: 'example1',
               }"
-              :src="'/images/01.webp'"
+              :src="'/images/02.webp'"
               alt="building"
             />
             <CodeSnippet>
@@ -40,7 +40,7 @@
                 uniforms: ex2ImageUniforms,
                 shaderName: 'example0',
               }"
-              :src="'/images/02.webp'"
+              :src="'/images/01.webp'"
               alt="building"
             />
             <CodeSnippet>
@@ -177,7 +177,7 @@
                     },
                     shaderName: 'example1',
                   }"
-                  :src="'/images/01.webp'"
+                  :src="'/images/02.webp'"
                   alt="building"
                 />
                 <CodeSnippet>
@@ -229,11 +229,11 @@ const ex2ImageUniforms = computed(() => {
   return {
     uAniInImage: {
       value: example1Hover.value ? 1 : 0,
-      duration: 0.5,
+      duration: 0.3,
       ease: "linear",
     },
     uTextureMaskNoise: { value: animationAssets.getTextureMaskNoise() },
-    uTexturePrevious: { value: animationAssets.getTextureDefaultBlack() },
+    uTexturePrevious: { value: animationAssets.getTextureDefaultImage() },
   };
 });
 
