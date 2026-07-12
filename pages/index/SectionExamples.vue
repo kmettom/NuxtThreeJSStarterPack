@@ -90,7 +90,7 @@
                         value: animationAssets.getTextureMaskNoise(),
                       },
                       uTexturePrevious: {
-                        value: animationAssets.getTextureDefaultBlack(),
+                        value: animationAssets.getTextureDefaultImage(),
                       },
                     },
                     shaderName: 'example0',

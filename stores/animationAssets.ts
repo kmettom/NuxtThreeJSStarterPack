@@ -5,16 +5,24 @@ export const useAnimationAssets = defineStore("animationAssets", {
   state: (): {
     textureMaskNoise: null | THREE.Texture;
     textureDefaultBlack: null | THREE.Texture;
+    textureDefaultImage: null | THREE.Texture;
   } => ({
     textureMaskNoise: null,
     textureDefaultBlack: null,
+    textureDefaultImage: null,
   }),
   actions: {
     async init() {
       const loader = new THREE.TextureLoader();
-      const texture = await loader.loadAsync(`images/textureMaskNoise.png`);
-      if (texture) {
-        this.textureMaskNoise = texture;
+      const textureMaskNoise = await loader.loadAsync(
+        `images/textureMaskNoise.png`,
+      );
+      if (textureMaskNoise) {
+        this.textureMaskNoise = textureMaskNoise;
+      }
+      const textureImage = await loader.loadAsync(`images/01.webp`);
+      if (textureImage) {
+        this.textureDefaultImage = textureImage;
       }
       this.textureDefaultBlack = new THREE.Texture();
     },
@@ -26,6 +34,11 @@ export const useAnimationAssets = defineStore("animationAssets", {
     getTextureDefaultBlack() {
       if (this.textureDefaultBlack !== null) {
         return this.textureDefaultBlack;
+      }
+    },
+    getTextureDefaultImage() {
+      if (this.textureDefaultImage !== null) {
+        return this.textureDefaultImage;
       }
     },
   },
