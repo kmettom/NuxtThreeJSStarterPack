@@ -29,7 +29,7 @@
       <img
         v-canvas3-image="{
           uniforms: {
-            uAniInImage: {
+            uTransition: {
               value: ethBlockImageAniIn ? 1 : 0,
               duration: ethBlockImageAniIn ? 0.35 : 0.15,
               ease: 'linear',

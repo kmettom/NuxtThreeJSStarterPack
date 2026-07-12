@@ -4,7 +4,7 @@ varying vec2 vUv;
 uniform sampler2D uImage;
 uniform sampler2D uTexturePrevious;
 uniform sampler2D uTextureMaskNoise;
-uniform float uAniInImage;
+uniform float uTransition;
 uniform vec2 uMeshSize;
 uniform vec2 uTextureSize;
 
@@ -38,8 +38,8 @@ void main()
 {
     vec2 uv = coverUv(vUv);
 
-    vec3 col = 0.5 + 0.5*cos(uAniInImage+uv.xyx+vec3(0, 2, 4));
-    float progress = uAniInImage;
+    vec3 col = 0.5 + 0.5*cos(uTransition+uv.xyx+vec3(0, 2, 4));
+    float progress = uTransition;
     float mask = texture(uTextureMaskNoise, uv).r;
 
     float stepMask = S(mask - progress);

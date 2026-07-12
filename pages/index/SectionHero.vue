@@ -35,7 +35,7 @@ const animationAssets = useAnimationAssets();
 
 const imageUniforms = computed(() => {
   return {
-    uAniInImage: { value: imageIn.value ? 1 : 0, duration: 0.45, ease: "ease" },
+    uTransition: { value: imageIn.value ? 1 : 0, duration: 0.45, ease: "ease" },
     uTextureMaskNoise: { value: animationAssets.getTextureMaskNoise() },
     uTexturePrevious: { value: animationAssets.getTextureMaskNoise() },
   };

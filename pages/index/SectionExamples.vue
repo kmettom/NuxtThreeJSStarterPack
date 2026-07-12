@@ -81,7 +81,7 @@
                 <img
                   v-canvas3-image="{
                     uniforms: {
-                      uAniInImage: {
+                      uTransition: {
                         value: example3Speed,
                         duration: 0,
                         ease: 'linear',
@@ -124,7 +124,7 @@
                   v-canvas3-image="{
                     shaderName: 'example0',
                     uniforms: {
-                      uAniInImage: {
+                      uTransition: {
                         duration: 0.35,
                         value: uAniInExample4Value,
                         ease: 'linear',
@@ -227,7 +227,7 @@ const animationAssets = useAnimationAssets();
 
 const ex2ImageUniforms = computed(() => {
   return {
-    uAniInImage: {
+    uTransition: {
       value: example1Hover.value ? 1 : 0,
       duration: 0.3,
       ease: "linear",
