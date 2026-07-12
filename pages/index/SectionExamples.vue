@@ -37,14 +37,8 @@
             </h3>
             <img
               v-canvas3-image="{
-                uniforms: {
-                  uHover: {
-                    value: example1Hover ? 1 : 0,
-                    duration: 0,
-                    ease: 'linear',
-                  },
-                },
-                shaderName: 'example2',
+                uniforms: ex2ImageUniforms,
+                shaderName: 'example0',
               }"
               :src="'/images/02.webp'"
               alt="building"
@@ -200,6 +194,7 @@ import gsap from "gsap";
 
 //TODO: proper type import export
 import type { ScrollActionBinding } from "../../../canvas3-nuxt/dist/runtime/types/types";
+import { useAnimationAssets } from "~/stores/animationAssets";
 
 const example1Hover = ref(false);
 const example3Speed = ref(0);
@@ -215,6 +210,21 @@ const onExample3Scroll = (item: ScrollActionBinding, speed: number) => {
     duration: 0.1,
   });
 };
+
+const animationAssets = useAnimationAssets();
+
+const ex2ImageUniforms = computed(() => {
+  return {
+    uAniInImage: {
+      value: example1Hover.value ? 1 : 0,
+      duration: 0.5,
+      ease: "linear",
+    },
+    // uAniInImage: { value: imageIn.value ? 1 : 0, duration: 0.45, ease: "ease" },
+    uTextureMaskNoise: { value: animationAssets.getTextureMaskNoise() },
+    uTexturePrevious: { value: animationAssets.getTextureDefaultBlack() },
+  };
+});
 
 const example3ScrollOptions = computed(() => ({
   activeRange: 0.9,
