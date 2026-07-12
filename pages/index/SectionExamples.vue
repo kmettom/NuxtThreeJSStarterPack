@@ -122,12 +122,18 @@
                 </p>
                 <img
                   v-canvas3-image="{
-                    shaderName: 'example4',
+                    shaderName: 'example0',
                     uniforms: {
-                      uAniInExample4: {
+                      uAniInImage: {
                         duration: 0.35,
                         value: uAniInExample4Value,
                         ease: 'linear',
+                      },
+                      uTextureMaskNoise: {
+                        value: animationAssets.getTextureMaskNoise(),
+                      },
+                      uTexturePrevious: {
+                        value: animationAssets.getTextureDefaultBlack(),
                       },
                     },
                   }"
