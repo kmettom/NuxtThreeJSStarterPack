@@ -4,21 +4,10 @@ import projectBlurFragment from "~/assets/shaders/projectBlurFragment.glsl";
 import projectBlurVertex from "~/assets/shaders/projectBlurVertex.glsl";
 import TextBlurFragment from "~/assets/shaders/TextBlurFragment.glsl";
 import TextBlurVertex from "~/assets/shaders/TextBlurVertex.glsl";
-import heroBlurFragment from "~/assets/shaders/heroBlurFragment.glsl";
-// import heroBlurFragmentB from "~/assets/shaders/heroBlurFragment.glsl";
-import heroBlurVertex from "~/assets/shaders/heroBlurVertex.glsl";
 import example0Fragment from "~/assets/shaders/example0Fragment.glsl";
 import example0Vertex from "~/assets/shaders/example0Vertex.glsl";
 import example1Fragment from "~/assets/shaders/example1Fragment.glsl";
 import example1Vertex from "~/assets/shaders/example1Vertex.glsl";
-import example2Fragment from "~/assets/shaders/example2Fragment.glsl";
-import example2Vertex from "~/assets/shaders/example2Vertex.glsl";
-import example3Fragment from "~/assets/shaders/example3Fragment.glsl";
-import example3Vertex from "~/assets/shaders/example3Vertex.glsl";
-import example4Fragment from "~/assets/shaders/example4Fragment.glsl";
-import example4Vertex from "~/assets/shaders/example4Vertex.glsl";
-import example6Fragment from "~/assets/shaders/example6Fragment.glsl";
-import example6Vertex from "~/assets/shaders/example6Vertex.glsl";
 import playEthBlockNoDesignFragment from "~/assets/shaders/playEthBlockNoDesignFragment.glsl";
 import playEthBlockNoDesignVertex from "~/assets/shaders/playEthBlockNoDesignVertex.glsl";
 import playEthBlockGlassFragment from "~/assets/shaders/playEthBlockGlassFragment.glsl";
@@ -42,10 +31,6 @@ export const Canvas3Options = {
       textFragment: TextBlurFragment,
       textVertex: TextBlurVertex,
     },
-    hero: {
-      fragmentShader: heroBlurFragment,
-      vertexShader: heroBlurVertex,
-    },
     example0: {
       fragmentShader: example0Fragment,
       vertexShader: example0Vertex,
@@ -65,22 +50,6 @@ export const Canvas3Options = {
     playEthBlockImageBg: {
       fragmentShader: playEthBlockImageBgFragment,
       vertexShader: playEthBlockImageBgVertex,
-    },
-    example2: {
-      fragmentShader: example2Fragment,
-      vertexShader: example2Vertex,
-    },
-    example3: {
-      fragmentShader: example3Fragment,
-      vertexShader: example3Vertex,
-    },
-    example4: {
-      fragmentShader: example4Fragment,
-      vertexShader: example4Vertex,
-    },
-    example6: {
-      fragmentShader: example6Fragment,
-      vertexShader: example6Vertex,
     },
   },
   activateMeshOptions: {
