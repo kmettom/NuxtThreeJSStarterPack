@@ -34,13 +34,12 @@
               duration: ethBlockImageAniIn ? 0.35 : 0.15,
               ease: 'linear',
             },
-            uHover: {
-              value: 1,
-              duration: 0.5,
-              ease: 'linear',
+            uTextureMaskNoise: { value: animationAssets.getTextureMaskNoise() },
+            uTexturePrevious: {
+              value: animationAssets.getTextureDefaultBlack(),
             },
           },
-          shaderName: 'playEthBlockNoDesign',
+          shaderName: 'example0',
         }"
         :src="`/images/04.webp`"
         alt=""
@@ -52,6 +51,9 @@
 
 <script setup lang="ts">
 import Container from "~/components/common/Container.vue";
+import { useAnimationAssets } from "~/stores/animationAssets";
+
+const animationAssets = useAnimationAssets();
 
 const eyeIconShow = ref(false);
 const ethBlockImageAniIn = ref(false);
