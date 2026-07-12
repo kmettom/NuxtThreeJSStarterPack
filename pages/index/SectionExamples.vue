@@ -81,13 +81,19 @@
                 <img
                   v-canvas3-image="{
                     uniforms: {
-                      uScrollSpeed: {
+                      uAniInImage: {
                         value: example3Speed,
                         duration: 0,
                         ease: 'linear',
                       },
+                      uTextureMaskNoise: {
+                        value: animationAssets.getTextureMaskNoise(),
+                      },
+                      uTexturePrevious: {
+                        value: animationAssets.getTextureDefaultBlack(),
+                      },
                     },
-                    shaderName: 'example3',
+                    shaderName: 'example0',
                   }"
                   :src="'/images/03.webp'"
                   alt="sky"
@@ -220,7 +226,6 @@ const ex2ImageUniforms = computed(() => {
       duration: 0.5,
       ease: "linear",
     },
-    // uAniInImage: { value: imageIn.value ? 1 : 0, duration: 0.45, ease: "ease" },
     uTextureMaskNoise: { value: animationAssets.getTextureMaskNoise() },
     uTexturePrevious: { value: animationAssets.getTextureDefaultBlack() },
   };
