@@ -5,6 +5,7 @@ import projectBlurVertex from "~/assets/shaders/projectBlurVertex.glsl";
 import TextBlurFragment from "~/assets/shaders/TextBlurFragment.glsl";
 import TextBlurVertex from "~/assets/shaders/TextBlurVertex.glsl";
 import heroBlurFragment from "~/assets/shaders/heroBlurFragment.glsl";
+// import heroBlurFragmentB from "~/assets/shaders/heroBlurFragment.glsl";
 import heroBlurVertex from "~/assets/shaders/heroBlurVertex.glsl";
 import example0Fragment from "~/assets/shaders/example0Fragment.glsl";
 import example0Vertex from "~/assets/shaders/example0Vertex.glsl";
@@ -22,7 +23,6 @@ import playEthBlockNoDesignFragment from "~/assets/shaders/playEthBlockNoDesignF
 import playEthBlockNoDesignVertex from "~/assets/shaders/playEthBlockNoDesignVertex.glsl";
 import playEthBlockGlassFragment from "~/assets/shaders/playEthBlockGlassFragment.glsl";
 import playEthBlockGlassVertex from "~/assets/shaders/playEthBlockGlassVertex.glsl";
-// import playEthBlockImageBgFragmentBlocks from "./shaders/playEthBlockImageBgFragment_blocks.glsl";
 import playEthBlockImageBgFragment from "~/assets/shaders/playEthBlockImageBgFragment.glsl";
 import playEthBlockImageBgVertex from "~/assets/shaders/playEthBlockImageBgVertex.glsl";
 

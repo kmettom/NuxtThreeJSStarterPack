@@ -10,7 +10,7 @@
         v-canvas3-image="{
           loadStrategy: 'eager',
           uniforms: imageUniforms,
-          shaderName: 'playEthBlockNoDesign',
+          shaderName: 'example0',
         }"
         fetchPriority="high"
         :src="'/images/08.webp'"
@@ -25,14 +25,19 @@ import Container from "~/components/common/Container.vue";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { pageTransition } from "~/utils/animations/pageTransition";
+import { useAnimationAssets } from "~/stores/animationAssets";
 
 gsap.registerPlugin(SplitText);
 
 const imageIn = ref(false);
 
+const animationAssets = useAnimationAssets();
+
 const imageUniforms = computed(() => {
   return {
     uAniInImage: { value: imageIn.value ? 1 : 0, duration: 0.45, ease: "ease" },
+    uTextureMaskNoise: { value: animationAssets.getTextureMaskNoise() },
+    uTexturePrevious: { value: animationAssets.getTextureMaskNoise() },
   };
 });
 
