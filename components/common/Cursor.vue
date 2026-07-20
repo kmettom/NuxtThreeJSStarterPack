@@ -15,8 +15,6 @@ const easingPosition = 2;
 const easing = 5;
 const cursorEl = ref();
 
-// TODO set type for reactive - import cursor logic from NC films
-
 type cursorState = {
   curNewSize: number;
   curNewOpacity: number;
