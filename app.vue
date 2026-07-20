@@ -25,6 +25,7 @@
       }"
     />
   </NuxtLayout>
+  <!--  TODO: Cursor implement -->
   <!--  <Cursor />-->
 
   <!--  **********************************-->
@@ -41,10 +42,10 @@
 <script setup>
 import { Canvas3Options } from "~/constants/canvas3-options";
 import WelcomeScreen from "~/components/common/WelcomeScreen.vue";
-// import Cursor from "~/components/common/Cursor.vue";
 import { waitOutDone } from "~/composables/useOutPromise";
 import { pageTransition } from "~/utils/animations/pageTransition";
 import { useAnimationAssets } from "~/stores/animationAssets";
+// import Cursor from "~/components/common/Cursor.vue";
 
 useSeoMeta({
   title: "Web developer - Tomas Kmet - creative - web3",
