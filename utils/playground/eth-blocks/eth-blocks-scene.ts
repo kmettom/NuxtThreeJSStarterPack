@@ -129,7 +129,9 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         return;
       }
       const initMaterial = initMesh.material as THREE.ShaderMaterial;
-      initMaterial.uniforms.uTransactionsAmount = { value: DEFAULT_TRANSACTIONS_AMOUNT };
+      initMaterial.uniforms.uTransactionsAmount = {
+        value: DEFAULT_TRANSACTIONS_AMOUNT,
+      };
       if (!initMaterial.uniforms.uTransitionProgress) {
         resolve();
         return;
