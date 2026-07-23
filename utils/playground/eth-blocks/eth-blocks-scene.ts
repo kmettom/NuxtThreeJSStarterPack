@@ -556,3 +556,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     }
   },
 };
+
+// TODO:
+// - shader top and bottom difference of image transition
+// - block data shader inject for dif behaviour
+// - initial loader improve
