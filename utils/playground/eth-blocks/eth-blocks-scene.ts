@@ -326,6 +326,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         uTexturePrevious: { value: null },
         uTextureMaskNoise: { value: this.textureMaskNoise },
         uTransactionsAmount: { value: DEFAULT_TRANSACTIONS_AMOUNT },
+        uVector: { value: 1 },
         uTransitionProgress: { value: 0 },
         uMeshSize: {
           value: new THREE.Vector2(window.innerWidth, window.innerHeight),
@@ -360,6 +361,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     newImageId,
     transactionsAmount = DEFAULT_TRANSACTIONS_AMOUNT,
   ) {
+    const vector = prevImageId < newImageId ? -1 : 1;
+
     for (let i = 0; i < this.imageBgMeshes.length; i++) {
       const meshToUpdate = this.imageBgMeshes[i];
       if (!meshToUpdate) continue;
@@ -381,6 +384,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     material.uniforms.uTexturePrevious.value = uTexturePreviousValue;
     if (!material.uniforms.uTransactionsAmount) return;
     material.uniforms.uTransactionsAmount.value = transactionsAmount;
+    if (!material.uniforms.uVector) return;
+    material.uniforms.uVector.value = vector;
 
     if (!material.uniforms.uTransitionProgress) return;
 
