@@ -1,13 +1,9 @@
 <template>
-  <div id="uniqueCursor" ref="cursorEl">
-    <span v-if="!!state.cursorIcon" class="cursor-icon">
-      {{ state.cursorIcon }}
-    </span>
-  </div>
+  <div id="uniqueCursor" ref="cursorEl" />
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, type Reactive } from "vue";
 
 import { useDisplayStore } from "~/stores/display";
 
@@ -19,11 +15,24 @@ const easingPosition = 2;
 const easing = 5;
 const cursorEl = ref();
 
-// TODO set type for reactive - import cursor logic from NC films
-const state = reactive({
-  curNewSize: null,
+type cursorState = {
+  curNewSize: number;
+  curNewOpacity: number;
+  currentSize: number;
+  currentOpacity: null | number;
+  cursorX: null | number;
+  cursorY: null | number;
+  curNewX: null | number;
+  curNewY: null | number;
+  curNewColor: string; // Default color
+  cursorInitialized: boolean;
+  cursorIcon: boolean;
+};
+
+const state: Reactive<cursorState> = reactive({
+  curNewSize: 0,
   curNewOpacity: baseOpacity,
-  currentSize: null,
+  currentSize: baseSize,
   currentOpacity: null,
   cursorX: null,
   cursorY: null,
@@ -31,7 +40,7 @@ const state = reactive({
   curNewY: null,
   curNewColor: `rgba(191, 192, 178, ${baseOpacity})`, // Default color
   cursorInitialized: false,
-  cursorIcon: null,
+  cursorIcon: false,
 });
 
 const cursorInit = () => {
@@ -42,6 +51,7 @@ const cursorInit = () => {
     onResize: false,
     onMouseMove: true,
     animationCallback: draw,
+    render: true,
   });
 
   // Track mouse movements
@@ -51,7 +61,7 @@ const cursorInit = () => {
 
   // Handle mouse out of window
   document.addEventListener("mouseout", (e) => {
-    const from = e.relatedTarget || e.toElement;
+    const from = e.target as HTMLElement;
     if (!from || from.nodeName === "HTML") {
       state.curNewSize = 1;
     }
@@ -90,6 +100,8 @@ const cursorTrack = (event) => {
 // Draw the cursor with easing
 const draw = () => {
   // Smoothly update position
+  if (state.curNewX === null || state.cursorX === null) return;
+  if (state.curNewY === null || state.cursorY === null) return;
   const dX = state.curNewX - state.cursorX;
   const dY = state.curNewY - state.cursorY;
   state.cursorX += dX / easingPosition;
