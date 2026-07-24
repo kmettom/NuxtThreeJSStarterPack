@@ -129,7 +129,9 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         return;
       }
       const initMaterial = initMesh.material as THREE.ShaderMaterial;
-      initMaterial.uniforms.uColAmount = { value: 50 };
+      initMaterial.uniforms.uTransactionsAmount = {
+        value: DEFAULT_TRANSACTIONS_AMOUNT,
+      };
       if (!initMaterial.uniforms.uTransitionProgress) {
         resolve();
         return;
@@ -323,7 +325,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         uTexture: { value: texture },
         uTexturePrevious: { value: null },
         uTextureMaskNoise: { value: this.textureMaskNoise },
-        uColAmount: { value: DEFAULT_TRANSACTIONS_AMOUNT },
+        uTransactionsAmount: { value: DEFAULT_TRANSACTIONS_AMOUNT },
+        uVector: { value: 1 },
         uTransitionProgress: { value: 0 },
         uMeshSize: {
           value: new THREE.Vector2(window.innerWidth, window.innerHeight),
@@ -358,6 +361,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     newImageId,
     transactionsAmount = DEFAULT_TRANSACTIONS_AMOUNT,
   ) {
+    const vector = prevImageId < newImageId ? -1 : 1;
+
     for (let i = 0; i < this.imageBgMeshes.length; i++) {
       const meshToUpdate = this.imageBgMeshes[i];
       if (!meshToUpdate) continue;
@@ -377,8 +382,10 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const uTexturePreviousValue = prevMaterial.uniforms.uTexture?.value;
     if (!material.uniforms.uTexturePrevious || !uTexturePreviousValue) return;
     material.uniforms.uTexturePrevious.value = uTexturePreviousValue;
-    if (!material.uniforms.uColAmount) return;
-    material.uniforms.uColAmount.value = Math.max(15, transactionsAmount / 10);
+    if (!material.uniforms.uTransactionsAmount) return;
+    material.uniforms.uTransactionsAmount.value = transactionsAmount;
+    if (!material.uniforms.uVector) return;
+    material.uniforms.uVector.value = vector;
 
     if (!material.uniforms.uTransitionProgress) return;
 
@@ -556,3 +563,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     }
   },
 };
+
+// TODO:
+// - shader top and bottom difference of image transition
+// - block data shader inject for dif behaviour
+// - initial loader improve

@@ -4,16 +4,16 @@ import projectBlurFragment from "~/assets/shaders/projectBlurFragment.glsl";
 import projectBlurVertex from "~/assets/shaders/projectBlurVertex.glsl";
 import TextBlurFragment from "~/assets/shaders/TextBlurFragment.glsl";
 import TextBlurVertex from "~/assets/shaders/TextBlurVertex.glsl";
-import example0Fragment from "~/assets/shaders/example0Fragment.glsl";
-import example0Vertex from "~/assets/shaders/example0Vertex.glsl";
-import example1Fragment from "~/assets/shaders/example1Fragment.glsl";
-import example1Vertex from "~/assets/shaders/example1Vertex.glsl";
-import playEthBlockNoDesignFragment from "~/assets/shaders/playEthBlockNoDesignFragment.glsl";
-import playEthBlockNoDesignVertex from "~/assets/shaders/playEthBlockNoDesignVertex.glsl";
-import playEthBlockGlassFragment from "~/assets/shaders/playEthBlockGlassFragment.glsl";
-import playEthBlockGlassVertex from "~/assets/shaders/playEthBlockGlassVertex.glsl";
-import playEthBlockImageBgFragment from "~/assets/shaders/playEthBlockImageBgFragment.glsl";
-import playEthBlockImageBgVertex from "~/assets/shaders/playEthBlockImageBgVertex.glsl";
+import example0Fragment from "~/assets/shaders/examples/example0Fragment.glsl";
+import example0Vertex from "~/assets/shaders/examples/example0Vertex.glsl";
+import example1Fragment from "~/assets/shaders/examples/example1Fragment.glsl";
+import example1Vertex from "~/assets/shaders/examples/example1Vertex.glsl";
+import playEthBlockNoDesignFragment from "~/assets/shaders/playground/playEthBlockNoDesignFragment.glsl";
+import playEthBlockNoDesignVertex from "~/assets/shaders/playground/playEthBlockNoDesignVertex.glsl";
+import playEthBlockGlassFragment from "~/assets/shaders/playground/playEthBlockGlassFragment.glsl";
+import playEthBlockGlassVertex from "~/assets/shaders/playground/playEthBlockGlassVertex.glsl";
+import playEthBlockImageBgFragment from "~/assets/shaders/playground/playEthBlockImageBgFragment.glsl";
+import playEthBlockImageBgVertex from "~/assets/shaders/playground/playEthBlockImageBgVertex.glsl";
 
 export const Canvas3Options = {
   font: {
