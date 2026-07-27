@@ -16,11 +16,6 @@ vec2 mirror(vec2 v) {
     return mix(m, 2.0 - m, step(1.0, m));
 }
 
-bool keyToggle(int ascii)
-{
-    return (texture(uTextureMaskNoise, vec2((.5 + float(ascii)) / 256., 0.75)).x > 0.);
-}
-
 vec2 coverUv(vec2 raw) {
     float meshAspect = uMeshSize.x / uMeshSize.y;
     float textureAspect = uTextureSize.x / uTextureSize.y;
