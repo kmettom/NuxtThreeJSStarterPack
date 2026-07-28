@@ -382,8 +382,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const uTexturePreviousValue = prevMaterial.uniforms.uTexture?.value;
     if (!material.uniforms.uTexturePrevious || !uTexturePreviousValue) return;
     material.uniforms.uTexturePrevious.value = uTexturePreviousValue;
-    if (!material.uniforms.uTransactionsAmount) return;
-    material.uniforms.uTransactionsAmount.value = transactionsAmount;
+    // if (!material.uniforms.uTransactionsAmount) return;
+    // material.uniforms.uTransactionsAmount.value = transactionsAmount;
     if (!material.uniforms.uVector) return;
     material.uniforms.uVector.value = vector;
 
