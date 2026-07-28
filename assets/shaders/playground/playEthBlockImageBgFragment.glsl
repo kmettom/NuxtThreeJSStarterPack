@@ -4,6 +4,7 @@ varying vec2 vUv;
 uniform sampler2D uTexture;
 uniform sampler2D uTexturePrevious;
 uniform sampler2D uTextureMaskNoise;
+uniform float uTransactionsAmount;
 uniform float uTransitionProgress;
 uniform vec2 uMeshSize;
 uniform vec2 uTextureSize;
@@ -14,11 +15,6 @@ uniform float uVector;
 vec2 mirror(vec2 v) {
     vec2 m = mod(v, 2.0);
     return mix(m, 2.0 - m, step(1.0, m));
-}
-
-bool keyToggle(int ascii)
-{
-    return (texture(uTextureMaskNoise, vec2((.5 + float(ascii)) / 256., 0.75)).x > 0.);
 }
 
 vec2 coverUv(vec2 raw) {
@@ -42,21 +38,19 @@ void main()
     float direction = sign(uVector);
     if (direction == 0.0) direction = 1.0;
 
-    float progress = uTransitionProgress;
     float mask = texture(uTextureMaskNoise, uv).r;
+    float offset = mask * direction * uTransactionsAmount;
 
-    float offset = mask * direction;
-
-    float stepMask = S(mask - progress);
+    float stepMask = S(mask - uTransitionProgress);
 
     vec2 uvPrev = mirror(vec2(
             uv.x,
-            uv.y + progress * offset
+            uv.y + uTransitionProgress * offset
     ));
 
     vec2 uvNext = mirror(vec2(
             uv.x,
-            uv.y - (1.0 - progress) * offset
+            uv.y - (1.0 - uTransitionProgress) * offset
     ));
 
     vec4 img2 = texture(uTexturePrevious, uvPrev);

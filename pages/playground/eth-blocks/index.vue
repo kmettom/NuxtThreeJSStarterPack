@@ -147,7 +147,7 @@ function firstLoadingBlock() {
   const blockProgressBarEl = el.querySelector(".block-loading-progress");
   tlEnterBlockAniIn.to(blockProgressBarEl, {
     width: "100%",
-    duration: 0.5,
+    duration: 0.75,
   });
   tlEnterBlockAniIn.to(blockProgressBarEl, {
     width: "0%",
@@ -302,6 +302,8 @@ const handleResize = () => {
 };
 
 onMounted(async () => {
+  firstLoadingBlock();
+
   window.addEventListener("resize", handleResize);
 
   if (!ethBlocksWrapper.value) return;
@@ -313,8 +315,6 @@ onMounted(async () => {
 
   await ethBlocksAnimation.init(ethBlockEls);
   await ethBlocksAnimation.startRender();
-
-  firstLoadingBlock();
 
   addBlockListener();
   Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "firstAnimationIn");
