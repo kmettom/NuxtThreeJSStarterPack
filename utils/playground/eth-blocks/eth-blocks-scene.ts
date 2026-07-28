@@ -400,6 +400,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
       1.25 - Math.max(coef, DEFAULT_IMAGE_CHANGE_DURATION)
     ).toFixed(2);
 
+    const aniId = `imageChange_${newImageId}`;
     gsap.fromTo(
       material.uniforms.uTransitionProgress,
       { value: 0 },
@@ -407,20 +408,12 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         value: 1,
         duration: imageChangeDuration,
         onStart: () => {
-          Canvas3.setAnimationToRender(
-            ETH_ANI_CALLBACK_NAME,
-            true,
-            "imageChange",
-          );
+          Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, aniId);
         },
         onComplete: () => {
           setTimeout(
             () => {
-              Canvas3.setAnimationToRender(
-                ETH_ANI_CALLBACK_NAME,
-                false,
-                "imageChange",
-              );
+              Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, false, aniId);
             },
             Number(imageChangeDuration) * 1000,
           );
