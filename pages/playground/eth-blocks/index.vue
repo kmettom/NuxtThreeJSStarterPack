@@ -313,10 +313,8 @@ onMounted(async () => {
   ethBlocksAnimation.setBlockBasePosition();
   blocksBasePosition.value = ethBlocksAnimation.blocksBasePosition;
 
-
   await ethBlocksAnimation.init(ethBlockEls);
   await ethBlocksAnimation.startRender();
-
 
   addBlockListener();
   Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "firstAnimationIn");

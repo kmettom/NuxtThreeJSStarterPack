@@ -4,10 +4,12 @@ import { gsap } from "gsap";
 import {
   BLOCKS_ON_SCREEN_AMOUNT,
   DEFAULT_IMAGE_CHANGE_DURATION,
+  DEFAULT_MAX_TRANSACTIONS_AMOUNT,
   DEFAULT_TRANSACTIONS_AMOUNT,
   IMAGE_FILE_AMOUNT,
   INITIAL_BLOCK_AMOUNT,
   LOADING_BLOCK_SIZE,
+  U_TRANSACTIONS_AMOUNT_NORMALISED,
 } from "~/constants/playground/eth-blocks";
 import type { EthBlocksAnimation } from "#shared/types/playground/eth-blocks";
 import { ETH_ANI_CALLBACK_NAME } from "~/utils/playground/eth-blocks/web3-helpers";
@@ -130,7 +132,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
       }
       const initMaterial = initMesh.material as THREE.ShaderMaterial;
       initMaterial.uniforms.uTransactionsAmount = {
-        value: DEFAULT_TRANSACTIONS_AMOUNT,
+        value: U_TRANSACTIONS_AMOUNT_NORMALISED,
       };
       if (!initMaterial.uniforms.uTransitionProgress) {
         resolve();
@@ -325,7 +327,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         uTexture: { value: texture },
         uTexturePrevious: { value: null },
         uTextureMaskNoise: { value: this.textureMaskNoise?.clone() },
-        uTransactionsAmount: { value: DEFAULT_TRANSACTIONS_AMOUNT },
+        uTransactionsAmount: { value: U_TRANSACTIONS_AMOUNT_NORMALISED },
         uVector: { value: 1 },
         uTransitionProgress: { value: 0 },
         uMeshSize: {
@@ -382,8 +384,12 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const uTexturePreviousValue = prevMaterial.uniforms.uTexture?.value;
     if (!material.uniforms.uTexturePrevious || !uTexturePreviousValue) return;
     material.uniforms.uTexturePrevious.value = uTexturePreviousValue;
-    // if (!material.uniforms.uTransactionsAmount) return;
-    // material.uniforms.uTransactionsAmount.value = transactionsAmount;
+    if (!material.uniforms.uTransactionsAmount) return;
+    material.uniforms.uTransactionsAmount.value = Math.min(
+      Math.max(transactionsAmount / DEFAULT_MAX_TRANSACTIONS_AMOUNT, 0),
+      1,
+    );
+
     if (!material.uniforms.uVector) return;
     material.uniforms.uVector.value = vector;
 
