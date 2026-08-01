@@ -7,6 +7,9 @@ uniform sampler2D uSceneTexture;
 uniform vec4 uBlocks[MAX_GLASS];
 uniform int uBlockCount;
 uniform vec2 uMeshSize;
+uniform vec2 uViewport;
+uniform vec2 uMouse;
+uniform float uDevicePixelRatio;
 
 float boxRadius = 20.0;
 
@@ -55,14 +58,36 @@ vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect) {
     return mix(baseColor, lighting, glassOpacity);
 }
 
+float createCircle(float radius) {
+    vec2 viewportUv = gl_FragCoord.xy / uViewport / uDevicePixelRatio;
+    float viewportAspect = uViewport.x / uViewport.y;
+
+    vec2 mousePoint = vec2(uMouse.x, 1.0 - uMouse.y);
+
+    vec2 shapeUv = viewportUv - mousePoint;
+    shapeUv /= vec2(1.0, viewportAspect);
+    shapeUv += mousePoint;
+    float dist = distance(shapeUv, mousePoint);
+
+    float circleRadius = max(0.0, radius / uViewport.x);
+
+    dist = smoothstep(circleRadius, circleRadius + 0.05, dist);
+    return dist;
+}
+
+
 void main() {
     vec2 uv = vUv;
     vec4 color = texture2D(uSceneTexture, uv);
+
+    float circle = createCircle(105.0);
+//    vec2 mousePoint = vec2(uMouse.x, 1.0 - uMouse.y);
+//    float circleRadius = max(0.0, 50.0 / uViewport.x);
 
     for (int i = 0; i < MAX_GLASS; i++) {
         if (i >= uBlockCount) break;
         color = glassPass(vUv, uv, color, uBlocks[i]);
     }
 
-    gl_FragColor = color;
+    gl_FragColor = color * circle;
 }

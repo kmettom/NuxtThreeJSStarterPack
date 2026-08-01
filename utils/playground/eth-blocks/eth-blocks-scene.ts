@@ -297,6 +297,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
           value: this._uBlocksPositions,
         },
         uSceneTexture: { value: null },
+        uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+        uDevicePixelRatio: { value: window.devicePixelRatio },
       },
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
