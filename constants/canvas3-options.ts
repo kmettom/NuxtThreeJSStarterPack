@@ -66,6 +66,7 @@ export const Canvas3Options = {
   prefersReducedMotion: false,
   isMobile: false,
   disabled: false,
+  mouseTrackingEnabled: true,
 };
 
 // export default CanvasOptionDefaults = CanvasOptions;
