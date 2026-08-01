@@ -565,7 +565,11 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
   },
 };
 
-// TODO:
-// - shader top and bottom difference of image transition
-// - block data shader inject for dif behaviour
-// - initial loader improve
+// TODO: mouse interaction
+// - add link and hover effect to block
+// - track mouse and adjust uMouse uniform for shader
+// - add shader effect
+// - skew block - test first with glass
+
+// TODO: For Post info
+// - shader data - scroll direction, on chain data of transactions, initial loader improvement
