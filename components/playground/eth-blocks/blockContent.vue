@@ -5,6 +5,7 @@ import BurnedIcon from "~/components/playground/eth-blocks/icons/burnedIcon.vue"
 import WithdrawIcon from "~/components/playground/eth-blocks/icons/withdrawIcon.vue";
 import SupplyIcon from "~/components/playground/eth-blocks/icons/supplyIcon.vue";
 import GasChart from "~/components/playground/eth-blocks/gasChart.vue";
+import type { BlockExtended } from "#shared/types/playground/eth-blocks";
 
 const props = defineProps<{
   block: BlockExtended;
@@ -14,7 +15,13 @@ const props = defineProps<{
 <template>
   <div class="block-loading-progress" />
   <div v-if="props.block.loading" />
-  <div v-else class="content-wrapper">
+  <NuxtLink
+    v-else
+    :href="`https://etherscan.io/blocks/${props.block.blockId}`"
+    target="_blank"
+    class="content-wrapper"
+  >
+    <div class="link-icon">-></div>
     <div class="content-row">
       <div class="content-block">
         <div class="content-title ani-index-title">Transactions:</div>
@@ -73,7 +80,7 @@ const props = defineProps<{
         <span class="content-value ani-index-1 text-bold">ETH</span>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <style scoped lang="scss">
@@ -102,6 +109,13 @@ const props = defineProps<{
   display: flex;
   flex-direction: column;
   padding: 15px 0;
+  color: var(--light-color);
+  text-decoration: none;
+  &:hover {
+    .link-icon {
+      opacity: 1;
+    }
+  }
 }
 
 .content-row {
@@ -154,5 +168,11 @@ const props = defineProps<{
 
 .text-bold {
   font-weight: bold;
+}
+.link-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  opacity: 0;
 }
 </style>
