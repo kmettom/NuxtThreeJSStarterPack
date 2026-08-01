@@ -278,7 +278,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     this.calculateUBlockPositions();
     if (!this._uBlocksPositions) return;
 
-    const meshId = "ethBlockBg";
+    const meshId = "ethGlassMesh";
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uMeshSize: {
@@ -566,6 +566,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
 };
 
 // TODO: mouse interaction
+// - GET MOUSE POSITION - from Canvas3 - TEST - addMeshtoScene - also added material to materials to update and inherit UMouse position
 // - add link and hover effect to block
 // - track mouse and adjust uMouse uniform for shader
 // - add shader effect
