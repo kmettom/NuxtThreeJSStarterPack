@@ -313,6 +313,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     mesh.position.z = 2;
 
     Canvas3.addMeshToScene(mesh);
+    Canvas3.addMaterialForGlobalUniformUpdates(material);
     return mesh;
   },
 
@@ -566,11 +567,10 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
 };
 
 // TODO: mouse interaction
-// - GET MOUSE POSITION - from Canvas3 - TEST - addMeshtoScene - also added material to materials to update and inherit UMouse position
-// - add link and hover effect to block
-// - track mouse and adjust uMouse uniform for shader
-// - add shader effect
-// - skew block - test first with glass
+// TEST - mouse position and global uniform logic for Materials (uMouse etc.)
+// - add link - ICON
+// - add shader effect - glass effect enhance in mouse position
+// - mouse hover - glass mirror effect on hover
 
 // TODO: For Post info
 // - shader data - scroll direction, on chain data of transactions, initial loader improvement
