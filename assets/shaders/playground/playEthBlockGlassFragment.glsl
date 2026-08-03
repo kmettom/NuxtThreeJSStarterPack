@@ -44,7 +44,7 @@ vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect) {
     float transition = smoothstep(0.0, 1.0, rb1 + rb2);
     if (transition <= 0.0) return baseColor;
 
-    float mouseCircle = createCircleMask(35.0, 155.0);
+    float mouseCircle = createCircleMask(20.0, 125.0);
 
     // Restrict enhancement to visible glass only
     float boost = mouseCircle * transition;
