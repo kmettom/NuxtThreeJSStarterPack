@@ -19,6 +19,7 @@
           block.transactions?.length ?? DEFAULT_TRANSACTIONS_AMOUNT
         "
         :class="`eth-block ${block.loading ? 'block-loading' : ''}`"
+        @mouseenter="hoverBlock(block.blockId)"
       >
         <blockContent :block="block" />
       </div>
@@ -56,6 +57,7 @@ import {
   IMAGE_FILE_AMOUNT,
 } from "~/constants/playground/eth-blocks";
 import Credentials from "~/components/playground/eth-blocks/credentials.vue";
+import type { ShaderMaterial } from "three";
 gsap.registerPlugin(SplitText);
 
 //**************************
@@ -123,6 +125,25 @@ const tlEnterBlockAniIn = gsap.timeline({});
 //**************************
 // FUNCTIONS
 //**************************
+
+const hoverBlock = (blockId: number) => {
+  const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
+
+  if (material.uniforms.uHoverBlockIndex !== undefined)
+    material.uniforms.uHoverBlockIndex.value = blockId;
+
+  if (material.uniforms.uHoverProgress !== undefined)
+    gsap.to(material.uniforms.uHoverProgress, {
+      value: 1,
+      duration: 1.25,
+      onComplete: () => {
+        if (material.uniforms.uHoverProgress !== undefined)
+          gsap.set(material.uniforms.uHoverProgress, {
+            value: 0,
+          });
+      },
+    });
+};
 
 const getBlockElFromBlockId = (blockId: number) => {
   if (!ethBlocksWrapper.value) return null;

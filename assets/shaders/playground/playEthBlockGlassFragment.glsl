@@ -10,6 +10,8 @@ uniform vec2 uMeshSize;
 uniform vec2 uViewport;
 uniform vec2 uMouse;
 uniform float uDevicePixelRatio;
+uniform float uHoverProgress;
+uniform int uHoverBlockIndex;
 
 float boxRadius = 20.0;
 
