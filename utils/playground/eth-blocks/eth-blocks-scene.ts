@@ -577,10 +577,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
 };
 
 // TODO: mouse interaction
-// TEST - mouse position and global uniform logic for Materials (uMouse etc.)
 // - add link - ICON
 // - add shader effect - glass effect enhance in mouse position
-// - mouse hover - glass mirror effect on hover
 
 // TODO: For Post info
 // - shader data - scroll direction, on chain data of transactions, initial loader improvement
