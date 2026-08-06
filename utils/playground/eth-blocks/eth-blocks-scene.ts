@@ -496,10 +496,10 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
               clientBounds,
               canvasBounds,
             );
+            if (blockId === this.hoveredBlockId) {
+              this._uBlockHoveredIndex.value = activeIndex;
+            }
             activeIndex++;
-          }
-          if (blockId === this.hoveredBlockId) {
-            this._uBlockHoveredIndex.value = activeIndex;
           }
         }
         this.animateBlockSizeOnScroll(el, i, clientBounds);
