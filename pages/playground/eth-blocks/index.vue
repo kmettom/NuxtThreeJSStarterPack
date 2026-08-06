@@ -132,7 +132,7 @@ const hoverBlock = (blockId: number) => {
   const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
   ethBlocksAnimation.hoveredBlockId = blockId;
   // if (material.uniforms.uHoverBlockIndex !== undefined)
-  //   material.uniforms.uHoverBlockIndex.value = blockId;
+  //   material.uniforms.uHoverBlockIndex.value = ethBlocksAnimation._uBlockHoveredIndex;
 
   if (material.uniforms.uHoverProgress !== undefined)
     gsap.to(material.uniforms.uHoverProgress, {
@@ -148,6 +148,7 @@ const hoverBlock = (blockId: number) => {
           false,
           "hoverBlock",
         );
+        ethBlocksAnimation.hoveredBlockId = -1;
       },
     });
 };

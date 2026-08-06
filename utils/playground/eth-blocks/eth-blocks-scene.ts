@@ -31,9 +31,10 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
   firstEnterAniInProgress: true,
   isAnimating: false,
   _uBlocksPositions: [],
-  _uBlockHoveredIndex: 0,
-  hoveredBlockId: 0,
-  // _blockClientRects: [],
+  _uBlockHoveredIndex: {
+    value: -1,
+  },
+  hoveredBlockId: -1,
   _lastScrollY: -1,
   _intersectionObserver: null as IntersectionObserver | null,
   _visibleBlockIds: new Set<number>(),
@@ -302,7 +303,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         uMouse: { value: new THREE.Vector2(0.01, 0.01) },
         uDevicePixelRatio: { value: window.devicePixelRatio },
         uHoverProgress: { value: 0.0 },
-        uHoverBlockIndex: { value: this._uBlockHoveredIndex },
+        uHoverBlockIndex: this._uBlockHoveredIndex,
       },
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
@@ -471,6 +472,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const canvasBounds = this._cachedCanvasBounds;
     if (!canvasBounds) return this._uBlocksPositions;
 
+    this._uBlockHoveredIndex.value = -1;
+
     let activeIndex = 0;
     for (let i = 0; i < this.ethBlockEls.length; i++) {
       const el = this.ethBlockEls[i] as HTMLElement;
@@ -483,10 +486,6 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
       const isAnimating = el.classList.contains("animating");
       const isLoadingBlock = el.classList.contains("block-loading");
 
-      if (blockId === this.hoveredBlockId) {
-        this._uBlockHoveredIndex = activeIndex;
-      }
-
       if ((inViewport || isAnimating) && !isLoadingBlock) {
         const clientBounds = el.getBoundingClientRect();
         if (activeIndex < BLOCKS_ON_SCREEN_AMOUNT) {
@@ -498,6 +497,9 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
               canvasBounds,
             );
             activeIndex++;
+          }
+          if (blockId === this.hoveredBlockId) {
+            this._uBlockHoveredIndex.value = activeIndex;
           }
         }
         this.animateBlockSizeOnScroll(el, i, clientBounds);
