@@ -30,7 +30,13 @@ float createCircleMask(float radiusPx, float featherPx) {
     return 1.0 - smoothstep(radius, radius + feather, dist);
 }
 
-vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect) {
+vec4 glassPass(
+        vec2 vUv,
+        vec2 uv,
+        vec4 baseColor,
+        vec4 rect,
+        float hoverActive
+) {
     vec2 glassCenter = vec2(0.5) + rect.xy / uMeshSize;
     vec2 glassHalfUv = rect.zw / uMeshSize;
 
@@ -38,13 +44,20 @@ vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect) {
     float roundedBox = pow(abs(m2.x), boxRadius) + pow(abs(m2.y), boxRadius);
 
     float rb1 = clamp((1.00 - roundedBox) * 8.0, 0.0, 1.0);
-    float rb2 = clamp((0.95 - roundedBox) * 16.0, 0.0, 1.0) -
+
+    float rb2 =
+    clamp((0.95 - roundedBox) * 16.0, 0.0, 1.0) -
     clamp((0.90 - roundedBox) * 16.0, 0.0, 1.0);
-    float rb3 = clamp((1.50 - roundedBox) * 2.0, 0.0, 1.0) -
+
+    float rb3 =
+    clamp((1.50 - roundedBox) * 2.0, 0.0, 1.0) -
     clamp((1.00 - roundedBox) * 2.0, 0.0, 1.0);
 
     float transition = smoothstep(0.0, 1.0, rb1 + rb2);
-    if (transition <= 0.0) return baseColor;
+
+    if (transition <= 0.0) {
+        return baseColor;
+    }
 
     float mouseCircle = createCircleMask(20.0, 125.0);
 
@@ -52,13 +65,17 @@ vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect) {
     float boost = mouseCircle * transition;
 
     vec2 fromCenter = vUv - glassCenter;
-    float centerFalloff = 1.0 - clamp(length(fromCenter / glassHalfUv), 0.0, 1.0);
+    float centerFalloff =
+    1.0 - clamp(length(fromCenter / glassHalfUv), 0.0, 1.0);
 
     // Base lens distortion
     float distortStrength = 0.5 + boost * 0.9;
-    vec2 distortDir = fromCenter * (0.15 + 0.35 * centerFalloff + 0.5 * boost);
+    vec2 distortDir =
+    fromCenter * (0.15 + 0.35 * centerFalloff + 0.5 * boost);
 
-    vec2 lensUv = glassCenter + fromCenter * (1.0 - roundedBox * distortStrength);
+    vec2 lensUv =
+    glassCenter + fromCenter * (1.0 - roundedBox * distortStrength);
+
     lensUv += distortDir * 0.06 * boost;
 
     // Stronger local blur around mouse
@@ -73,6 +90,7 @@ vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect) {
             total += 1.0;
         }
     }
+
     blurred /= total;
 
     // RGB split along the distortion vector
@@ -85,26 +103,82 @@ vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect) {
     aberration.b = texture2D(uSceneTexture, lensUv - chromaOff).b;
     aberration.a = 1.0;
 
-    vec4 refracted = mix(blurred, aberration, 0.35 + 0.45 * boost);
+    vec4 refracted = mix(
+            blurred,
+            aberration,
+            0.35 + 0.45 * boost
+    );
 
     vec2 m2uv = vUv - glassCenter;
+
     float gradient =
     clamp((clamp(m2uv.y, 0.0, 0.2) + 0.1) * 0.5, 0.0, 1.0) +
-    clamp((clamp(-m2uv.y, -1000.0, 0.2) * rb3 + 0.1) * 0.5, 0.0, 1.0);
+    clamp(
+            (clamp(-m2uv.y, -1000.0, 0.2) * rb3 + 0.1) * 0.5,
+            0.0,
+            1.0
+    );
 
     vec4 lighting = clamp(
             refracted
             - vec4(vec3(rb1 * gradient * 0.95), 0.0)
             - vec4(vec3(rb2 * 0.3), 0.0),
-            0.0, 1.0
+            0.0,
+            1.0
     );
 
     // Slight highlight ring near cursor inside glass
-    float ring = smoothstep(0.55, 1.0, mouseCircle) * (1.0 - smoothstep(0.85, 1.0, mouseCircle));
-    lighting.rgb += vec3(0.06, 0.08, 0.12) * ring * transition;
+    float ring =
+    smoothstep(0.55, 1.0, mouseCircle) *
+    (1.0 - smoothstep(0.85, 1.0, mouseCircle));
 
-    float glassOpacity = clamp(0.85 + transition * 0.9, 0.0, 1.0);
-    glassOpacity = clamp(glassOpacity + boost * 0.08, 0.0, 1.0);
+    lighting.rgb +=
+    vec3(0.06, 0.08, 0.12) *
+    ring *
+    transition;
+
+    /*
+     * Hover reflection sweep.
+
+     * uHoverProgress:
+     * 0.0 -> top
+     * 1.0 -> bottom
+     */
+    float progress = clamp(uHoverProgress, 0.0, 1.0);
+
+    // m2.y is 1.0 at the top and -1.0 at the bottom.
+    float reflectionY = mix(1.0, -1.0, progress);
+
+    float reflectionDistance = abs(m2.y - reflectionY);
+
+    // Width of the moving reflection band.
+    float reflectionWidth = 0.16;
+
+    float reflection = 1.0 - smoothstep(
+            0.0,
+            reflectionWidth,
+            reflectionDistance
+    );
+
+    // Fade the reflection near the rounded glass edges.
+    float reflectionMask = transition * rb1;
+
+    // Only the selected glass block receives this effect.
+    reflection *= hoverActive * reflectionMask;
+
+    // A slightly cool glass-like reflection.
+    vec3 reflectionColor = vec3(0.72, 0.88, 1.0);
+
+    lighting.rgb +=
+    reflectionColor *
+    reflection *
+    0.32;
+
+    float glassOpacity =
+    clamp(0.85 + transition * 0.9, 0.0, 1.0);
+
+    glassOpacity =
+    clamp(glassOpacity + boost * 0.08, 0.0, 1.0);
 
     return mix(baseColor, lighting, glassOpacity);
 }
@@ -114,8 +188,22 @@ void main() {
     vec4 color = texture2D(uSceneTexture, uv);
 
     for (int i = 0; i < MAX_GLASS; i++) {
-        if (i >= uBlockCount) break;
-        color = glassPass(vUv, uv, color, uBlocks[i]);
+        if (i >= uBlockCount) {
+            break;
+        }
+
+        float hoverActive =
+        uHoverBlockIndex == i
+        ? 1.0
+        : 0.0;
+
+        color = glassPass(
+                vUv,
+                uv,
+                color,
+                uBlocks[i],
+                hoverActive
+        );
     }
 
     gl_FragColor = color;
