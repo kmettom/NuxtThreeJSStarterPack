@@ -31,6 +31,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
   firstEnterAniInProgress: true,
   isAnimating: false,
   _uBlocksPositions: [],
+  _uBlockHoveredIndex: 0,
+  hoveredBlockId: 0,
   // _blockClientRects: [],
   _lastScrollY: -1,
   _intersectionObserver: null as IntersectionObserver | null,
@@ -300,7 +302,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         uMouse: { value: new THREE.Vector2(0.01, 0.01) },
         uDevicePixelRatio: { value: window.devicePixelRatio },
         uHoverProgress: { value: 0.0 },
-        uHoverBlockIndex: { value: 0 },
+        uHoverBlockIndex: { value: this._uBlockHoveredIndex },
       },
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
@@ -480,6 +482,10 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         !Number.isNaN(blockId) && this._visibleBlockIds.has(blockId);
       const isAnimating = el.classList.contains("animating");
       const isLoadingBlock = el.classList.contains("block-loading");
+
+      if (blockId === this.hoveredBlockId) {
+        this._uBlockHoveredIndex = activeIndex;
+      }
 
       if ((inViewport || isAnimating) && !isLoadingBlock) {
         const clientBounds = el.getBoundingClientRect();

@@ -30,12 +30,16 @@ float createCircleMask(float radiusPx, float featherPx) {
     return 1.0 - smoothstep(radius, radius + feather, dist);
 }
 
-vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect) {
+vec4 glassPass(vec2 vUv, vec2 uv, vec4 baseColor, vec4 rect, bool isHovered) {
     vec2 glassCenter = vec2(0.5) + rect.xy / uMeshSize;
     vec2 glassHalfUv = rect.zw / uMeshSize;
 
     vec2 m2 = (vUv - glassCenter) / glassHalfUv;
     float roundedBox = pow(abs(m2.x), boxRadius) + pow(abs(m2.y), boxRadius);
+    if (isHovered){
+        float hoverEffectBoxRadius = boxRadius * (1.0 - uHoverProgress);
+        roundedBox = pow(abs(m2.x), hoverEffectBoxRadius) + pow(abs(m2.y), hoverEffectBoxRadius);
+    }
 
     float rb1 = clamp((1.00 - roundedBox) * 8.0, 0.0, 1.0);
     float rb2 = clamp((0.95 - roundedBox) * 16.0, 0.0, 1.0) -
@@ -115,7 +119,11 @@ void main() {
 
     for (int i = 0; i < MAX_GLASS; i++) {
         if (i >= uBlockCount) break;
-        color = glassPass(vUv, uv, color, uBlocks[i]);
+        if (uHoverBlockIndex == i){
+            color = glassPass(vUv, uv, color, uBlocks[i], true);
+        } else {
+            color = glassPass(vUv, uv, color, uBlocks[i], false);
+        }
     }
 
     gl_FragColor = color;

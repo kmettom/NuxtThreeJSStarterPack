@@ -127,20 +127,27 @@ const tlEnterBlockAniIn = gsap.timeline({});
 //**************************
 
 const hoverBlock = (blockId: number) => {
-  const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
+  Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "hoverBlock");
 
-  if (material.uniforms.uHoverBlockIndex !== undefined)
-    material.uniforms.uHoverBlockIndex.value = blockId;
+  const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
+  ethBlocksAnimation.hoveredBlockId = blockId;
+  // if (material.uniforms.uHoverBlockIndex !== undefined)
+  //   material.uniforms.uHoverBlockIndex.value = blockId;
 
   if (material.uniforms.uHoverProgress !== undefined)
     gsap.to(material.uniforms.uHoverProgress, {
       value: 1,
-      duration: 1.25,
+      duration: 0.35,
       onComplete: () => {
         if (material.uniforms.uHoverProgress !== undefined)
           gsap.set(material.uniforms.uHoverProgress, {
             value: 0,
           });
+        Canvas3.setAnimationToRender(
+          ETH_ANI_CALLBACK_NAME,
+          false,
+          "hoverBlock",
+        );
       },
     });
 };

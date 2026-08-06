@@ -55,6 +55,8 @@ export type EthBlocksAnimation = {
   firstEnterAniInProgress: boolean;
   isAnimating: boolean;
   _uBlocksPositions?: THREE.Vector4[];
+  _uBlockHoveredIndex: number;
+  hoveredBlockId: number;
   // _blockClientRects: DOMRect[];
   _lastScrollY?: number;
   _cachedCanvasBounds: DOMRect | null;
