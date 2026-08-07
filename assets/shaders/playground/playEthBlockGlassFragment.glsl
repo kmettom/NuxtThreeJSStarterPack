@@ -172,7 +172,7 @@ vec4 glassPass(
     lighting.rgb +=
     reflectionColor *
     reflection *
-    0.82;
+    0.25;
 
     float glassOpacity =
     clamp(0.85 + transition * 0.9, 0.0, 1.0);
