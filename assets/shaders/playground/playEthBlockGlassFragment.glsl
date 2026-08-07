@@ -152,7 +152,7 @@ vec4 glassPass(
     float reflectionDistance = abs(m2.y - reflectionY);
 
     // Width of the moving reflection band.
-    float reflectionWidth = 0.16;
+    float reflectionWidth = 0.30;
 
     float reflection = 1.0 - smoothstep(
             0.0,
@@ -167,12 +167,12 @@ vec4 glassPass(
     reflection *= hoverActive * reflectionMask;
 
     // A slightly cool glass-like reflection.
-    vec3 reflectionColor = vec3(0.72, 0.88, 1.0);
+    vec3 reflectionColor = vec3(0.5, 0.5, 0.5);
 
     lighting.rgb +=
     reflectionColor *
     reflection *
-    0.32;
+    0.82;
 
     float glassOpacity =
     clamp(0.85 + transition * 0.9, 0.0, 1.0);
