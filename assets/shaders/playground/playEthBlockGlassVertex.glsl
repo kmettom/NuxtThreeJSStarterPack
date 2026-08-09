@@ -19,8 +19,8 @@ uniform float uHoverProgress;
 uniform int uHoverBlockIndex;
 
 // Wave configuration
-const float WAVE_WIDTH = 200.30;
-const float WAVE_STRENGTH = 220.08;
+const float WAVE_WIDTH = 1.0;
+const float WAVE_STRENGTH = 100.0;
 const float WAVE_FREQUENCY = 5.0;
 const float WAVE_PHASE = 6.28318530718;
 
