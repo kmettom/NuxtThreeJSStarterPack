@@ -276,7 +276,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const fragmentShader =
       Canvas3Options.shaders.playEthBlockGlass.fragmentShader;
 
-    const geometry = new THREE.PlaneGeometry(1, 1);
+    const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
 
     this.calculateUBlockPositions();
     if (!this._uBlocksPositions) return;
