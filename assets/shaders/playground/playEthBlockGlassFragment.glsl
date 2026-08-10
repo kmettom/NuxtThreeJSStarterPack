@@ -61,8 +61,43 @@ vec4 glassPass(
 
     float mouseCircle = createCircleMask(20.0, 125.0);
 
-    // Restrict enhancement to visible glass only
-    float boost = mouseCircle * transition;
+    // Cursor distortion mask
+    float cursorBoost = mouseCircle * transition;
+
+    /*
+     * Hover reflection sweep.
+
+     * uHoverProgress:
+     * 0.0 -> top
+     * 1.0 -> bottom
+     */
+    float progress = clamp(uHoverProgress, 0.0, 1.0);
+
+    // m2.y is 1.0 at the top and -1.0 at the bottom.
+    float reflectionY = mix(1.0, -1.0, progress);
+
+    float reflectionDistance = abs(m2.y - reflectionY);
+
+    // Width of the moving reflection distortion area.
+    float reflectionWidth = 0.30;
+
+    float reflection = 1.0 - smoothstep(
+            0.0,
+            reflectionWidth,
+            reflectionDistance
+    );
+
+    // Fade the reflection near the rounded glass edges.
+    float reflectionMask = transition * rb1;
+
+    // Only the selected glass block receives the reflection distortion.
+    float reflectionBoost =
+    reflection *
+    hoverActive *
+    reflectionMask;
+
+    // Use the same distortion pipeline for both the cursor and reflection.
+    float boost = max(cursorBoost, reflectionBoost);
 
     vec2 fromCenter = vUv - glassCenter;
     float centerFalloff =
@@ -137,42 +172,12 @@ vec4 glassPass(
     ring *
     transition;
 
-    /*
-     * Hover reflection sweep.
+    // Optional low-intensity highlight over the RGB distortion area.
+    // The actual reflection is now created by the distortion pipeline.
+    float reflectionHighlight =
+    reflectionBoost * 0.08;
 
-     * uHoverProgress:
-     * 0.0 -> top
-     * 1.0 -> bottom
-     */
-    float progress = clamp(uHoverProgress, 0.0, 1.0);
-
-    // m2.y is 1.0 at the top and -1.0 at the bottom.
-    float reflectionY = mix(1.0, -1.0, progress);
-
-    float reflectionDistance = abs(m2.y - reflectionY);
-
-    // Width of the moving reflection band.
-    float reflectionWidth = 0.30;
-
-    float reflection = 1.0 - smoothstep(
-            0.0,
-            reflectionWidth,
-            reflectionDistance
-    );
-
-    // Fade the reflection near the rounded glass edges.
-    float reflectionMask = transition * rb1;
-
-    // Only the selected glass block receives this effect.
-    reflection *= hoverActive * reflectionMask;
-
-    // A slightly cool glass-like reflection.
-    vec3 reflectionColor = vec3(0.5, 0.5, 0.5);
-
-    lighting.rgb +=
-    reflectionColor *
-    reflection *
-    0.25;
+    lighting.rgb += vec3(reflectionHighlight);
 
     float glassOpacity =
     clamp(0.85 + transition * 0.9, 0.0, 1.0);
