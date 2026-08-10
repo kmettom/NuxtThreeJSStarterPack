@@ -20,6 +20,7 @@
         "
         :class="`eth-block ${block.loading ? 'block-loading' : ''}`"
         @mouseenter="hoverBlock(block.blockId)"
+        @mouseleave="unHoverBlock()"
       >
         <blockContent :block="block" />
       </div>
@@ -126,30 +127,33 @@ const tlEnterBlockAniIn = gsap.timeline({});
 // FUNCTIONS
 //**************************
 
+const unHoverBlock = () => {
+  const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
+  if (material.uniforms.uHoverProgress !== undefined)
+    gsap.set(material.uniforms.uHoverProgress, {
+      value: 0,
+    });
+  ethBlocksAnimation.hoveredBlockId = -1;
+  ethBlocksAnimation.calculateUBlockPositions();
+};
+
 const hoverBlock = (blockId: number) => {
   Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "hoverBlock");
 
   const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
   ethBlocksAnimation.hoveredBlockId = blockId;
-  // if (material.uniforms.uHoverBlockIndex !== undefined)
-  //   material.uniforms.uHoverBlockIndex.value = ethBlocksAnimation._uBlockHoveredIndex;
 
   if (material.uniforms.uHoverProgress !== undefined)
     gsap.to(material.uniforms.uHoverProgress, {
       value: 1,
-      duration: 0.25,
-      ease: "easeInOut",
+      duration: 0.3,
+      ease: "power1.out",
       onComplete: () => {
-        if (material.uniforms.uHoverProgress !== undefined)
-          gsap.set(material.uniforms.uHoverProgress, {
-            value: 0,
-          });
         Canvas3.setAnimationToRender(
           ETH_ANI_CALLBACK_NAME,
           false,
           "hoverBlock",
         );
-        ethBlocksAnimation.hoveredBlockId = -1;
       },
     });
 };

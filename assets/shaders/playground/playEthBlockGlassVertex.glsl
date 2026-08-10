@@ -19,10 +19,12 @@ uniform float uHoverProgress;
 uniform int uHoverBlockIndex;
 
 // Wave configuration
-const float WAVE_WIDTH = 1.0;
-const float WAVE_STRENGTH = 100.0;
+const float WAVE_WIDTH = 0.25;
+const float WAVE_STRENGTH = 20.0;
 const float WAVE_FREQUENCY = 5.0;
 const float WAVE_PHASE = 6.28318530718;
+const float SCREEN_BULGE_STRENGTH = 0.015;
+
 
 // Converts the vertex UV into block-local coordinates.
 //
@@ -133,6 +135,18 @@ vec3 glassPassHover(
     shapeFalloff *
     progressFade;
 
+    vec2 blockSizeInPlane = vec2(
+            rect.z / uMeshSize.x,
+            rect.w / uMeshSize.y
+    );
+
+    vec2 screenBulge =
+    blockCoords *
+    blockSizeInPlane *
+    displacement *
+    SCREEN_BULGE_STRENGTH;
+
+    newPosition.xy += screenBulge;
     newPosition.z += displacement;
 
     return newPosition;

@@ -120,6 +120,7 @@ const props = defineProps<{
   text-decoration: none;
   &:hover {
     .link-icon {
+      transform: scale(1.1);
       opacity: 1;
     }
   }

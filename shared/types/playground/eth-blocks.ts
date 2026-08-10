@@ -48,6 +48,7 @@ export type EthBlocksAnimation = {
     elNode: HTMLElement,
     index: number,
     clientRect?: DOMRect,
+    isHovered?: boolean,
   ) => void;
   pendingImageId: number;
   currentImageId: number;

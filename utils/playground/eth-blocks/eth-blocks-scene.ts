@@ -229,7 +229,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     }
   },
 
-  animateBlockSizeOnScroll(elNode, index, blockClientRect) {
+  animateBlockSizeOnScroll(elNode, index, blockClientRect, isHovered) {
     const currentScrollY = window.scrollY;
     if (
       this._lastScrollY !== currentScrollY ||
@@ -244,7 +244,9 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
       );
 
       elNode.style.transform = `scale(${Math.max(1 - aniCoef / 3, 0.8)})`;
-      elNode.style.opacity = `${Math.max(1 - aniCoef * 3, 0.35)}`;
+      gsap.to(elNode, {
+        opacity: isHovered ? 1 : Math.max(0.9 - aniCoef * 3, 0.35),
+      });
 
       //***************************
       //Set Active Block and trigger imageBG chagne
@@ -276,7 +278,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const fragmentShader =
       Canvas3Options.shaders.playEthBlockGlass.fragmentShader;
 
-    const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
+    const geometry = new THREE.PlaneGeometry(1, 1, 128, 128);
 
     this.calculateUBlockPositions();
     if (!this._uBlocksPositions) return;
@@ -488,6 +490,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
 
       if ((inViewport || isAnimating) && !isLoadingBlock) {
         const clientBounds = el.getBoundingClientRect();
+        let isHovered = false;
         if (activeIndex < BLOCKS_ON_SCREEN_AMOUNT) {
           const uBlockPosition = this._uBlocksPositions[activeIndex];
           if (uBlockPosition) {
@@ -497,12 +500,13 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
               canvasBounds,
             );
             if (blockId === this.hoveredBlockId) {
+              isHovered = true;
               this._uBlockHoveredIndex.value = activeIndex;
             }
             activeIndex++;
           }
         }
-        this.animateBlockSizeOnScroll(el, i, clientBounds);
+        this.animateBlockSizeOnScroll(el, i, clientBounds, isHovered);
       }
     }
 

@@ -79,7 +79,7 @@ vec4 glassPass(
     float reflectionDistance = abs(m2.y - reflectionY);
 
     // Width of the moving reflection distortion area.
-    float reflectionWidth = 0.30;
+    float reflectionWidth = 0.50;
 
     float reflection = 1.0 - smoothstep(
             0.0,
