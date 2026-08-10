@@ -31,7 +31,10 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
   firstEnterAniInProgress: true,
   isAnimating: false,
   _uBlocksPositions: [],
-  // _blockClientRects: [],
+  _uBlockHoveredIndex: {
+    value: -1,
+  },
+  hoveredBlockId: -1,
   _lastScrollY: -1,
   _intersectionObserver: null as IntersectionObserver | null,
   _visibleBlockIds: new Set<number>(),
@@ -226,7 +229,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     }
   },
 
-  animateBlockSizeOnScroll(elNode, index, blockClientRect) {
+  animateBlockSizeOnScroll(elNode, index, blockClientRect, isHovered) {
     const currentScrollY = window.scrollY;
     if (
       this._lastScrollY !== currentScrollY ||
@@ -241,7 +244,10 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
       );
 
       elNode.style.transform = `scale(${Math.max(1 - aniCoef / 3, 0.8)})`;
-      elNode.style.opacity = `${Math.max(1 - aniCoef * 3, 0.35)}`;
+      gsap.to(elNode, {
+        opacity: isHovered ? 1 : Math.max(0.85 - aniCoef * 3, 0.35),
+        duration: 0.3,
+      });
 
       //***************************
       //Set Active Block and trigger imageBG chagne
@@ -273,12 +279,12 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const fragmentShader =
       Canvas3Options.shaders.playEthBlockGlass.fragmentShader;
 
-    const geometry = new THREE.PlaneGeometry(1, 1);
+    const geometry = new THREE.PlaneGeometry(1, 1, 128, 128);
 
     this.calculateUBlockPositions();
     if (!this._uBlocksPositions) return;
 
-    const meshId = "ethBlockBg";
+    const meshId = "ethGlassMesh";
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uMeshSize: {
@@ -297,6 +303,11 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
           value: this._uBlocksPositions,
         },
         uSceneTexture: { value: null },
+        uMouse: { value: new THREE.Vector2(0.01, 0.01) },
+        uDevicePixelRatio: { value: window.devicePixelRatio },
+        uHoverProgress: { value: 0.0 },
+        uUnHoverProgress: { value: 0.0 },
+        uHoverBlockIndex: this._uBlockHoveredIndex,
       },
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
@@ -311,6 +322,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     mesh.position.z = 2;
 
     Canvas3.addMeshToScene(mesh);
+    Canvas3.addMaterialForGlobalUniformUpdates(material);
     return mesh;
   },
 
@@ -464,6 +476,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const canvasBounds = this._cachedCanvasBounds;
     if (!canvasBounds) return this._uBlocksPositions;
 
+    this._uBlockHoveredIndex.value = -1;
+
     let activeIndex = 0;
     for (let i = 0; i < this.ethBlockEls.length; i++) {
       const el = this.ethBlockEls[i] as HTMLElement;
@@ -478,6 +492,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
 
       if ((inViewport || isAnimating) && !isLoadingBlock) {
         const clientBounds = el.getBoundingClientRect();
+        let isHovered = false;
         if (activeIndex < BLOCKS_ON_SCREEN_AMOUNT) {
           const uBlockPosition = this._uBlocksPositions[activeIndex];
           if (uBlockPosition) {
@@ -486,10 +501,14 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
               clientBounds,
               canvasBounds,
             );
+            if (blockId === this.hoveredBlockId) {
+              isHovered = true;
+              this._uBlockHoveredIndex.value = activeIndex;
+            }
             activeIndex++;
           }
         }
-        this.animateBlockSizeOnScroll(el, i, clientBounds);
+        this.animateBlockSizeOnScroll(el, i, clientBounds, isHovered);
       }
     }
 
@@ -563,7 +582,9 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
   },
 };
 
-// TODO:
-// - shader top and bottom difference of image transition
-// - block data shader inject for dif behaviour
-// - initial loader improve
+// TODO: mouse interaction
+// - add link - ICON
+// - add shader effect - glass effect enhance in mouse position
+
+// TODO: For Post info
+// - shader data - scroll direction, on chain data of transactions, initial loader improvement

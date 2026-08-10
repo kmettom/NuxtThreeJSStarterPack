@@ -19,6 +19,8 @@
           block.transactions?.length ?? DEFAULT_TRANSACTIONS_AMOUNT
         "
         :class="`eth-block ${block.loading ? 'block-loading' : ''}`"
+        @mouseenter="hoverBlock(block.blockId)"
+        @mouseleave="unHoverBlock()"
       >
         <blockContent :block="block" />
       </div>
@@ -56,6 +58,7 @@ import {
   IMAGE_FILE_AMOUNT,
 } from "~/constants/playground/eth-blocks";
 import Credentials from "~/components/playground/eth-blocks/credentials.vue";
+import type { ShaderMaterial } from "three";
 gsap.registerPlugin(SplitText);
 
 //**************************
@@ -123,6 +126,59 @@ const tlEnterBlockAniIn = gsap.timeline({});
 //**************************
 // FUNCTIONS
 //**************************
+
+const hoverTl = gsap.timeline({ paused: true });
+
+const unHoverBlock = () => {
+  Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "unHoverBlock");
+
+  const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
+  if (material.uniforms.uUnHoverProgress !== undefined) {
+    hoverTl.to(material.uniforms.uUnHoverProgress, {
+      value: 1,
+      duration: 0.15,
+      onComplete: () => {
+        if (material.uniforms.uUnHoverProgress !== undefined)
+          gsap.set(material.uniforms.uUnHoverProgress, { value: 0 });
+        if (material.uniforms.uHoverProgress !== undefined)
+          gsap.set(material.uniforms.uHoverProgress, { value: 0 });
+
+        ethBlocksAnimation.hoveredBlockId = -1;
+        ethBlocksAnimation.calculateUBlockPositions();
+        Canvas3.setAnimationToRender(
+          ETH_ANI_CALLBACK_NAME,
+          false,
+          "unHoverBlock",
+        );
+      },
+    });
+  }
+};
+
+const hoverBlock = (blockId: number) => {
+  Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "hoverBlock");
+
+  const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
+
+  if (material.uniforms.uHoverProgress !== undefined) {
+    hoverTl.to(material.uniforms.uHoverProgress, {
+      value: 1,
+      duration: 0.25,
+      ease: "power1.out",
+      onStart: () => {
+        ethBlocksAnimation.hoveredBlockId = blockId;
+      },
+      onComplete: () => {
+        Canvas3.setAnimationToRender(
+          ETH_ANI_CALLBACK_NAME,
+          false,
+          "hoverBlock",
+        );
+      },
+    });
+    hoverTl.play();
+  }
+};
 
 const getBlockElFromBlockId = (blockId: number) => {
   if (!ethBlocksWrapper.value) return null;

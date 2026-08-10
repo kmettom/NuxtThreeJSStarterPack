@@ -5,6 +5,7 @@ import BurnedIcon from "~/components/playground/eth-blocks/icons/burnedIcon.vue"
 import WithdrawIcon from "~/components/playground/eth-blocks/icons/withdrawIcon.vue";
 import SupplyIcon from "~/components/playground/eth-blocks/icons/supplyIcon.vue";
 import GasChart from "~/components/playground/eth-blocks/gasChart.vue";
+import type { BlockExtended } from "#shared/types/playground/eth-blocks";
 
 const props = defineProps<{
   block: BlockExtended;
@@ -14,7 +15,20 @@ const props = defineProps<{
 <template>
   <div class="block-loading-progress" />
   <div v-if="props.block.loading" />
-  <div v-else class="content-wrapper">
+  <NuxtLink
+    v-else
+    :href="`https://etherscan.io/block/${props.block.blockId}`"
+    target="_blank"
+    class="content-wrapper"
+  >
+    <div class="link-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M18,10.82a1,1,0,0,0-1,1V19a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V8A1,1,0,0,1,5,7h7.18a1,1,0,0,0,0-2H5A3,3,0,0,0,2,8V19a3,3,0,0,0,3,3H16a3,3,0,0,0,3-3V11.82A1,1,0,0,0,18,10.82Zm3.92-8.2a1,1,0,0,0-.54-.54A1,1,0,0,0,21,2H15a1,1,0,0,0,0,2h3.59L8.29,14.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L20,5.41V9a1,1,0,0,0,2,0V3A1,1,0,0,0,21.92,2.62Z"
+          fill="white"
+        />
+      </svg>
+    </div>
     <div class="content-row">
       <div class="content-block">
         <div class="content-title ani-index-title">Transactions:</div>
@@ -73,7 +87,7 @@ const props = defineProps<{
         <span class="content-value ani-index-1 text-bold">ETH</span>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <style scoped lang="scss">
@@ -102,6 +116,15 @@ const props = defineProps<{
   display: flex;
   flex-direction: column;
   padding: 15px 0;
+  //color: var(--light-color);
+  color: white;
+  text-decoration: none;
+  &:hover {
+    .link-icon {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+  }
 }
 
 .content-row {
@@ -154,5 +177,19 @@ const props = defineProps<{
 
 .text-bold {
   font-weight: bold;
+}
+.link-icon {
+  transition: ease opacity 0.35s;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+  }
 }
 </style>

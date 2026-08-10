@@ -48,6 +48,7 @@ export type EthBlocksAnimation = {
     elNode: HTMLElement,
     index: number,
     clientRect?: DOMRect,
+    isHovered?: boolean,
   ) => void;
   pendingImageId: number;
   currentImageId: number;
@@ -55,6 +56,8 @@ export type EthBlocksAnimation = {
   firstEnterAniInProgress: boolean;
   isAnimating: boolean;
   _uBlocksPositions?: THREE.Vector4[];
+  _uBlockHoveredIndex: THREE.IUniform<number>;
+  hoveredBlockId: number;
   // _blockClientRects: DOMRect[];
   _lastScrollY?: number;
   _cachedCanvasBounds: DOMRect | null;
