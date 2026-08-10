@@ -245,7 +245,8 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
 
       elNode.style.transform = `scale(${Math.max(1 - aniCoef / 3, 0.8)})`;
       gsap.to(elNode, {
-        opacity: isHovered ? 1 : Math.max(0.9 - aniCoef * 3, 0.35),
+        opacity: isHovered ? 1 : Math.max(0.85 - aniCoef * 3, 0.35),
+        duration: 0.3,
       });
 
       //***************************
@@ -305,6 +306,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
         uMouse: { value: new THREE.Vector2(0.01, 0.01) },
         uDevicePixelRatio: { value: window.devicePixelRatio },
         uHoverProgress: { value: 0.0 },
+        uUnHoverProgress: { value: 0.0 },
         uHoverBlockIndex: this._uBlockHoveredIndex,
       },
       fragmentShader: fragmentShader,

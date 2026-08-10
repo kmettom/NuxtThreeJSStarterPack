@@ -127,27 +127,47 @@ const tlEnterBlockAniIn = gsap.timeline({});
 // FUNCTIONS
 //**************************
 
+const hoverTl = gsap.timeline({ paused: true });
+
 const unHoverBlock = () => {
+  Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "unHoverBlock");
+
   const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
-  if (material.uniforms.uHoverProgress !== undefined)
-    gsap.set(material.uniforms.uHoverProgress, {
-      value: 0,
+  if (material.uniforms.uUnHoverProgress !== undefined) {
+    hoverTl.to(material.uniforms.uUnHoverProgress, {
+      value: 1,
+      duration: 0.15,
+      onComplete: () => {
+        if (material.uniforms.uUnHoverProgress !== undefined)
+          gsap.set(material.uniforms.uUnHoverProgress, { value: 0 });
+        if (material.uniforms.uHoverProgress !== undefined)
+          gsap.set(material.uniforms.uHoverProgress, { value: 0 });
+
+        ethBlocksAnimation.hoveredBlockId = -1;
+        ethBlocksAnimation.calculateUBlockPositions();
+        Canvas3.setAnimationToRender(
+          ETH_ANI_CALLBACK_NAME,
+          false,
+          "unHoverBlock",
+        );
+      },
     });
-  ethBlocksAnimation.hoveredBlockId = -1;
-  ethBlocksAnimation.calculateUBlockPositions();
+  }
 };
 
 const hoverBlock = (blockId: number) => {
   Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "hoverBlock");
 
   const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
-  ethBlocksAnimation.hoveredBlockId = blockId;
 
-  if (material.uniforms.uHoverProgress !== undefined)
-    gsap.to(material.uniforms.uHoverProgress, {
+  if (material.uniforms.uHoverProgress !== undefined) {
+    hoverTl.to(material.uniforms.uHoverProgress, {
       value: 1,
-      duration: 0.3,
+      duration: 0.25,
       ease: "power1.out",
+      onStart: () => {
+        ethBlocksAnimation.hoveredBlockId = blockId;
+      },
       onComplete: () => {
         Canvas3.setAnimationToRender(
           ETH_ANI_CALLBACK_NAME,
@@ -156,6 +176,8 @@ const hoverBlock = (blockId: number) => {
         );
       },
     });
+    hoverTl.play();
+  }
 };
 
 const getBlockElFromBlockId = (blockId: number) => {

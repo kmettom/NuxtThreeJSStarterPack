@@ -116,7 +116,8 @@ const props = defineProps<{
   display: flex;
   flex-direction: column;
   padding: 15px 0;
-  color: var(--light-color);
+  //color: var(--light-color);
+  color: white;
   text-decoration: none;
   &:hover {
     .link-icon {

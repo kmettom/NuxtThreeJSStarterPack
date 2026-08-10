@@ -11,6 +11,7 @@ uniform vec2 uViewport;
 uniform vec2 uMouse;
 uniform float uDevicePixelRatio;
 uniform float uHoverProgress;
+uniform float uUnHoverProgress;
 uniform int uHoverBlockIndex;
 
 float boxRadius = 20.0;
@@ -83,7 +84,7 @@ vec4 glassPass(
 
     float reflection = 1.0 - smoothstep(
             0.0,
-            reflectionWidth,
+            reflectionWidth * (1.0 - uUnHoverProgress),
             reflectionDistance
     );
 
