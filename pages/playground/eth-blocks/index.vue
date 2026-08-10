@@ -137,7 +137,7 @@ const hoverBlock = (blockId: number) => {
   if (material.uniforms.uHoverProgress !== undefined)
     gsap.to(material.uniforms.uHoverProgress, {
       value: 1,
-      duration: 0.35,
+      duration: 0.25,
       ease: "easeInOut",
       onComplete: () => {
         if (material.uniforms.uHoverProgress !== undefined)
