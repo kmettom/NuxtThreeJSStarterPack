@@ -235,33 +235,29 @@ function firstLoadingBlockAniStart() {
   const blockProgressBarEl = el.querySelector(".block-loading-progress");
   tlEnterBlockAniIn.to(blockProgressBarEl, {
     width: "100%",
-    duration: 20,
+    duration: 10,
   });
 }
 
 const firstLoadingBlockAniEnd = () => {
   const el = document.querySelectorAll(".eth-block")[0];
   if (!el) return;
-  // console.log("tlEnterBlockAniIn.progress()", tlEnterBlockAniIn.progress())
-  // if(tlEnterBlockAniIn.progress() > 0.05){
-  //   console.log("2222tlEnterBlockAniIn")
-  tlEnterBlockAniIn.clear();
-  const blockProgressBarEl = el.querySelector(".block-loading-progress");
-  tlEnterBlockAniIn.to(blockProgressBarEl, {
-    width: "100%",
-    duration: 0.35,
-  });
-  tlEnterBlockAniIn.to(blockProgressBarEl, {
-    width: "0%",
-    duration: 0.2,
-    right: 0,
-    left: "initial",
-  });
-  // }else{
-  //   setTimeout(() => {
-  //     firstLoadingBlockAniEnd();
-  //   },1250)
-  // }
+  const progressDuration = tlEnterBlockAniIn.progress() < 0.05 ? 0.75 : 0.35;
+    gsap.to(tlEnterBlockAniIn, {
+      progress: 1,
+      duration: progressDuration,
+      onComplete: () => {
+        tlEnterBlockAniIn.clear();
+        const blockProgressBarEl = el.querySelector(".block-loading-progress");
+        tlEnterBlockAniIn.to(blockProgressBarEl, {
+          width: "0%",
+          duration: 0.2,
+          right: 0,
+          left: "initial",
+        });
+      }
+    });
+
 };
 
 async function newLoadingBlock() {
