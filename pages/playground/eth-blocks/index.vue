@@ -274,12 +274,10 @@ const blockDoneAnimate = (blockId: number) => {
   if (!el) {
     return;
   }
-  console.log(ethBlocks.value.size, ethBlocksAnimation.imageBgMeshes.length);
   if (
     ethBlocks.value.size >= ethBlocksAnimation.imageBgMeshes.length &&
     ethBlocks.value.size < IMAGE_FILE_AMOUNT
   ) {
-    console.log("load more images");
     setTimeout(() => {
       ethBlocksAnimation.loadTextures(NEXT_IMAGE_BATCH_LOAD_AMOUNT);
     }, 4000);
