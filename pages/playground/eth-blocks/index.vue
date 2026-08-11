@@ -240,24 +240,56 @@ function firstLoadingBlockAniStart() {
 }
 
 const firstLoadingBlockAniEnd = () => {
-  const el = document.querySelectorAll(".eth-block")[0];
-  if (!el) return;
-  const progressDuration = tlEnterBlockAniIn.progress() < 0.05 ? 0.75 : 0.35;
-  gsap.to(tlEnterBlockAniIn, {
-    progress: 1,
-    duration: progressDuration,
-    onComplete: () => {
-      tlEnterBlockAniIn.clear();
-      const blockProgressBarEl = el.querySelector(".block-loading-progress");
-      tlEnterBlockAniIn.to(blockProgressBarEl, {
-        width: "0%",
-        duration: 0.2,
-        right: 0,
-        left: "initial",
-      });
-    },
+  return new Promise((resolve) => {
+    const el = document.querySelectorAll(".eth-block")[0];
+    if (!el) {
+      resolve(false);
+      return;
+    }
+
+    const progressDuration = tlEnterBlockAniIn.progress() < 0.05 ? 0.75 : 0.35;
+
+    gsap.to(tlEnterBlockAniIn, {
+      progress: 1,
+      duration: progressDuration,
+      onComplete: () => {
+        tlEnterBlockAniIn.clear();
+
+        const blockProgressBarEl = el.querySelector(".block-loading-progress");
+
+        tlEnterBlockAniIn.to(blockProgressBarEl, {
+          width: "0%",
+          duration: 0.2,
+          right: 0,
+          left: "initial",
+          onComplete: () => {
+            resolve(true);
+          },
+        });
+      },
+    });
   });
 };
+
+// const firstLoadingBlockAniEnd = () => {
+//   const el = document.querySelectorAll(".eth-block")[0];
+//   if (!el) return;
+//   const progressDuration = tlEnterBlockAniIn.progress() < 0.05 ? 0.75 : 0.35;
+//   gsap.to(tlEnterBlockAniIn, {
+//     progress: 1,
+//     duration: progressDuration,
+//     onComplete: () => {
+//       tlEnterBlockAniIn.clear();
+//       const blockProgressBarEl = el.querySelector(".block-loading-progress");
+//       tlEnterBlockAniIn.to(blockProgressBarEl, {
+//         width: "0%",
+//         duration: 0.2,
+//         right: 0,
+//         left: "initial",
+//       });
+//     },
+//   });
+// };
 
 async function newLoadingBlock() {
   ethBlocksAnimation.loadingBlockId = blockIdCounter.value;
@@ -368,7 +400,7 @@ const blockDoneAnimate = (blockId: number) => {
         el.classList.remove("animating");
       },
     });
-    tlNewBlockAniIn.play();
+    // tlNewBlockAniIn.play();
   }
 };
 
@@ -422,7 +454,7 @@ onMounted(async () => {
   await ethBlocksAnimation.init(ethBlockEls);
   await ethBlocksAnimation.startRender();
 
-  firstLoadingBlockAniEnd();
+  await firstLoadingBlockAniEnd();
 
   addBlockListener();
   Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "firstAnimationIn");
