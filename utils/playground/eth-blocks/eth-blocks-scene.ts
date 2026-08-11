@@ -587,8 +587,7 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
 };
 
 // TODO: mouse interaction
-// - add link - ICON
-// - add shader effect - glass effect enhance in mouse position
+// - Eth blocks - check bg mesh logic - z index va hide, dont render when not needed
 
 // TODO: For Post info
 // - shader data - scroll direction, on chain data of transactions, initial loader improvement
