@@ -52,10 +52,11 @@ import {
   enterAni,
 } from "~/utils/playground/eth-blocks/eth-block-animation-helpers";
 import {
-  BLOCKS_MAX_AMOUNT,
+  // BLOCKS_MAX_AMOUNT,
   DEFAULT_BLOCK_LOADING_TIME,
   DEFAULT_TRANSACTIONS_AMOUNT,
   IMAGE_FILE_AMOUNT,
+  NEXT_IMAGE_BATCH_LOAD_AMOUNT,
 } from "~/constants/playground/eth-blocks";
 import Credentials from "~/components/playground/eth-blocks/credentials.vue";
 import type { ShaderMaterial } from "three";
@@ -187,7 +188,7 @@ const getBlockElFromBlockId = (blockId: number) => {
   );
 };
 
-function firstLoadingBlock() {
+function firstLoadingBlockAniStart() {
   const el = document.querySelectorAll(".eth-block")[0];
   if (!el) return;
   tlEnterBlockAniIn.to(el, {
@@ -203,7 +204,18 @@ function firstLoadingBlock() {
   const blockProgressBarEl = el.querySelector(".block-loading-progress");
   tlEnterBlockAniIn.to(blockProgressBarEl, {
     width: "100%",
-    duration: 0.75,
+    duration: 20,
+  });
+}
+
+const firstLoadingBlockAniEnd = () => {
+  const el = document.querySelectorAll(".eth-block")[0];
+  if (!el) return;
+  const blockProgressBarEl = el.querySelector(".block-loading-progress");
+  tlEnterBlockAniIn.clear();
+  tlEnterBlockAniIn.to(blockProgressBarEl, {
+    width: "100%",
+    duration: 0.35,
   });
   tlEnterBlockAniIn.to(blockProgressBarEl, {
     width: "0%",
@@ -211,7 +223,7 @@ function firstLoadingBlock() {
     right: 0,
     left: "initial",
   });
-}
+};
 
 async function newLoadingBlock() {
   ethBlocksAnimation.loadingBlockId = blockIdCounter.value;
@@ -262,10 +274,16 @@ const blockDoneAnimate = (blockId: number) => {
   if (!el) {
     return;
   }
-
-  setTimeout(() => {
-    ethBlocksAnimation.loadTextures(2, 0);
-  }, 5000);
+  console.log(ethBlocks.value.size, ethBlocksAnimation.imageBgMeshes.length);
+  if (
+    ethBlocks.value.size >= ethBlocksAnimation.imageBgMeshes.length &&
+    ethBlocks.value.size < IMAGE_FILE_AMOUNT
+  ) {
+    console.log("load more images");
+    setTimeout(() => {
+      ethBlocksAnimation.loadTextures(NEXT_IMAGE_BATCH_LOAD_AMOUNT);
+    }, 4000);
+  }
 
   tlNewBlockAniIn.tweenTo(tlNewBlockAniIn.duration(), {
     duration: 0.3,
@@ -335,10 +353,10 @@ const addBlockListener = () => {
     await nextTick();
     ethBlocksAnimation._setupIntersectionObserver();
     blockDoneAnimate(ethBlocksAnimation.loadingBlockId);
-    if (ethBlocks.value.size > BLOCKS_MAX_AMOUNT) {
-      const oldestKey = ethBlocks.value.keys().next().value;
-      if (oldestKey !== undefined) ethBlocks.value.delete(oldestKey);
-    }
+    // if (ethBlocks.value.size > BLOCKS_MAX_AMOUNT) {
+    //   const oldestKey = ethBlocks.value.keys().next().value;
+    //   if (oldestKey !== undefined) ethBlocks.value.delete(oldestKey);
+    // }
   };
 };
 
@@ -358,7 +376,7 @@ const handleResize = () => {
 };
 
 onMounted(async () => {
-  firstLoadingBlock();
+  firstLoadingBlockAniStart();
 
   window.addEventListener("resize", handleResize);
 
@@ -372,16 +390,14 @@ onMounted(async () => {
   await ethBlocksAnimation.init(ethBlockEls);
   await ethBlocksAnimation.startRender();
 
+  firstLoadingBlockAniEnd();
+
   addBlockListener();
   Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "firstAnimationIn");
   await enterAni(tlEnterBlockAniIn, ethBlockEls, !!displayStore.isMobile);
   tlNewBlockAniIn.play();
 
   credentialsAniIn(tlEnterBlockAniIn);
-
-  setTimeout(() => {
-    ethBlocksAnimation.loadTextures(2, 0);
-  }, 5000);
 });
 </script>
 <style lang="scss" scoped>

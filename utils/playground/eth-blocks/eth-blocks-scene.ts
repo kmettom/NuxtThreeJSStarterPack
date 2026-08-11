@@ -9,6 +9,7 @@ import {
   IMAGE_FILE_AMOUNT,
   INITIAL_BLOCK_AMOUNT,
   LOADING_BLOCK_SIZE,
+  NEXT_IMAGE_BATCH_LOAD_AMOUNT,
   U_TRANSACTIONS_AMOUNT_NORMALISED,
 } from "~/constants/playground/eth-blocks";
 import type { EthBlocksAnimation } from "#shared/types/playground/eth-blocks";
@@ -124,7 +125,9 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
 
     this._setupIntersectionObserver();
 
-    await this.loadTextures(2);
+    await this.loadTextures(
+      INITIAL_BLOCK_AMOUNT + NEXT_IMAGE_BATCH_LOAD_AMOUNT,
+    );
   },
   async revealFirstTexture() {
     return new Promise((resolve) => {
@@ -162,8 +165,6 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     this._scene = Canvas3.getScene();
     this._camera = Canvas3.getCamera();
 
-    // We already loaded 1 texture in init, now load the rest for initial blocks
-    await this.loadTextures(INITIAL_BLOCK_AMOUNT);
     this.glassMesh = await this.createGlassBlockMesh();
 
     this._cachedCanvasBounds =
@@ -199,7 +200,10 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
       this.textureMaskNoise = texture;
     }
   },
-  async loadTextures(amountOfTextures = IMAGE_FILE_AMOUNT, delay = 0) {
+  async loadTextures(
+    amountOfTextures = NEXT_IMAGE_BATCH_LOAD_AMOUNT,
+    delay = 0,
+  ) {
     if (!this.textureMaskNoise) {
       await this.loadTextureMaskNoise();
     }
