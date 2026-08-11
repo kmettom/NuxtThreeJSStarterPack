@@ -109,6 +109,9 @@ const blockCountersUpdate = () => {
 
 const tlNewBlockAniIn = gsap.timeline({
   paused: true,
+  onStart: () => {
+    Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "firstAnimationIn");
+  },
   onUpdate: () => {
     ethBlocksAnimation.isAnimating = true;
   },
@@ -211,8 +214,11 @@ function firstLoadingBlockAniStart() {
 const firstLoadingBlockAniEnd = () => {
   const el = document.querySelectorAll(".eth-block")[0];
   if (!el) return;
+  // console.log("tlEnterBlockAniIn.progress()", tlEnterBlockAniIn.progress())
+  // if(tlEnterBlockAniIn.progress() > 0.05){
+  //   console.log("2222tlEnterBlockAniIn")
+    tlEnterBlockAniIn.clear();
   const blockProgressBarEl = el.querySelector(".block-loading-progress");
-  tlEnterBlockAniIn.clear();
   tlEnterBlockAniIn.to(blockProgressBarEl, {
     width: "100%",
     duration: 0.35,
@@ -223,6 +229,12 @@ const firstLoadingBlockAniEnd = () => {
     right: 0,
     left: "initial",
   });
+  // }else{
+  //   setTimeout(() => {
+  //     firstLoadingBlockAniEnd();
+  //   },1250)
+  // }
+
 };
 
 async function newLoadingBlock() {
