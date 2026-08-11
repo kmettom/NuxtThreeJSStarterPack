@@ -367,7 +367,9 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     const mesh = new THREE.Mesh(geometry, material);
     mesh.name = meshId;
     mesh.scale.set(window.innerWidth, window.innerHeight, 1);
-    mesh.position.z = id === 0 ? 1 : 0;
+    const isVisibleVal = id === 0 ? 1 : 0;
+    mesh.position.z = isVisibleVal;
+    mesh.visible = !!isVisibleVal;
 
     Canvas3.addMeshToScene(mesh);
     if (!mesh) return null;
@@ -384,7 +386,9 @@ export const ethBlocksAnimation: EthBlocksAnimation = {
     for (let i = 0; i < this.imageBgMeshes.length; i++) {
       const meshToUpdate = this.imageBgMeshes[i];
       if (!meshToUpdate) continue;
-      meshToUpdate.position.z = newImageId === i ? 1 : 0;
+      const isVisibleVal = newImageId === i ? 1 : 0;
+      meshToUpdate.position.z = isVisibleVal;
+      meshToUpdate.visible = !!isVisibleVal;
       const materialToUpdate = meshToUpdate.material as THREE.ShaderMaterial;
       if (!materialToUpdate.uniforms.uTransitionProgress) continue;
       materialToUpdate.uniforms.uTransitionProgress.value = 0;
