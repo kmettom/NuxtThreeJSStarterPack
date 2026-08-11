@@ -110,7 +110,11 @@ const blockCountersUpdate = () => {
 const tlNewBlockAniIn = gsap.timeline({
   paused: true,
   onStart: () => {
-    Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "firstAnimationIn");
+    Canvas3.setAnimationToRender(
+      ETH_ANI_CALLBACK_NAME,
+      true,
+      "firstAnimationIn",
+    );
   },
   onUpdate: () => {
     ethBlocksAnimation.isAnimating = true;
@@ -131,31 +135,42 @@ const tlEnterBlockAniIn = gsap.timeline({});
 // FUNCTIONS
 //**************************
 
-const hoverTl = gsap.timeline({ paused: true });
+const hoverTl = gsap.timeline();
 
 const unHoverBlock = () => {
   Canvas3.setAnimationToRender(ETH_ANI_CALLBACK_NAME, true, "unHoverBlock");
 
   const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
-  if (material.uniforms.uUnHoverProgress !== undefined) {
-    hoverTl.to(material.uniforms.uUnHoverProgress, {
+  if (material.uniforms.uHoverProgress !== undefined) {
+    gsap.set(material.uniforms.uHoverProgress, {
       value: 1,
-      duration: 0.15,
-      onComplete: () => {
-        if (material.uniforms.uUnHoverProgress !== undefined)
-          gsap.set(material.uniforms.uUnHoverProgress, { value: 0 });
-        if (material.uniforms.uHoverProgress !== undefined)
-          gsap.set(material.uniforms.uHoverProgress, { value: 0 });
-
-        ethBlocksAnimation.hoveredBlockId = -1;
-        ethBlocksAnimation.calculateUBlockPositions();
-        Canvas3.setAnimationToRender(
-          ETH_ANI_CALLBACK_NAME,
-          false,
-          "unHoverBlock",
-        );
-      },
     });
+  }
+  if (material.uniforms.uUnHoverProgress !== undefined) {
+    hoverTl.fromTo(
+      material.uniforms.uUnHoverProgress,
+      {
+        value: 0,
+      },
+      {
+        value: 1,
+        duration: 0.15,
+        onComplete: () => {
+          // if (material.uniforms.uUnHoverProgress !== undefined)
+          //   gsap.set(material.uniforms.uUnHoverProgress, { value: 0 });
+          // if (material.uniforms.uHoverProgress !== undefined)
+          //   gsap.set(material.uniforms.uHoverProgress, { value: 0 });
+
+          ethBlocksAnimation.hoveredBlockId = -1;
+          ethBlocksAnimation.calculateUBlockPositions();
+          Canvas3.setAnimationToRender(
+            ETH_ANI_CALLBACK_NAME,
+            false,
+            "unHoverBlock",
+          );
+        },
+      },
+    );
   }
 };
 
@@ -164,23 +179,36 @@ const hoverBlock = (blockId: number) => {
 
   const material = ethBlocksAnimation.glassMesh?.material as ShaderMaterial;
 
-  if (material.uniforms.uHoverProgress !== undefined) {
-    hoverTl.to(material.uniforms.uHoverProgress, {
-      value: 1,
-      duration: 0.25,
-      ease: "power1.out",
-      onStart: () => {
-        ethBlocksAnimation.hoveredBlockId = blockId;
-      },
-      onComplete: () => {
-        Canvas3.setAnimationToRender(
-          ETH_ANI_CALLBACK_NAME,
-          false,
-          "hoverBlock",
-        );
-      },
+  hoverTl.clear();
+
+  if (material.uniforms.uUnHoverProgress !== undefined) {
+    gsap.set(material.uniforms.uUnHoverProgress, {
+      value: 0,
     });
-    hoverTl.play();
+  }
+  if (material.uniforms.uHoverProgress !== undefined) {
+    gsap.set(material.uniforms.uHoverProgress, { value: 0 });
+    gsap.fromTo(
+      material.uniforms.uHoverProgress,
+      {
+        value: 0,
+      },
+      {
+        value: 1,
+        duration: 0.3,
+        ease: "power1.out",
+        onStart: () => {
+          ethBlocksAnimation.hoveredBlockId = blockId;
+        },
+        onComplete: () => {
+          Canvas3.setAnimationToRender(
+            ETH_ANI_CALLBACK_NAME,
+            false,
+            "hoverBlock",
+          );
+        },
+      },
+    );
   }
 };
 
@@ -217,7 +245,7 @@ const firstLoadingBlockAniEnd = () => {
   // console.log("tlEnterBlockAniIn.progress()", tlEnterBlockAniIn.progress())
   // if(tlEnterBlockAniIn.progress() > 0.05){
   //   console.log("2222tlEnterBlockAniIn")
-    tlEnterBlockAniIn.clear();
+  tlEnterBlockAniIn.clear();
   const blockProgressBarEl = el.querySelector(".block-loading-progress");
   tlEnterBlockAniIn.to(blockProgressBarEl, {
     width: "100%",
@@ -234,7 +262,6 @@ const firstLoadingBlockAniEnd = () => {
   //     firstLoadingBlockAniEnd();
   //   },1250)
   // }
-
 };
 
 async function newLoadingBlock() {

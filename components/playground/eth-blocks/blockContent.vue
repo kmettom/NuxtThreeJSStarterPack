@@ -179,7 +179,7 @@ const props = defineProps<{
   font-weight: bold;
 }
 .link-icon {
-  transition: ease opacity 0.35s;
+  transition: ease opacity 0.3s;
   position: absolute;
   top: 10px;
   right: 10px;
