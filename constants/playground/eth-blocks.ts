@@ -1,6 +1,6 @@
 export const DEFAULT_BLOCK_LOADING_TIME = 18;
 export const INITIAL_BLOCK_AMOUNT = 5;
-export const NEXT_IMAGE_BATCH_LOAD_AMOUNT = 5;
+export const NEXT_IMAGE_BATCH_LOAD_AMOUNT = 6;
 export const IMAGE_FILE_AMOUNT = 25;
 export const BLOCKS_ON_SCREEN_AMOUNT = 6;
 export const DEFAULT_TRANSACTIONS_AMOUNT = 225;
