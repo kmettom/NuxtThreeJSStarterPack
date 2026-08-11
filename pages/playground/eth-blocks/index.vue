@@ -271,26 +271,6 @@ const firstLoadingBlockAniEnd = () => {
   });
 };
 
-// const firstLoadingBlockAniEnd = () => {
-//   const el = document.querySelectorAll(".eth-block")[0];
-//   if (!el) return;
-//   const progressDuration = tlEnterBlockAniIn.progress() < 0.05 ? 0.75 : 0.35;
-//   gsap.to(tlEnterBlockAniIn, {
-//     progress: 1,
-//     duration: progressDuration,
-//     onComplete: () => {
-//       tlEnterBlockAniIn.clear();
-//       const blockProgressBarEl = el.querySelector(".block-loading-progress");
-//       tlEnterBlockAniIn.to(blockProgressBarEl, {
-//         width: "0%",
-//         duration: 0.2,
-//         right: 0,
-//         left: "initial",
-//       });
-//     },
-//   });
-// };
-
 async function newLoadingBlock() {
   ethBlocksAnimation.loadingBlockId = blockIdCounter.value;
   const newLoadingBlockData = generateLoadingBlockData(
@@ -400,7 +380,7 @@ const blockDoneAnimate = (blockId: number) => {
         el.classList.remove("animating");
       },
     });
-    // tlNewBlockAniIn.play();
+    tlNewBlockAniIn.play();
   }
 };
 
