@@ -264,7 +264,7 @@ const blockDoneAnimate = (blockId: number) => {
   }
 
   setTimeout(() => {
-    ethBlocksAnimation.loadTextures(25, 0);
+    ethBlocksAnimation.loadTextures(2, 0);
   }, 5000);
 
   tlNewBlockAniIn.tweenTo(tlNewBlockAniIn.duration(), {
