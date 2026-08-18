@@ -71,7 +71,7 @@
           <div class="examples-row">
             <div
               v-canvas3-scroll-action="example3ScrollOptions"
-              class="example-wrapper"
+              class="example-wrapper sm"
             >
               <div class="code-example-wrapper">
                 <p class="example-txt">
@@ -110,7 +110,7 @@
             </div>
             <div
               v-canvas3-scroll-action="example4OuterOptions"
-              class="example-4 example-wrapper"
+              class="example-4 example-wrapper sm"
             >
               <!--              xxx1-->
               <div v-canvas3-scroll-action="example4InnerOptions">
@@ -162,7 +162,7 @@
                   margin: 0,
                 },
               }"
-              class="fixed-scroll-example example-wrapper"
+              class="fixed-scroll-example example-wrapper sm"
             >
               <div>
                 <p class="example-txt">Fix element to Parent</p>
@@ -283,6 +283,12 @@ const example4InnerOptions = {
 .example-wrapper {
   width: 50%;
   padding: 0 15px;
+  &.sm {
+    width: 32%;
+  }
+  img {
+    max-width: 100%;
+  }
 }
 
 .example-txt {
