@@ -18,5 +18,8 @@
   color: var(--dark-color);
   background: var(--light-color);
   padding: 10px;
+  @include respond-width($w-m-s) {
+    font-size: 12px;
+  }
 }
 </style>

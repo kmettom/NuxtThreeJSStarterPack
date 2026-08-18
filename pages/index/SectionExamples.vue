@@ -18,10 +18,11 @@
             />
             <CodeSnippet>
               <span> {{ String("<") }}</span
-              >Canvas3Image <br />
+              >img <br />
+              &nbsp;&nbsp;v-canvas3-image="{<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;shaderName: 'example1',<br />
+              &nbsp;&nbsp;}"<br />
               &nbsp;&nbsp;:src-link="'images/01.JPG'" <br />
-              &nbsp;&nbsp;:shader="'example1'" <br />
-              &nbsp;&nbsp;:load-strategy="'eager'"<br />
               />
             </CodeSnippet>
           </div>
@@ -45,16 +46,12 @@
             />
             <CodeSnippet>
               <span> {{ String("<") }}</span
-              >Canvas3Image <br />
-              &nbsp;&nbsp;:src-link="'images/02.JPG'"<br />
-              &nbsp;&nbsp;:shader="'example2'"<br />
-              &nbsp;&nbsp;:uniforms="{<br />
-              &nbsp;&nbsp;&nbsp;&nbsp;uHover: {<br />
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value: example1Hover ? 1 :
-              0,<br />
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duration: 0<br />
-              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              >img <br />
+              &nbsp;&nbsp;v-canvas3-image="{<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;uniforms: uniforms,<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;shaderName: 'example0',<br />
               &nbsp;&nbsp;}"<br />
+              &nbsp;&nbsp;:src-link="'images/01.webp'" <br />
               />
             </CodeSnippet>
           </div>
@@ -283,6 +280,9 @@ const example4InnerOptions = {
 .example-wrapper {
   width: 50%;
   padding: 0 15px;
+  @include respond-width($w-m-s) {
+    padding: 0 5px;
+  }
   &.sm {
     width: 32%;
   }
