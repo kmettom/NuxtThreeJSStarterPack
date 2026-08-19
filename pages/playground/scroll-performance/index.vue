@@ -1,0 +1,107 @@
+<template>
+  <div class="page-container">
+    <h1 class="heading-1 play-headline">Playground</h1>
+    <div class="playground-projects">
+      <nuxt-link
+        class="play-link"
+        href="/playground/eth-blocks"
+        target="_blank"
+      >
+        <div
+          class="play-1"
+          @mouseenter="ethBlockHover = true"
+          @mouseleave="ethBlockHover = false"
+        >
+          <h3 class="body-l">Ethereum blocks</h3>
+          <p class="body-s">
+            Ethereum network listener with interaction for new blocks added to
+            the blockchain
+          </p>
+          <img
+            v-canvas3-image="{
+              uniforms: {
+                uAniInImage: {
+                  value: ethBlockImageAniIn ? (ethBlockHover ? 0.85 : 1) : 0,
+                  duration: 0.5,
+                  ease: 'linear',
+                },
+                uBlockColor: {
+                  value: 0.5,
+                  duration: 0.5,
+                  ease: 'linear',
+                },
+              },
+              shaderName: 'playEthBlockNoDesign',
+            }"
+            :src="`/images/01.webp`"
+            alt=""
+            class="play-block-image"
+          />
+        </div>
+      </nuxt-link>
+    </div>
+  </div>
+</template>
+<script setup lang="ts">
+import { pageTransition } from "~/utils/animations/pageTransition";
+import { onMounted } from "vue";
+
+useSeoMeta({
+  title: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
+  ogTitle: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
+  description: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
+  ogDescription: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
+});
+
+const navigationStore = useNavigationStore();
+
+const ethBlockImageAniIn = ref(false);
+const ethBlockHover = ref(false);
+
+onMounted(() => {
+  const timeDelay = navigationStore.webFirstLoadDone
+    ? pageTransition.setup.duration * 2500
+    : 100;
+
+  setTimeout(() => {
+    ethBlockImageAniIn.value = true;
+  }, timeDelay);
+});
+</script>
+<style lang="scss" scoped>
+.play-link {
+  color: inherit;
+  text-decoration: none;
+}
+.page-container {
+  //min-height: 100vh;
+}
+.play-headline {
+  text-transform: capitalize;
+  text-align: center;
+  padding-top: 100px;
+  opacity: 0;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  line-height: 190px;
+}
+
+.playground-projects {
+  position: relative;
+}
+.play-1 {
+  margin-left: 200px;
+  width: 500px;
+  max-width: 100%;
+  @include respond-width($w-m) {
+    margin-left: 50px;
+  }
+  @include respond-width($w-xs) {
+    margin-left: 10px;
+  }
+}
+.play-block-image {
+  margin-top: 15px;
+  width: 450px;
+}
+</style>
