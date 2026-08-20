@@ -2,9 +2,9 @@
   <div class="page-container">
     <div v-for="(slide, index) in slides" :key="slide.title" class="slide">
       <img
+        v-canvas3-image="{ shaderName: 'example1' }"
         :src="slide.image"
         alt=""
-        v-canvas3-image="{ shaderName: 'example1' }"
       />
       <div>{{ index }}/{{ slide.text }}</div>
     </div>
