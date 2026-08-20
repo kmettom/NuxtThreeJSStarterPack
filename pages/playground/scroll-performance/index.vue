@@ -1,18 +1,53 @@
 <template>
   <div class="page-container">
-    <div v-for="slide in slides" :key="slide.title" class="slide">
-      <img :src="slide.image" alt="" />
+    <div v-for="(slide, index) in slides" :key="slide.title" class="slide">
+      <img
+        :src="slide.image"
+        alt=""
+        v-canvas3-image="{ shaderName: 'example1' }"
+      />
+      <div>{{ index }}/{{ slide.text }}</div>
     </div>
+    <!--    v-action-on-scroll="{-->
+    <!--    activeRange: 0.85,-->
+    <!--    activateOnce: true,-->
+    <!--    activateCallback: () => console.log('activateCallback', index),-->
+    <!--    deactivateCallback: () => console.log('deactivateCallback', index),-->
+    <!--    }"-->
   </div>
 </template>
 <script setup lang="ts">
 const slides = ref([
-  { title: "Slide 1", image: "/images/01.webp" },
-  { title: "Slide 2", image: "/images/02.webp" },
-  { title: "Slide 3", image: "/images/03.webp" },
-  { title: "Slide 4", image: "/images/04.webp" },
-  { title: "Slide 5", image: "/images/05.webp" },
-  { title: "Slide 6", image: "/images/07.jpg" },
+  {
+    title: "Slide 1",
+    image: "/images/01.webp",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 2",
+    image: "/images/02.webp",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 3",
+    image: "/images/03.webp",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 4",
+    image: "/images/04.webp",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 5",
+    image: "/images/05.webp",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 6",
+    image: "/images/07.jpg",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
 ]);
 
 useSeoMeta({

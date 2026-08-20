@@ -2,9 +2,9 @@
   <div class="page-container">
     <div v-for="slide in slides" :key="slide.title" class="image-container">
       <img
+        v-canvas3-image="{ shaderName: 'playGalleryLayout' }"
         :src="slide.image"
         alt=""
-        v-canvas3-image="{ shaderName: 'playGalleryLayout' }"
       />
     </div>
   </div>
