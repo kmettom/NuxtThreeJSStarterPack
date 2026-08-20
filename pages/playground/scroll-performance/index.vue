@@ -10,9 +10,9 @@ const slides = ref([
   { title: "Slide 1", image: "/images/01.webp" },
   { title: "Slide 2", image: "/images/02.webp" },
   { title: "Slide 3", image: "/images/03.webp" },
-  { title: "Slide 4", image: "/images/03.webp" },
-  { title: "Slide 5", image: "/images/03.webp" },
-  { title: "Slide 6", image: "/images/03.webp" },
+  { title: "Slide 4", image: "/images/04.webp" },
+  { title: "Slide 5", image: "/images/05.webp" },
+  { title: "Slide 6", image: "/images/07.jpg" },
 ]);
 
 useSeoMeta({

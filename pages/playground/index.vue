@@ -33,7 +33,7 @@
               },
               shaderName: 'playEthBlockNoDesign',
             }"
-            :src="`/images/01.webp`"
+            :src="`/images/01.jpg`"
             alt=""
             class="play-block-image"
           />
@@ -129,6 +129,7 @@ onMounted(() => {
 
 .playground-projects {
   position: relative;
+  padding-bottom: 100px;
 }
 .play-2,
 .play-1 {
