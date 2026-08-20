@@ -1,7 +1,11 @@
 <template>
   <div class="page-container">
-    <div v-for="slide in slides" :key="slide.title" class="slide">
-      <img :src="slide.image" alt="" />
+    <div v-for="slide in slides" :key="slide.title" class="image-container">
+      <img
+        :src="slide.image"
+        alt=""
+        v-canvas3-image="{ shaderName: 'playGalleryLayout' }"
+      />
     </div>
   </div>
 </template>
@@ -22,4 +26,7 @@ useSeoMeta({
   ogDescription: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.image-container {
+}
+</style>
