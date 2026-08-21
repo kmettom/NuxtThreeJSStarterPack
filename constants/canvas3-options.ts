@@ -1,5 +1,7 @@
 import scrollFragment from "~/assets/shaders/scrollFragment.glsl";
 import scrollVertex from "~/assets/shaders/scrollVertex.glsl";
+import scrollPlaygroundFragment from "~/assets/shaders/playground/scrollPlaygroundFragment.glsl";
+import scrollPlaygroundVertex from "~/assets/shaders/playground/scrollPlaygroundVertex.glsl";
 import projectBlurFragment from "~/assets/shaders/projectBlurFragment.glsl";
 import projectBlurVertex from "~/assets/shaders/projectBlurVertex.glsl";
 import TextBlurFragment from "~/assets/shaders/TextBlurFragment.glsl";
@@ -24,6 +26,10 @@ export const Canvas3Options = {
     scroll: {
       fragmentShader: scrollFragment,
       vertexShader: scrollVertex,
+    },
+    scrollPlayground: {
+      fragmentShader: scrollPlaygroundFragment,
+      vertexShader: scrollPlaygroundVertex,
     },
     default: {
       fragmentShader: projectBlurFragment,

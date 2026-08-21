@@ -56,5 +56,14 @@ useSeoMeta({
   description: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
   ogDescription: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
 });
+
+onMounted(() => {
+  setTimeout(() => {
+    Canvas3.setScrollShaderByName("scrollPlayground");
+  }, 0);
+});
+onBeforeUnmount(() => {
+  Canvas3.setScrollShaderByName("scrollPlayground");
+});
 </script>
 <style lang="scss" scoped></style>
