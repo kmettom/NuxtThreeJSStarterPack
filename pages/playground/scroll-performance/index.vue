@@ -91,6 +91,36 @@ const slides = ref([
     image: "/images/07.jpg",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
+  {
+    title: "Slide 6",
+    image: "/images/07.jpg",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 6",
+    image: "/images/07.jpg",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 6",
+    image: "/images/07.jpg",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 6",
+    image: "/images/07.jpg",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 6",
+    image: "/images/07.jpg",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    title: "Slide 6",
+    image: "/images/07.jpg",
+    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
 ]);
 
 useSeoMeta({
