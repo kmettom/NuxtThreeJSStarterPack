@@ -119,7 +119,7 @@ onBeforeUnmount(() => {
 }
 
 .scroll-speed-status-bar {
-  padding: 10px;
+  padding: 0px;
 }
 
 .scroll-speed-ani {
@@ -127,6 +127,6 @@ onBeforeUnmount(() => {
   height: 100%;
   top: 0;
   left: 0;
-  border: 1px solid red;
+  background: var(--light-color);
 }
 </style>
