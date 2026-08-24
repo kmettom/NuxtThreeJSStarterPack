@@ -1,6 +1,7 @@
 import { gsap } from "gsap";
 
 function navigationItems(timeline: gsap.core.Timeline) {
+  if (!document.querySelector(".navigation-item")) return;
   timeline.fromTo(
     ".navigation-item",
     {
@@ -17,6 +18,7 @@ function navigationItems(timeline: gsap.core.Timeline) {
 }
 
 export function navigationFirstEnter() {
+  if (!document.querySelector(".navigation-bar")) return;
   const tl = gsap.timeline({
     delay: 0.2,
   });

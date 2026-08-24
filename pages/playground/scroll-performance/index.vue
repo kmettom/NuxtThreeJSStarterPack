@@ -14,24 +14,25 @@
       <div
         v-canvas3-scroll-action="{
           activeRange: 0.85,
-          // activateCallback: () => console.log('activateCallback', index),
-          // deactivateCallback: () => console.log('deactivateCallback', index),
+          activateCallback: () => {
+            blocksActivatedMap[index] = true;
+          },
+          deactivateCallback: () => {
+            blocksActivatedMap[index] = false;
+          },
         }"
       >
         <img
-          v-canvas3-image="{ shaderName: 'playScrollPerformance' }"
+          v-canvas3-image="{
+            shaderName: 'playScrollPerformance',
+            uniforms: { uAniIn: { value: blocksActivatedMap[index] ? 1 : 0, duration: 0.7, ease: 'linear' } },
+          }"
           :src="slide.image"
           alt=""
         />
         <div>{{ index }}/{{ slide.text }}</div>
       </div>
     </div>
-    <!--        v-action-on-scroll="{-->
-    <!--        activeRange: 0.85,-->
-    <!--        activateOnce: true,-->
-    <!--        activateCallback: () => console.log('activateCallback', index),-->
-    <!--        deactivateCallback: () => console.log('deactivateCallback', index),-->
-    <!--        }"-->
   </div>
 </template>
 <script setup lang="ts">
@@ -46,6 +47,8 @@
 // assets update
 
 import gsap from "gsap";
+
+const blocksActivatedMap = ref<boolean[]>([]);
 
 const scrollSpeedAniEl = ref<HTMLElement | null>(null);
 
