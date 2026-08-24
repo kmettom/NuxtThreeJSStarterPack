@@ -28,14 +28,14 @@
 </template>
 <script setup lang="ts">
 // TODO:
-// add scroll speed bar component (take from main page
-// adjust style? - take Jagoda's layout from a post
-// layout update
-// assets update
 // add appear animation with shader
 // add appear animation for text fields
 // adjust scroll shader
 // add appear animation for first blocks - text performance
+
+// adjust style? - take Jagoda's layout from a post
+// layout update
+// assets update
 
 import gsap from "gsap";
 
