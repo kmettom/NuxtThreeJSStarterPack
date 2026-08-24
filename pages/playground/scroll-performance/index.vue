@@ -14,6 +14,7 @@
       <div
         v-canvas3-scroll-action="{
           activeRange: 0.85,
+          activateOnce: true,
           activateCallback: () => {
             blocksActivatedMap[index] = true;
           },
