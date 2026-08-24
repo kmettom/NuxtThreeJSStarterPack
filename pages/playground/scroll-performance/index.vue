@@ -6,7 +6,7 @@
       class="scroll-speed-container"
     >
       <div class="scroll-speed-status-bar">
-        Scroll speed: {{ example3Speed }}
+        Scroll speed: {{ scrollSpeedCoef }}
         <span ref="scrollSpeedAniEl" class="scroll-speed-ani" />
       </div>
     </div>
@@ -58,7 +58,7 @@ const blocksActivatedMap = ref<boolean[]>([]);
 
 const scrollSpeedAniEl = ref<HTMLElement | null>(null);
 
-const example3Speed = ref(0);
+const scrollSpeedCoef = ref(0);
 const example3ScrollOptions = computed(() => ({
   activeRange: 0.9,
   fixToParent: {
@@ -70,7 +70,7 @@ const example3ScrollOptions = computed(() => ({
 }));
 
 const scrollSpeedCallback = (_item: any, speed: number) => {
-  example3Speed.value = speed;
+  scrollSpeedCoef.value = speed;
   gsap.to(scrollSpeedAniEl.value, {
     width: `${speed * 100}%`,
     duration: 0.1,
