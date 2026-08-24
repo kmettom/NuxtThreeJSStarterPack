@@ -25,7 +25,13 @@
         <img
           v-canvas3-image="{
             shaderName: 'playScrollPerformance',
-            uniforms: { uAniIn: { value: blocksActivatedMap[index] ? 1 : 0, duration: 0.7, ease: 'linear' } },
+            uniforms: {
+              uAniIn: {
+                value: blocksActivatedMap[index] ? 1 : 0,
+                duration: 0.7,
+                ease: 'linear',
+              },
+            },
           }"
           :src="slide.image"
           alt=""
