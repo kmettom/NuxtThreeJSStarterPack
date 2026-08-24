@@ -19,7 +19,7 @@
         }"
       >
         <img
-          v-canvas3-image="{ shaderName: 'example1' }"
+          v-canvas3-image="{ shaderName: 'playScrollPerformance' }"
           :src="slide.image"
           alt=""
         />
