@@ -11,19 +11,27 @@
       </div>
     </div>
     <div v-for="(slide, index) in slides" :key="slide.title" class="slide">
-      <img
-        v-canvas3-image="{ shaderName: 'example1' }"
-        :src="slide.image"
-        alt=""
-      />
-      <div>{{ index }}/{{ slide.text }}</div>
+      <div
+        v-canvas3-scroll-action="{
+          activeRange: 0.85,
+          // activateCallback: () => console.log('activateCallback', index),
+          // deactivateCallback: () => console.log('deactivateCallback', index),
+        }"
+      >
+        <img
+          v-canvas3-image="{ shaderName: 'example1' }"
+          :src="slide.image"
+          alt=""
+        />
+        <div>{{ index }}/{{ slide.text }}</div>
+      </div>
     </div>
-    <!--    v-action-on-scroll="{-->
-    <!--    activeRange: 0.85,-->
-    <!--    activateOnce: true,-->
-    <!--    activateCallback: () => console.log('activateCallback', index),-->
-    <!--    deactivateCallback: () => console.log('deactivateCallback', index),-->
-    <!--    }"-->
+    <!--        v-action-on-scroll="{-->
+    <!--        activeRange: 0.85,-->
+    <!--        activateOnce: true,-->
+    <!--        activateCallback: () => console.log('activateCallback', index),-->
+    <!--        deactivateCallback: () => console.log('deactivateCallback', index),-->
+    <!--        }"-->
   </div>
 </template>
 <script setup lang="ts">
