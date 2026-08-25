@@ -24,6 +24,7 @@
         }"
       >
         <img
+          v-if="slide.image"
           v-canvas3-image="{
             shaderName: 'playScrollPerformance',
             uniforms: {
@@ -35,9 +36,10 @@
             },
           }"
           :src="slide.image"
+          class="slide-image"
           alt=""
         />
-        <div>{{ index }}/{{ slide.text }}</div>
+        <div v-if="slide.text" class="slide-text">{{ slide.text }}</div>
       </div>
     </div>
   </div>
@@ -81,62 +83,62 @@ const scrollSpeedCallback = (_item: any, speed: number) => {
 const slides = ref([
   {
     title: "Slide 1",
-    image: "/images/01.webp",
+    image: "/playground/images/01.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 2",
-    image: "/images/02.webp",
+    image: "/playground/images/02.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 3",
-    image: "/images/03.webp",
+    image: "/playground/images/03.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 4",
-    image: "/images/04.webp",
+    image: "/playground/images/04.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 5",
-    image: "/images/05.webp",
+    image: "/playground/images/05.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 6",
-    image: "/images/07.jpg",
+    image: "/playground/images/06.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 6",
-    image: "/images/07.jpg",
+    image: "/playground/images/07.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 6",
-    image: "/images/07.jpg",
+    image: "/playground/images/08.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 6",
-    image: "/images/07.jpg",
+    image: "/playground/images/09.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 6",
-    image: "/images/07.jpg",
+    image: "/playground/images/10.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 6",
-    image: "/images/07.jpg",
+    image: "/playground/images/11.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
     title: "Slide 6",
-    image: "/images/07.jpg",
+    image: "/playground/images/12.webp",
     text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
 ]);
@@ -176,5 +178,10 @@ onBeforeUnmount(() => {
   top: 0;
   left: 0;
   background: var(--light-color);
+}
+.slide {
+  img {
+    width: 400px;
+  }
 }
 </style>
