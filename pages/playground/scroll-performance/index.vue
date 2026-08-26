@@ -12,7 +12,12 @@
         <span ref="scrollSpeedAniEl" class="scroll-speed-ani" />
       </div>
     </div>
-    <div v-for="(slide, index) in slides" :key="slide.title" class="slide">
+    <div
+      v-for="(slide, index) in slides"
+      :key="slide.title"
+      class="slide"
+      :style="`margin-left:${slide.position * 33}%`"
+    >
       <div
         v-canvas3-scroll-action="{
           activeRange: 0.85,
@@ -85,66 +90,79 @@ const scrollSpeedCallback = (_item: any, speed: number) => {
 const textParagraph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-const slides = ref([
+const slides = ref<
+  {
+    title: string;
+    image?: string;
+    text?: string;
+    position: number;
+    scrollSpeed?: number;
+  }[]
+>([
   {
     title: "Slide 1",
     image: "/playground/images/01.webp",
-    text: textParagraph,
+    position: 0,
+    scrollSpeed: 0,
   },
   {
     title: "Slide 2",
     image: "/playground/images/02.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    position: 1,
   },
   {
     title: "Slide 3",
     image: "/playground/images/03.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    text: textParagraph,
+    position: 2,
   },
   {
     title: "Slide 4",
     image: "/playground/images/04.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    position: 0,
   },
   {
     title: "Slide 5",
     image: "/playground/images/05.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    position: 1,
   },
   {
     title: "Slide 6",
     image: "/playground/images/06.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    text: textParagraph,
+    position: 2,
   },
   {
     title: "Slide 6",
     image: "/playground/images/07.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    position: 0,
   },
   {
     title: "Slide 6",
     image: "/playground/images/08.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    position: 1,
   },
   {
     title: "Slide 6",
     image: "/playground/images/09.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    text: textParagraph,
+    position: 2,
   },
   {
     title: "Slide 6",
     image: "/playground/images/10.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    position: 0,
   },
   {
     title: "Slide 6",
     image: "/playground/images/11.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    position: 1,
   },
   {
     title: "Slide 6",
     image: "/playground/images/12.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    text: textParagraph,
+    position: 2,
   },
 ]);
 
@@ -197,7 +215,7 @@ onBeforeUnmount(() => {
 }
 .slide {
   padding: 10px;
-  width: 30%;
+  width: 33%;
   position: relative;
   img {
     width: 100%;
