@@ -52,15 +52,14 @@
   </div>
 </template>
 <script setup lang="ts">
-// TODO:
-// add appear animation with shader
-// add appear animation for text fields
-// adjust scroll shader
-// add appear animation for first blocks - text performance
 
-// adjust style? - take Jagoda's layout from a post
-// layout update
-// assets update
+// TODO:
+// scroll speed values - add to data and scroll action
+// SHADER
+// - appear animation
+// - mouse interaction
+// - scroll shader
+// add appear animation for text fields
 
 import gsap from "gsap";
 
