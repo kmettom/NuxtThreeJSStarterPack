@@ -6,7 +6,9 @@
       class="scroll-speed-container"
     >
       <div class="scroll-speed-status-bar">
-        Scroll speed: {{ scrollSpeedCoef }}
+        <span class="scroll-speed-text">
+          Scroll speed: {{ scrollSpeedCoef }}
+        </span>
         <span ref="scrollSpeedAniEl" class="scroll-speed-ani" />
       </div>
     </div>
@@ -76,15 +78,18 @@ const scrollSpeedCallback = (_item: any, speed: number) => {
   scrollSpeedCoef.value = speed;
   gsap.to(scrollSpeedAniEl.value, {
     width: `${speed * 100}%`,
-    duration: 0.1,
+    duration: 0.05,
   });
 };
+
+const textParagraph =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 const slides = ref([
   {
     title: "Slide 1",
     image: "/playground/images/01.webp",
-    text: "Slide 1 lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    text: textParagraph,
   },
   {
     title: "Slide 2",
@@ -160,6 +165,9 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="scss" scoped>
+.page-container {
+  //background: black;
+}
 .scroll-speed-container {
   height: 100%;
   width: 100%;
@@ -169,19 +177,33 @@ onBeforeUnmount(() => {
 }
 
 .scroll-speed-status-bar {
-  padding: 0px;
+  padding: 0;
 }
-
 .scroll-speed-ani {
   position: absolute;
-  height: 100%;
+  height: 18px;
   top: 0;
   left: 0;
   background: var(--light-color);
+  z-index: 1;
+}
+.scroll-speed-text {
+  font-size: 14px;
+  z-index: 2;
+  position: absolute;
+  left: 0px;
+  display: block;
+  color: var(--dark-color);
 }
 .slide {
+  padding: 10px;
+  width: 30%;
+  position: relative;
   img {
-    width: 400px;
+    width: 100%;
+  }
+  .slide-text {
+    padding: 10px 0 20px;
   }
 }
 </style>
