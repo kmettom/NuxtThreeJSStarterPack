@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <h1 class="heading-1 play-headline">Playground</h1>
+    <h1 class="heading-2 play-headline">Playground</h1>
     <div class="playground-projects">
       <nuxt-link
         class="play-link"
@@ -33,12 +33,53 @@
               },
               shaderName: 'playEthBlockNoDesign',
             }"
-            :src="`/images/01.webp`"
+            :src="`/images/01.jpg`"
             alt=""
             class="play-block-image"
           />
         </div>
       </nuxt-link>
+      <!--      <nuxt-link-->
+      <!--        class="play-link"-->
+      <!--        href="/playground/scroll-performance"-->
+      <!--        target="_blank"-->
+      <!--      >-->
+      <!--        <div-->
+      <!--          class="play-2"-->
+      <!--          @mouseenter="scrollPerformanceHover = true"-->
+      <!--          @mouseleave="scrollPerformanceHover = false"-->
+      <!--        >-->
+      <!--          <h3 class="body-l">Scroll performance</h3>-->
+      <!--          <p class="body-s">-->
+      <!--            Example of scroll performance with different scroll speed sections-->
+      <!--            and shaders-->
+      <!--          </p>-->
+      <!--          <img-->
+      <!--            v-canvas3-image="{-->
+      <!--              uniforms: {-->
+      <!--                uAniInImage: {-->
+      <!--                  value: ethBlockImageAniIn-->
+      <!--                    ? scrollPerformanceHover-->
+      <!--                      ? 0.85-->
+      <!--                      : 1-->
+      <!--                    : 0,-->
+      <!--                  duration: 0.5,-->
+      <!--                  ease: 'linear',-->
+      <!--                },-->
+      <!--                uBlockColor: {-->
+      <!--                  value: 0.5,-->
+      <!--                  duration: 0.5,-->
+      <!--                  ease: 'linear',-->
+      <!--                },-->
+      <!--              },-->
+      <!--              shaderName: 'playEthBlockNoDesign',-->
+      <!--            }"-->
+      <!--            :src="`/images/07.jpg`"-->
+      <!--            alt=""-->
+      <!--            class="play-block-image"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--      </nuxt-link>-->
     </div>
   </div>
 </template>
@@ -57,6 +98,7 @@ const navigationStore = useNavigationStore();
 
 const ethBlockImageAniIn = ref(false);
 const ethBlockHover = ref(false);
+const scrollPerformanceHover = ref(false);
 
 onMounted(() => {
   const timeDelay = navigationStore.webFirstLoadDone
@@ -80,15 +122,16 @@ onMounted(() => {
   text-transform: capitalize;
   text-align: center;
   padding-top: 100px;
-  opacity: 0;
-  padding-bottom: 0px;
-  margin-bottom: 0px;
+  padding-bottom: 0;
+  margin-bottom: 0;
   line-height: 190px;
 }
 
 .playground-projects {
   position: relative;
+  padding-bottom: 100px;
 }
+.play-2,
 .play-1 {
   margin-left: 200px;
   width: 500px;
@@ -103,5 +146,11 @@ onMounted(() => {
 .play-block-image {
   margin-top: 15px;
   width: 450px;
+}
+
+.play-2 {
+  margin: 0 200px 0 auto;
+  width: 400px;
+  max-width: 100%;
 }
 </style>

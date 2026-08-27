@@ -1,5 +1,7 @@
 import scrollFragment from "~/assets/shaders/scrollFragment.glsl";
 import scrollVertex from "~/assets/shaders/scrollVertex.glsl";
+import scrollPlaygroundFragment from "~/assets/shaders/playground/scrollPlaygroundFragment.glsl";
+import scrollPlaygroundVertex from "~/assets/shaders/playground/scrollPlaygroundVertex.glsl";
 import projectBlurFragment from "~/assets/shaders/projectBlurFragment.glsl";
 import projectBlurVertex from "~/assets/shaders/projectBlurVertex.glsl";
 import TextBlurFragment from "~/assets/shaders/TextBlurFragment.glsl";
@@ -8,6 +10,8 @@ import example0Fragment from "~/assets/shaders/examples/example0Fragment.glsl";
 import example0Vertex from "~/assets/shaders/examples/example0Vertex.glsl";
 import example1Fragment from "~/assets/shaders/examples/example1Fragment.glsl";
 import example1Vertex from "~/assets/shaders/examples/example1Vertex.glsl";
+import playScrollPerformanceFragment from "~/assets/shaders/playground/playScrollPerformanceFragment.glsl";
+import playScrollPerformanceVertex from "~/assets/shaders/playground/playScrollPerformanceVertex.glsl";
 import playEthBlockNoDesignFragment from "~/assets/shaders/playground/playEthBlockNoDesignFragment.glsl";
 import playEthBlockNoDesignVertex from "~/assets/shaders/playground/playEthBlockNoDesignVertex.glsl";
 import playEthBlockGlassFragment from "~/assets/shaders/playground/playEthBlockGlassFragment.glsl";
@@ -25,6 +29,10 @@ export const Canvas3Options = {
       fragmentShader: scrollFragment,
       vertexShader: scrollVertex,
     },
+    scrollPlayground: {
+      fragmentShader: scrollPlaygroundFragment,
+      vertexShader: scrollPlaygroundVertex,
+    },
     default: {
       fragmentShader: projectBlurFragment,
       vertexShader: projectBlurVertex,
@@ -38,6 +46,10 @@ export const Canvas3Options = {
     example1: {
       fragmentShader: example1Fragment,
       vertexShader: example1Vertex,
+    },
+    playScrollPerformance: {
+      fragmentShader: playScrollPerformanceFragment,
+      vertexShader: playScrollPerformanceVertex,
     },
     playEthBlockNoDesign: {
       fragmentShader: playEthBlockNoDesignFragment,
