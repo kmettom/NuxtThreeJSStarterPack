@@ -2,7 +2,7 @@
   <div class="page-container">
     <div
       id="fixedParent"
-      v-canvas3-scroll-action="example3ScrollOptions"
+      v-canvas3-scroll-action="scrollSpeedBarOptions"
       class="scroll-speed-container"
     >
       <div class="scroll-speed-status-bar">
@@ -20,8 +20,10 @@
     >
       <div
         v-canvas3-scroll-action="{
-          activeRange: 0.85,
+          activeRange: 0.99,
           activateOnce: true,
+          scrollSpeedSetTo: { value: slide.scrollSpeed ?? 0, duration: 0 },
+
           activateCallback: () => {
             blocksActivatedMap[index] = true;
           },
@@ -67,8 +69,8 @@ const blocksActivatedMap = ref<boolean[]>([]);
 const scrollSpeedAniEl = ref<HTMLElement | null>(null);
 
 const scrollSpeedCoef = ref(0);
-const example3ScrollOptions = computed(() => ({
-  activeRange: 0.9,
+const scrollSpeedBarOptions = computed(() => ({
+  activeRange: 1,
   fixToParent: {
     containerId: "fixedParent",
     fixPosition: 0,
@@ -101,28 +103,31 @@ const slides = ref<
     title: "Slide 1",
     image: "/playground/images/01.webp",
     position: 0,
-    scrollSpeed: 0,
   },
   {
     title: "Slide 2",
     image: "/playground/images/02.webp",
     position: 1,
+    // scrollSpeed: -0.15,
   },
   {
     title: "Slide 3",
     image: "/playground/images/03.webp",
     text: textParagraph,
     position: 2,
+    // scrollSpeed: -0.3,
   },
   {
     title: "Slide 4",
     image: "/playground/images/04.webp",
     position: 0,
+    scrollSpeed: 0.3,
   },
   {
     title: "Slide 5",
     image: "/playground/images/05.webp",
     position: 1,
+    scrollSpeed: 0.15,
   },
   {
     title: "Slide 6",
@@ -193,12 +198,15 @@ onBeforeUnmount(() => {
 }
 
 .scroll-speed-status-bar {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
   padding: 0;
 }
 .scroll-speed-ani {
   position: absolute;
   height: 18px;
-  top: 0;
+  top: 0px;
   left: 0;
   background: var(--light-color);
   z-index: 1;
