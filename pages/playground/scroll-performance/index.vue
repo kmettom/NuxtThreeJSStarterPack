@@ -23,7 +23,6 @@
           activeRange: 0.99,
           activateOnce: true,
           scrollSpeedSetTo: { value: slide.scrollSpeed ?? 0, duration: 0 },
-
           activateCallback: () => {
             blocksActivatedMap[index] = true;
           },
@@ -39,7 +38,7 @@
             uniforms: {
               uAniIn: {
                 value: blocksActivatedMap[index] ? 1 : 0,
-                duration: 0.7,
+                duration: 0.3,
                 ease: 'linear',
               },
             },
@@ -61,6 +60,8 @@
 // - mouse interaction
 // - scroll shader
 // add appear animation for text fields
+
+//canvas3 - fix scroll speed and jump of mesh on active
 
 import gsap from "gsap";
 
