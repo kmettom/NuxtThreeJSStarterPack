@@ -3,21 +3,18 @@ uniform vec2 hover;
 varying float vNoise;
 varying vec2 vUv;
 
-
-//	Classic Perlin 3D Noise
-//	by Stefan Gustavson
-//
+// Classic Perlin 3D Noise by Stefan Gustavson
 vec4 permute(vec4 x){ return mod(((x * 34.0) + 1.0) * x, 289.0); }
 vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
 vec3 fade(vec3 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 
 float cnoise(vec3 P){
-    vec3 Pi0 = floor(P); // Integer part for indexing
-    vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1
+    vec3 Pi0 = floor(P);
+    vec3 Pi1 = Pi0 + vec3(1.0);
     Pi0 = mod(Pi0, 289.0);
     Pi1 = mod(Pi1, 289.0);
-    vec3 Pf0 = fract(P); // Fractional part for interpolation
-    vec3 Pf1 = Pf0 - vec3(1.0); // Fractional part - 1.0
+    vec3 Pf0 = fract(P);
+    vec3 Pf1 = Pf0 - vec3(1.0);
     vec4 ix = vec4(Pi0.x, Pi1.x, Pi0.x, Pi1.x);
     vec4 iy = vec4(Pi0.yy, Pi1.yy);
     vec4 iz0 = Pi0.zzzz;
@@ -79,24 +76,26 @@ float cnoise(vec3 P){
     return 2.2 * n_xyz;
 }
 
-
-
-
 void main() {
     vec3 newposition = position;
     float PI = 3.1415925;
 
     float noise = cnoise(3. * vec3(position.x, position.y, position.z + uTime * 2.0));
 
-//    vec2 centeredUv = uv - vec2(1.0, 1.0);
-//    vec2 centeredHover = hover - vec2(1.0, 1.0);
+    // Center UV coordinates around (0.5, 0.5)
+    vec2 centeredUv = uv - vec2(0.5, 0.5);
 
-      float dist = distance(uv,hover);
-//    float dist = distance(centeredUv, centeredHover);
+    // Calculate distance from center (creates radial wave from middle)
+    float dist = length(centeredUv);
 
-    newposition.z += 7. * sin(dist * 10. + uTime);
+    // Create falloff factor: strongest in middle (1.0), diminishes toward edges (0.0)
+    // This makes the wave strongest in the center and fade toward top/bottom
+    float falloff = 1.0 - smoothstep(0.0, 0.5, dist);
 
-    vNoise = sin(dist * 10. - uTime);
+    // Apply wave effect with falloff
+    newposition.z += 7.0 * sin(dist * 10.0 + uTime) * falloff;
+
+    vNoise = sin(dist * 10.0 - uTime) * falloff;
     vUv = uv;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newposition, 1.0);
