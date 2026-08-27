@@ -39,47 +39,47 @@
           />
         </div>
       </nuxt-link>
-      <nuxt-link
-        class="play-link"
-        href="/playground/scroll-performance"
-        target="_blank"
-      >
-        <div
-          class="play-2"
-          @mouseenter="scrollPerformanceHover = true"
-          @mouseleave="scrollPerformanceHover = false"
-        >
-          <h3 class="body-l">Scroll performance</h3>
-          <p class="body-s">
-            Example of scroll performance with different scroll speed sections
-            and shaders
-          </p>
-          <img
-            v-canvas3-image="{
-              uniforms: {
-                uAniInImage: {
-                  value: ethBlockImageAniIn
-                    ? scrollPerformanceHover
-                      ? 0.85
-                      : 1
-                    : 0,
-                  duration: 0.5,
-                  ease: 'linear',
-                },
-                uBlockColor: {
-                  value: 0.5,
-                  duration: 0.5,
-                  ease: 'linear',
-                },
-              },
-              shaderName: 'playEthBlockNoDesign',
-            }"
-            :src="`/images/07.jpg`"
-            alt=""
-            class="play-block-image"
-          />
-        </div>
-      </nuxt-link>
+      <!--      <nuxt-link-->
+      <!--        class="play-link"-->
+      <!--        href="/playground/scroll-performance"-->
+      <!--        target="_blank"-->
+      <!--      >-->
+      <!--        <div-->
+      <!--          class="play-2"-->
+      <!--          @mouseenter="scrollPerformanceHover = true"-->
+      <!--          @mouseleave="scrollPerformanceHover = false"-->
+      <!--        >-->
+      <!--          <h3 class="body-l">Scroll performance</h3>-->
+      <!--          <p class="body-s">-->
+      <!--            Example of scroll performance with different scroll speed sections-->
+      <!--            and shaders-->
+      <!--          </p>-->
+      <!--          <img-->
+      <!--            v-canvas3-image="{-->
+      <!--              uniforms: {-->
+      <!--                uAniInImage: {-->
+      <!--                  value: ethBlockImageAniIn-->
+      <!--                    ? scrollPerformanceHover-->
+      <!--                      ? 0.85-->
+      <!--                      : 1-->
+      <!--                    : 0,-->
+      <!--                  duration: 0.5,-->
+      <!--                  ease: 'linear',-->
+      <!--                },-->
+      <!--                uBlockColor: {-->
+      <!--                  value: 0.5,-->
+      <!--                  duration: 0.5,-->
+      <!--                  ease: 'linear',-->
+      <!--                },-->
+      <!--              },-->
+      <!--              shaderName: 'playEthBlockNoDesign',-->
+      <!--            }"-->
+      <!--            :src="`/images/07.jpg`"-->
+      <!--            alt=""-->
+      <!--            class="play-block-image"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--      </nuxt-link>-->
     </div>
   </div>
 </template>
