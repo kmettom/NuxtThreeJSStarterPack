@@ -198,9 +198,6 @@ onBeforeUnmount(() => {
 }
 
 .scroll-speed-status-bar {
-  position: absolute;
-  bottom: 50px;
-  left: 0;
   padding: 0;
 }
 .scroll-speed-ani {
