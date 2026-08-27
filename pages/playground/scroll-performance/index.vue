@@ -80,10 +80,10 @@ const scrollSpeedBarOptions = computed(() => ({
 }));
 
 const scrollSpeedCallback = (_item: any, speed: number) => {
-  scrollSpeedCoef.value = speed;
-  gsap.to(scrollSpeedAniEl.value, {
-    width: `${speed * 100}%`,
-    duration: 0.05,
+  const newSpeedCoef = speed < 0.03 ? 0 : speed;
+  scrollSpeedCoef.value = newSpeedCoef;
+  gsap.set(scrollSpeedAniEl.value, {
+    width: `${newSpeedCoef * 100}%`,
   });
 };
 
