@@ -1,4 +1,4 @@
-uniform float uTime;
+//uniform float uTime;
 uniform vec2 hover;
 varying float vNoise;
 varying vec2 vUv;
@@ -7,6 +7,8 @@ varying vec2 vUv;
 vec4 permute(vec4 x){ return mod(((x * 34.0) + 1.0) * x, 289.0); }
 vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
 vec3 fade(vec3 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
+
+float uTime = 1.0;
 
 float cnoise(vec3 P){
     vec3 Pi0 = floor(P);
@@ -82,24 +84,61 @@ void main() {
 
     float noise = cnoise(3. * vec3(position.x, position.y, position.z + uTime * 2.0));
 
-    // Center UV coordinates around (0.5, 0.5)
-    //    vec2 centeredUv = uv - vec2(0.5, 0.5);
-    vec2 centeredUv = uv - vec2(0.0, 0.0);
+    // 0.0 at bottom, 1.0 at top of the screen
+    float y = uv.y;
 
-    // Calculate distance from center (creates radial wave from middle)
-    float dist = length(centeredUv);
+    // Centered Y: -1.0 bottom, 0.0 middle, 1.0 top
+    float centeredY = (y - 0.5) * 2.0;
 
-    // Create falloff factor: strongest in middle (1.0), diminishes toward edges (0.0)
-    // This makes the wave strongest in the center and fade toward top/bottom
-    //    float falloff = 1.0 - smoothstep(0.0, 0.5, dist);
-    float falloff = 0.0;
+    // 0.0 in the middle, 1.0 at top & bottom
+    float edgeFactor = abs(centeredY);
 
-    // Apply wave effect with falloff
-    //    newposition.z += 7.0 * sin(dist * 10.0 + uTime) * falloff;
-    newposition.z += 7.0 * sin(dist * 10.0) * falloff;
+    // Strong base curvature:
+    // middle -> close to camera, top/bottom -> far from camera
+    // (flip sign if your camera setup is opposite)
+    float baseAmplitude = 8.0;        // increase for stronger bend
+    float baseOffset   = (edgeFactor - 0.5) * baseAmplitude;
 
-    vNoise = sin(dist * 10.0 - uTime) * falloff;
-    vUv = uv;
+    // Animated wave travelling vertically
+    float waveFrequency = 8.0;
+    float waveSpeed     = 2.0;
+    float wave          = sin(y * waveFrequency + uTime * waveSpeed);
+
+    // Combine static curvature + animated wave + noise
+    float zOffset = baseOffset;
+    zOffset += wave * 3.0 * edgeFactor;   // stronger wave at top/bottom
+    zOffset += noise * 1.5 * edgeFactor;  // optional extra roughness
+
+    newposition.z += zOffset;
+
+    vNoise = wave * edgeFactor;
+    vUv    = uv;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newposition, 1.0);
 }
+
+
+//void main() {
+//    vec3 newposition = position;
+//    float PI = 3.1415925;
+//
+//    float noise = cnoise(3. * vec3(position.x, position.y, position.z + uTime * 2.0));
+//
+//    // Center UV coordinates around (0.5, 0.5)
+//    vec2 centeredUv = uv - vec2(0.5, 0.5);
+//
+//    // Calculate distance from center (creates radial wave from middle)
+//    float dist = length(centeredUv);
+//
+//    // Create falloff factor: strongest in middle (1.0), diminishes toward edges (0.0)
+//    // This makes the wave strongest in the center and fade toward top/bottom
+//    float falloff = 1.0 - smoothstep(0.0, 0.5, dist);
+//
+//    // Apply wave effect with falloff
+//    newposition.z += 7.0 * sin(dist * 10.0 + uTime) * falloff;
+//
+//    vNoise = sin(dist * 10.0 - uTime) * falloff;
+//    vUv = uv;
+//
+//    gl_Position = projectionMatrix * modelViewMatrix * vec4(newposition, 1.0);
+//}

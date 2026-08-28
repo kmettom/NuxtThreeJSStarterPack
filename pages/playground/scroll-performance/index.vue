@@ -6,6 +6,14 @@
       class="scroll-speed-container"
     >
       <div class="scroll-speed-status-bar">
+        <div class="nav-holder">
+          <div v-if="layoutSmall" @click="() => (layoutSmall = false)">
+            normal
+          </div>
+          <div v-if="!layoutSmall" @click="() => (layoutSmall = true)">
+            one side / small
+          </div>
+        </div>
         <span class="scroll-speed-text">
           Scroll speed: {{ scrollSpeedCoef }}
         </span>
@@ -16,7 +24,7 @@
       v-for="(slide, index) in slides"
       :key="slide.title"
       class="slide"
-      :style="`margin-left:${slide.position * 33}%`"
+      :style="`margin-left:${slide.position * (layoutSmall ? 0 : 33)}%;width:${layoutSmall ? 0 : 33}%`"
     >
       <div
         v-canvas3-scroll-action="{
@@ -68,6 +76,7 @@ const blocksActivatedMap = ref<boolean[]>([]);
 
 const scrollSpeedAniEl = ref<HTMLElement | null>(null);
 
+const layoutSmall = ref(false);
 const scrollSpeedCoef = ref(0);
 const scrollSpeedBarOptions = computed(() => ({
   activeRange: 1,
@@ -195,8 +204,8 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 2;
 }
-
 .scroll-speed-status-bar {
   padding: 0;
 }
@@ -218,7 +227,7 @@ onBeforeUnmount(() => {
 }
 .slide {
   padding: 10px;
-  width: 33%;
+  //width: 33%;
   position: relative;
   img {
     width: 100%;
