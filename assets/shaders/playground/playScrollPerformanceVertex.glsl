@@ -83,17 +83,20 @@ void main() {
     float noise = cnoise(3. * vec3(position.x, position.y, position.z + uTime * 2.0));
 
     // Center UV coordinates around (0.5, 0.5)
-    vec2 centeredUv = uv - vec2(0.5, 0.5);
+    //    vec2 centeredUv = uv - vec2(0.5, 0.5);
+    vec2 centeredUv = uv - vec2(0.0, 0.0);
 
     // Calculate distance from center (creates radial wave from middle)
     float dist = length(centeredUv);
 
     // Create falloff factor: strongest in middle (1.0), diminishes toward edges (0.0)
     // This makes the wave strongest in the center and fade toward top/bottom
-    float falloff = 1.0 - smoothstep(0.0, 0.5, dist);
+    //    float falloff = 1.0 - smoothstep(0.0, 0.5, dist);
+    float falloff = 0.0;
 
     // Apply wave effect with falloff
-    newposition.z += 7.0 * sin(dist * 10.0 + uTime) * falloff;
+    //    newposition.z += 7.0 * sin(dist * 10.0 + uTime) * falloff;
+    newposition.z += 7.0 * sin(dist * 10.0) * falloff;
 
     vNoise = sin(dist * 10.0 - uTime) * falloff;
     vUv = uv;

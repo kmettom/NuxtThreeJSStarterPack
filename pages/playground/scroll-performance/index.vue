@@ -54,7 +54,6 @@
 </template>
 <script setup lang="ts">
 // TODO:
-// scroll speed values - add to data and scroll action
 // SHADER
 // - appear animation
 // - mouse interaction
