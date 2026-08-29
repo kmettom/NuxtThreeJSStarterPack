@@ -3,9 +3,9 @@ varying vec2 vUv;
 uniform float scrollSpeed;
 void main(){
     vec2 newUV = vUv;
-    float area = smoothstep(0.9,0.,vUv.y);
-    area = pow(area,4.);
-    newUV.x -= (vUv.x - 0.5)*0.1*area*scrollSpeed/1.;
+    float area = smoothstep(0.9, 0., vUv.y); // intensity 10%
+    area = pow(area, 4.);
+    newUV.x -= (vUv.x - 0.5) * 0.8 * area;
 
     //******************************************
     // float area = smoothstep(0.9,0.,vUv.y);
@@ -13,5 +13,5 @@ void main(){
     // newUV.x -= (vUv.x - 0.5)*0.1*area*scrollSpeed;
     //******************************************
 
-    gl_FragColor = texture2D( tDiffuse, newUV);
+    gl_FragColor = texture2D(tDiffuse, newUV);
 }
