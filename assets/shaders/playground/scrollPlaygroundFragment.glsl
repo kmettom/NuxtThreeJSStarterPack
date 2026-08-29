@@ -7,11 +7,5 @@ void main(){
     area = pow(area, 4.);
     newUV.x -= (vUv.x - 0.5) * 0.8 * area;
 
-    //******************************************
-    // float area = smoothstep(0.9,0.,vUv.y);
-    // area = pow(area,4.);
-    // newUV.x -= (vUv.x - 0.5)*0.1*area*scrollSpeed;
-    //******************************************
-
     gl_FragColor = texture2D(tDiffuse, newUV);
 }
