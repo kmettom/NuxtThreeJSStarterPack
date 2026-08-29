@@ -6,7 +6,6 @@ varying vec2 vUv;
 
 void main() {
     vec3 newposition = position;
-    float PI = 3.1415925;
 
     // 0.0 at bottom, 1.0 at top of the screen
     float y = uv.y;
@@ -32,9 +31,6 @@ void main() {
     float zOffset = baseOffset;
     zOffset += wave * 3.0 * edgeFactor;   // stronger wave at top/bottom
 
-    //        float noise = cnoise(3. * vec3(position.x, position.y, position.z + uTime * 2.0));
-    //        zOffset += noise * 100.5 * edgeFactor;  // optional extra roughness
-
     newposition.z += zOffset;
 
     vNoise = wave * edgeFactor;
@@ -42,6 +38,11 @@ void main() {
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newposition, 1.0);
 }
+
+
+//    float PI = 3.1415925;
+//        float noise = cnoise(3. * vec3(position.x, position.y, position.z + uTime * 2.0));
+//        zOffset += noise * 100.5 * edgeFactor;  // optional extra roughness
 
 // Classic Perlin 3D Noise by Stefan Gustavson
 //vec4 permute(vec4 x){ return mod(((x * 34.0) + 1.0) * x, 289.0); }
