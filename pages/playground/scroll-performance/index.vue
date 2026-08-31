@@ -7,10 +7,10 @@
     >
       <div class="scroll-speed-status-bar">
         <div class="nav-holder">
-          <div v-if="layoutSmall" @click="() => (layoutSmall = false)">
+          <div v-if="layoutSmall" @click="() => layoutChange('normal')">
             normal
           </div>
-          <div v-if="!layoutSmall" @click="() => (layoutSmall = true)">
+          <div v-if="!layoutSmall" @click="() => layoutChange('sm')">
             one side / small
           </div>
         </div>
@@ -23,14 +23,19 @@
     <div
       v-for="(slide, index) in slides"
       :key="slide.title"
+      :ref="slidesRefs.set"
       class="slide"
-      :style="`margin-left:${slide.position * (layoutSmall ? 0 : 33)}%;width:${layoutSmall ? 0 : 33}%`"
+      :style="`margin-left:${slide.position * 33}%`"
+      :data-item-position="slide.position"
     >
       <div
         v-canvas3-scroll-action="{
           activeRange: 0.99,
           activateOnce: true,
-          scrollSpeedSetTo: { value: slide.scrollSpeed ?? 0, duration: 0 },
+          scrollSpeedSetTo: {
+            value: layoutSmall ? 0 : (slide.scrollSpeed ?? 0),
+            duration: 0,
+          },
           activateCallback: () => {
             blocksActivatedMap[index] = true;
           },
@@ -47,6 +52,11 @@
               uAniIn: {
                 value: blocksActivatedMap[index] ? 1 : 0,
                 duration: 0.3,
+                ease: 'linear',
+              },
+              uLayoutTransformAni: {
+                value: 1,
+                duration: 0.4,
                 ease: 'linear',
               },
             },
@@ -71,6 +81,9 @@
 //canvas3 - fix scroll speed and jump of mesh on active
 
 import gsap from "gsap";
+import { useTemplateRefsList } from "@vueuse/core";
+
+const slidesRefs = useTemplateRefsList();
 
 const blocksActivatedMap = ref<boolean[]>([]);
 
@@ -88,6 +101,44 @@ const scrollSpeedBarOptions = computed(() => ({
   onScrollCallback: scrollSpeedCallback,
 }));
 
+const layoutChange = (state: string) => {
+  layoutSmall.value = state === "sm";
+  Canvas3.setMeshPositionsUpdate(true);
+  // const marginLeft = layoutSmall.value ? 0 : 33;
+  const itemWidth = layoutSmall.value ? 25 : 33;
+
+  const tl = gsap.timeline({
+    onStart: () => {
+      Canvas3.setMeshPositionsUpdate(true);
+    },
+    onComplete: () => {
+      Canvas3.setMeshPositionsUpdate(false);
+    },
+  });
+
+  for (let i = 0; i < slidesRefs.value.length; i++) {
+    if (slidesRefs.value[i]) {
+      const position = slidesRefs.value[i]?.dataset.itemPosition ?? 0;
+      const marginLeft = layoutSmall.value ? 0 : position * 33;
+      tl.to(
+        slidesRefs.value[i],
+        {
+          marginLeft: `${marginLeft}%`,
+          width: `${itemWidth}%`,
+          duration: 0.5,
+          ease: "power2.out",
+        },
+        "<",
+      );
+    }
+  }
+
+  setTimeout(() => {
+    Canvas3.setMeshPositionsUpdate(false);
+  }, 1000);
+  // `margin-left:${slide.position * (layoutSmall ? 0 : 33)}%;width:${layoutSmall ? 25 : 33}%`
+};
+
 const scrollSpeedCallback = (_item: any, speed: number) => {
   const newSpeedCoef = speed < 0.03 ? 0 : speed;
   scrollSpeedCoef.value = newSpeedCoef;
@@ -96,8 +147,7 @@ const scrollSpeedCallback = (_item: any, speed: number) => {
   });
 };
 
-const textParagraph =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+const textParagraph = "Lorem ipsum dolor sit amet.";
 
 const slides = ref<
   {
@@ -227,7 +277,7 @@ onBeforeUnmount(() => {
 }
 .slide {
   padding: 10px;
-  //width: 33%;
+  width: 33%;
   position: relative;
   img {
     width: 100%;

@@ -5,7 +5,7 @@ void main(){
     vec2 newUV = vUv;
     float area = smoothstep(0.9, 0., vUv.y); // intensity 10%
     area = pow(area, 4.);
-    newUV.x -= (vUv.x - 0.5) * 0.8 * area;
+    newUV.x -= (vUv.x - 0.5) * 0.1 * area;
 
     gl_FragColor = texture2D(tDiffuse, newUV);
 }
