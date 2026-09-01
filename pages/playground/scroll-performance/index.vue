@@ -31,7 +31,7 @@
     >
       <div
         v-canvas3-scroll-action="{
-          activeRange: slide.text ? 0.8 : 0.99,
+          activeRange: 0.99,
           activateOnce: true,
           scrollSpeedSetTo: {
             value: layoutSmall ? 0 : (slide.scrollSpeed ?? 0),
@@ -124,7 +124,7 @@ const animateTextIn = (el: HTMLElement) => {
   tl.to(chars, {
     y: 0,
     x: 0,
-    duration: 0.55,
+    duration: 0.3,
     transform: "matrix(1,0,0,1,0,0)",
     ease: "power2.inOut",
     stagger: 0.05,
@@ -145,7 +145,7 @@ const layoutChangeTl = gsap.timeline({
   },
 });
 
-const navToSmallTl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+// const navToSmallTl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
 const layoutChangeDuration = 0.75;
 
 const layoutChangeSwitch = () => {
