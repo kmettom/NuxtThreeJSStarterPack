@@ -119,7 +119,7 @@ const layoutChange = (state: string) => {
   for (let i = 0; i < slidesRefs.value.length; i++) {
     if (slidesRefs.value[i]) {
       const position = slidesRefs.value[i]?.dataset.itemPosition ?? 0;
-      const marginLeft = layoutSmall.value ? 0 : position * 33;
+      const marginLeft = layoutSmall.value ? 37.5 : position * 33;
       tl.to(
         slidesRefs.value[i],
         {
