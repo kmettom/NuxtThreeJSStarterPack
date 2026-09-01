@@ -5,7 +5,7 @@ uniform float scrollSpeed;
 void main(){
     vec2 newUV = vUv;
 
-    float scrollSpeedClamp = clamp(scrollSpeed / 0.1, 0.0, 1.0);
+    float scrollSpeedClamp = clamp(scrollSpeed / 0.3, 0.0, 1.0);
 
     float distFromEdge = min(vUv.y, 1.0 - vUv.y) * scrollSpeedClamp;
     //    float distFromEdge = min(vUv.y, 1.0 - vUv.y);

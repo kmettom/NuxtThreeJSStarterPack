@@ -53,13 +53,18 @@
             uniforms: {
               uAniIn: {
                 value: blocksActivatedMap[index] ? 1 : 0,
-                duration: 0.3,
+                duration: 0.2,
                 ease: 'linear',
               },
-              uLayoutTransformAni: {
-                value: 1,
-                duration: 0.4,
-                ease: 'linear',
+              uLayoutChangeProgress: {
+                value: layoutChangeUniform,
+                duration: layoutChangeDuration,
+                ease: 'power2.inOut',
+              },
+              uLayoutChangeDirection: {
+                value: slide.position === 0 ? 1 : -1,
+                duration: 0,
+                ease: 'power2.inOut',
               },
             },
           }"
@@ -132,15 +137,19 @@ const animateTextIn = (el: HTMLElement) => {
 };
 
 const layoutSwitchInProgress = ref(false);
+const layoutChangeUniform = ref(0);
 
 const layoutChangeTl = gsap.timeline({
   defaults: { ease: "power2.inOut" },
   ease: "power2.inOut",
   onUpdate: () => {
     Canvas3.setMeshPositionsUpdate(true);
+    // const layoutChangeCoef =
+    // layoutChangeUniform.value = progress;
   },
   onComplete: () => {
     // Canvas3.setMeshPositionsUpdate(false);
+    layoutChangeUniform.value = 0;
     layoutSwitchInProgress.value = false;
   },
 });
@@ -151,6 +160,8 @@ const layoutChangeDuration = 0.75;
 const layoutChangeSwitch = () => {
   if (layoutSwitchInProgress.value) return;
   layoutSwitchInProgress.value = true;
+  layoutChangeUniform.value = 1;
+
   layoutSmall.value = !layoutSmall.value;
   const itemWidth = layoutSmall.value ? 25 : 33;
   Canvas3.setMeshPositionsUpdate(true);
@@ -184,7 +195,7 @@ const layoutChangeSwitch = () => {
       duration: layoutChangeDuration / 2,
       stagger: 0.05,
     },
-    "<+" + layoutChangeDuration / 2,
+    "<",
   );
 
   for (let i = 0; i < slidesRefs.value.length; i++) {
