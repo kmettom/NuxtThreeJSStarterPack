@@ -7,11 +7,12 @@
     >
       <div class="scroll-speed-status-bar">
         <div class="nav-holder">
-          <div v-if="layoutSmall" @click="() => layoutChange('normal')">
-            normal
-          </div>
-          <div v-if="!layoutSmall" @click="() => layoutChange('sm')">
-            one side / small
+          <div @click="() => layoutChangeSwitch()">
+            <div class="nav-icon">
+              <span class="nav-icon-line" />
+              <span class="nav-icon-line" />
+              <span class="nav-icon-line" />
+            </div>
           </div>
         </div>
         <span class="scroll-speed-text">
@@ -22,7 +23,7 @@
     </div>
     <div
       v-for="(slide, index) in slides"
-      :key="slide.title"
+      :key="index"
       :ref="slidesRefs.set"
       class="slide"
       :style="`margin-left:${slide.position * 33}%`"
@@ -30,13 +31,14 @@
     >
       <div
         v-canvas3-scroll-action="{
-          activeRange: 0.99,
+          activeRange: slide.text ? 0.8 : 0.99,
           activateOnce: true,
           scrollSpeedSetTo: {
             value: layoutSmall ? 0 : (slide.scrollSpeed ?? 0),
             duration: 0,
           },
-          activateCallback: () => {
+          activateCallback: (item: ScrollActionBinding) => {
+            if (slide.text) animateTextIn(item.elNode);
             blocksActivatedMap[index] = true;
           },
           deactivateCallback: () => {
@@ -79,9 +81,11 @@
 // add appear animation for text fields
 
 //canvas3 - fix scroll speed and jump of mesh on active
-
+import type { ScrollActionBinding } from "../../../../canvas3-nuxt/dist/runtime/types/types";
 import gsap from "gsap";
 import { useTemplateRefsList } from "@vueuse/core";
+import SplitText from "gsap/SplitText";
+gsap.registerPlugin(SplitText);
 
 const slidesRefs = useTemplateRefsList();
 
@@ -101,34 +105,100 @@ const scrollSpeedBarOptions = computed(() => ({
   onScrollCallback: scrollSpeedCallback,
 }));
 
-const layoutChange = (state: string) => {
-  layoutSmall.value = state === "sm";
-  Canvas3.setMeshPositionsUpdate(true);
-  // const marginLeft = layoutSmall.value ? 0 : 33;
-  const itemWidth = layoutSmall.value ? 25 : 33;
+const animateTextIn = (el: HTMLElement) => {
+  const text = el.querySelector(".slide-text");
+  const chars = new SplitText(text, {
+    type: "chars",
+    reduceWhiteSpace: false,
+    charsClass: "char",
+  }).chars;
 
-  const tl = gsap.timeline({
-    onStart: () => {
-      Canvas3.setMeshPositionsUpdate(true);
-    },
-    onComplete: () => {
-      Canvas3.setMeshPositionsUpdate(false);
-    },
+  const tl = gsap.timeline({});
+  tl.set(chars, {
+    y: 75,
+    x: 50,
+    transform: "matrix(1,0,1,2,0,0)",
+    lineHeight: "50px",
   });
+  tl.set(text, { opacity: 1 });
+  tl.to(chars, {
+    y: 0,
+    x: 0,
+    duration: 0.55,
+    transform: "matrix(1,0,0,1,0,0)",
+    ease: "power2.inOut",
+    stagger: 0.05,
+  });
+};
+
+const layoutSwitchInProgress = ref(false);
+
+const layoutChangeTl = gsap.timeline({
+  defaults: { ease: "power2.inOut" },
+  ease: "power2.inOut",
+  onUpdate: () => {
+    Canvas3.setMeshPositionsUpdate(true);
+  },
+  onComplete: () => {
+    // Canvas3.setMeshPositionsUpdate(false);
+    layoutSwitchInProgress.value = false;
+  },
+});
+
+const navToSmallTl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+const layoutChangeDuration = 0.75;
+
+const layoutChangeSwitch = () => {
+  if (layoutSwitchInProgress.value) return;
+  layoutSwitchInProgress.value = true;
+  layoutSmall.value = !layoutSmall.value;
+  const itemWidth = layoutSmall.value ? 25 : 33;
+  Canvas3.setMeshPositionsUpdate(true);
+
+  layoutChangeTl.clear();
+
+  layoutChangeTl.to(
+    ".nav-icon-line",
+    {
+      x: layoutSmall.value ? 10 : 0, // from origin down /
+      y: layoutSmall.value ? 0 : 0, //  / to origin, down
+      width: 0,
+      duration: layoutChangeDuration / 2,
+      stagger: 0.05,
+    },
+    "<",
+  );
+  layoutChangeTl.set(".nav-icon", {
+    transform: `rotate(${layoutSmall.value ? 0 : 90}deg)`,
+  });
+  layoutChangeTl.set(".nav-icon-line", {
+    x: layoutSmall.value ? 5 : 0, // from origin from right
+    y: layoutSmall.value ? 0 : 0, //
+  });
+  layoutChangeTl.to(
+    ".nav-icon-line",
+    {
+      width: "20px",
+      x: 0,
+      y: 0,
+      duration: layoutChangeDuration / 2,
+      stagger: 0.05,
+    },
+    "<+" + layoutChangeDuration / 2,
+  );
 
   for (let i = 0; i < slidesRefs.value.length; i++) {
     if (slidesRefs.value[i]) {
       const position = slidesRefs.value[i]?.dataset.itemPosition ?? 0;
       const marginLeft = layoutSmall.value ? 37.5 : position * 33;
-      tl.to(
+      layoutChangeTl.to(
         slidesRefs.value[i],
         {
           marginLeft: `${marginLeft}%`,
           width: `${itemWidth}%`,
-          duration: 0.5,
-          ease: "power2.out",
+          duration: layoutChangeDuration,
         },
-        "<",
+        "0",
       );
     }
   }
@@ -147,87 +217,6 @@ const scrollSpeedCallback = (_item: any, speed: number) => {
   });
 };
 
-const textParagraph = "Lorem ipsum dolor sit amet.";
-
-const slides = ref<
-  {
-    title: string;
-    image?: string;
-    text?: string;
-    position: number;
-    scrollSpeed?: number;
-  }[]
->([
-  {
-    title: "Slide 1",
-    image: "/playground/images/01.webp",
-    position: 0,
-  },
-  {
-    title: "Slide 2",
-    image: "/playground/images/02.webp",
-    position: 1,
-    // scrollSpeed: -0.15,
-  },
-  {
-    title: "Slide 3",
-    image: "/playground/images/03.webp",
-    text: textParagraph,
-    position: 2,
-    // scrollSpeed: -0.3,
-  },
-  {
-    title: "Slide 4",
-    image: "/playground/images/04.webp",
-    position: 0,
-    scrollSpeed: 0.3,
-  },
-  {
-    title: "Slide 5",
-    image: "/playground/images/05.webp",
-    position: 1,
-    scrollSpeed: 0.15,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/06.webp",
-    text: textParagraph,
-    position: 2,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/07.webp",
-    position: 0,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/08.webp",
-    position: 1,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/09.webp",
-    text: textParagraph,
-    position: 2,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/10.webp",
-    position: 0,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/11.webp",
-    position: 1,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/12.webp",
-    text: textParagraph,
-    position: 2,
-  },
-]);
-
 useSeoMeta({
   title: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
   ogTitle: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
@@ -243,6 +232,94 @@ onMounted(() => {
 onBeforeUnmount(() => {
   Canvas3.setScrollShaderByName("scrollPlayground");
 });
+
+const slides = ref<
+  {
+    image?: string;
+    text?: string;
+    position: number;
+    scrollSpeed?: number;
+  }[]
+>([
+  {
+    image: "/playground/images/01.webp",
+    position: 0,
+  },
+  {
+    image: "/playground/images/02.webp",
+    position: 1,
+  },
+  {
+    image: "/playground/images/03.webp",
+    position: 2,
+  },
+  {
+    text: "Playground",
+    position: 0,
+  },
+  {
+    text: "scroll",
+    position: 1,
+    // scrollSpeed: -0.05,
+  },
+  {
+    text: "performance",
+    position: 2,
+    // scrollSpeed: -0.15,
+  },
+  {
+    image: "/playground/images/04.webp",
+    position: 0,
+    scrollSpeed: 0.3,
+  },
+  {
+    image: "/playground/images/05.webp",
+    position: 1,
+    scrollSpeed: 0.15,
+  },
+  {
+    image: "/playground/images/06.webp",
+    position: 2,
+  },
+  {
+    text: "dynamic",
+    position: 0,
+  },
+  {
+    text: "scroll",
+    position: 1,
+    scrollSpeed: -0.05,
+  },
+  {
+    text: "speed",
+    position: 2,
+    scrollSpeed: -0.15,
+  },
+  {
+    image: "/playground/images/07.webp",
+    position: 0,
+  },
+  {
+    image: "/playground/images/08.webp",
+    position: 1,
+  },
+  {
+    image: "/playground/images/09.webp",
+    position: 2,
+  },
+  {
+    image: "/playground/images/10.webp",
+    position: 0,
+  },
+  {
+    image: "/playground/images/11.webp",
+    position: 1,
+  },
+  {
+    image: "/playground/images/12.webp",
+    position: 2,
+  },
+]);
 </script>
 <style lang="scss" scoped>
 .page-container {
@@ -255,25 +332,48 @@ onBeforeUnmount(() => {
   top: 0;
   left: 0;
   z-index: 2;
+  pointer-events: none;
 }
 .scroll-speed-status-bar {
   padding: 0;
 }
 .scroll-speed-ani {
   position: absolute;
-  height: 18px;
+  height: 15px;
   top: 0px;
   left: 0;
   background: var(--light-color);
   z-index: 1;
 }
 .scroll-speed-text {
-  font-size: 14px;
+  font-size: 12px;
   z-index: 2;
   position: absolute;
   left: 0px;
   display: block;
   color: var(--dark-color);
+}
+.nav-holder {
+  font-weight: 800;
+  font-size: 20px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.nav-icon {
+  width: 20px;
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+.nav-icon-line {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin: 4px 0;
+  background-color: var(--light-color);
 }
 .slide {
   padding: 10px;
@@ -283,7 +383,15 @@ onBeforeUnmount(() => {
     width: 100%;
   }
   .slide-text {
-    padding: 10px 0 20px;
+    text-transform: uppercase;
+    font-family: "PP Formula Black", serif;
+    font-size: 45px;
+    font-weight: 400;
+    margin: 10px 0 20px;
+    opacity: 0;
+    overflow: hidden;
+    position: relative;
+    line-height: 50px;
   }
 }
 </style>
