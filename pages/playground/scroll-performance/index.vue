@@ -79,13 +79,12 @@
 </template>
 <script setup lang="ts">
 // TODO:
-// SHADER
 
 //canvas3 - fix scroll speed and jump of mesh on active
 //canvas3 - fix scroll speed value on top of screen it gets stuck - shader Uniform
 
 // - appear animation
-// - mouse interaction
+// - ??mouse interaction
 
 import type { ScrollActionBinding } from "../../../../canvas3-nuxt/dist/runtime/types/types";
 import gsap from "gsap";
@@ -112,17 +111,17 @@ const scrollSpeedBarOptions = computed(() => ({
   onScrollCallback: scrollSpeedCallback,
 }));
 
-const calcImageDirection = (position: number) => {
-  let dir = 0;
-  // if (position === 0) {
-  dir = layoutSmall.value ? -1 : 1;
-  // } else if (position === 1) {
-  //   dir = layoutSmall.value ? -1 : 1;
-  // } else if (position === 2) {
-  //   dir = layoutSmall.value ? 1 : -1;
-  // }
-  return dir;
-};
+// const calcImageDirection = (position: number) => {
+//   let dir = 0;
+//   if (position === 0) {
+//     dir = layoutSmall.value ? -1 : 1;
+//   } else if (position === 1) {
+//     dir = layoutSmall.value ? -1 : 1;
+//   } else if (position === 2) {
+//     dir = layoutSmall.value ? 1 : -1;
+//   }
+//   return dir;
+// };
 
 const animateTextIn = (el: HTMLElement) => {
   const text = el.querySelector(".slide-text");
