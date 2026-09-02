@@ -283,12 +283,12 @@ const slides = ref<
   {
     text: "scroll",
     position: 1,
-    // scrollSpeed: -0.05,
+    scrollSpeed: -0.05,
   },
   {
     text: "performance",
     position: 2,
-    // scrollSpeed: -0.15,
+    scrollSpeed: -0.15,
   },
   {
     image: "/playground/images/04.webp",
@@ -298,7 +298,7 @@ const slides = ref<
   {
     image: "/playground/images/05.webp",
     position: 1,
-    // scrollSpeed: 0.15,
+    scrollSpeed: 0.15,
   },
   {
     image: "/playground/images/06.webp",
@@ -311,12 +311,12 @@ const slides = ref<
   {
     text: "scroll",
     position: 1,
-    // scrollSpeed: -0.05,
+    scrollSpeed: -0.05,
   },
   {
     text: "speed",
     position: 2,
-    // scrollSpeed: -0.15,
+    scrollSpeed: -0.15,
   },
   {
     image: "/playground/images/07.webp",
