@@ -35,9 +35,10 @@
           activateOnce: true,
           scrollSpeedSetTo: {
             value: layoutSmall ? 0 : (slide.scrollSpeed ?? 0),
-            duration: 0.3,
+            duration: layoutChangeDuration,
           },
           activateCallback: (item: ScrollActionBinding) => {
+            console.log('activateCallback', index);
             if (slide.text) animateTextIn(item.elNode);
             blocksActivatedMap[index] = true;
           },
@@ -80,8 +81,7 @@
 <script setup lang="ts">
 // TODO:
 
-//canvas3 - fix scroll speed and jump of mesh on active
-//canvas3 - fix scroll speed value on top of screen it gets stuck - shader Uniform
+//canvas3 - layoput switch and scroll speed setting
 
 // - appear animation
 // - ??mouse interaction
