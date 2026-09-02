@@ -38,7 +38,6 @@
             duration: layoutChangeDuration,
           },
           activateCallback: (item: ScrollActionBinding) => {
-            console.log('activateCallback', index);
             if (slide.text) animateTextIn(item.elNode);
             blocksActivatedMap[index] = true;
           },
@@ -54,8 +53,8 @@
             uniforms: {
               uAniIn: {
                 value: blocksActivatedMap[index] ? 1 : 0,
-                duration: 0.2,
-                ease: 'linear',
+                duration: 0.3,
+                ease: 'power2.inOut',
               },
               uLayoutChangeProgress: {
                 value: layoutChangeUniform,
