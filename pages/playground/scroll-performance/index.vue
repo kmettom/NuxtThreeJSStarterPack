@@ -156,17 +156,16 @@ const layoutChangeTl = gsap.timeline({
   ease: "power2.inOut",
   onUpdate: () => {
     Canvas3.setMeshPositionsUpdate(true);
-    // const layoutChangeCoef =
-    // layoutChangeUniform.value = progress;
+    const progress = layoutChangeTl.progress();
+    if (progress > 0.5 && layoutChangeUniform.value === 1) {
+      layoutChangeUniform.value = 0;
+    }
   },
   onComplete: () => {
-    // Canvas3.setMeshPositionsUpdate(false);
-    layoutChangeUniform.value = 0;
     layoutSwitchInProgress.value = false;
   },
 });
 
-// const navToSmallTl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
 const layoutChangeDuration = 0.75;
 
 const layoutChangeSwitch = () => {
