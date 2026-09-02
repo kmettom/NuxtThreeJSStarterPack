@@ -15,7 +15,7 @@ void main() {
     float centerY = 1.0 - abs(position.y) * 2.0;
 
     // Higher exponent keeps the deformation flatter near the top/bottom.
-    float curve = pow(centerY, 1.65);
+    float curve = pow(centerY, 0.95);
 
     // Preserve the original direction behavior:
     // negative direction pins the left edge,
@@ -29,7 +29,7 @@ void main() {
     float directionStrength = abs(uLayoutChangeDirection);
 
     float amount =
-    0.65 *
+    0.1 *
     curve *
     progress *
     directionStrength;
@@ -40,3 +40,8 @@ void main() {
     modelViewMatrix *
     vec4(transformed, 1.0);
 }
+
+//TEST
+//    float uLayoutChangeDirection = 1.0;
+//    float uLayoutChangeProgress = 1.0;
+//TEST
