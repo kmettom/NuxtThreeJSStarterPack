@@ -31,15 +31,14 @@ float noise(vec2 n) {
 }
 
 void main() {
-    vec3 baseCol = texture2D(uImage, vUv).rgb;
+    vec2 uv = vUv;
 
     // Wave distortion parameters
-    float waveAmp = 0.035; // how strong the UV displacement is
+    float waveAmp = 0.035;  // how strong the UV displacement is
     float waveFreq = 2.0;   // how many waves across the image
     float waveSpeed = 0.9;
 
     // Animate waves over time
-    vec2 uv = vUv;
     float t = uTime * waveSpeed;
 
     // Multi-scale wave distortion
@@ -48,22 +47,19 @@ void main() {
             noise(vec2(uv.x * waveFreq + t, uv.y * waveFreq * 0.7))
     ) * 2.0 - 1.0; // range ~[-1,1]
 
-    distortion *= waveAmp;
+    distortion *= waveAmp * uLayoutChangeProgress;
 
     // Distorted UVs
     vec2 uvDistorted = fract(vUv + distortion);
 
-    // Sample image with distorted UVs
-    vec3 distortedCol = texture2D(uImage, uvDistorted).rgb;
+    // Sample image with distorted UVs — single layer, always distorted
+    vec3 col = texture2D(uImage, uvDistorted).rgb;
 
-    // Mix between original and distorted based on progress
-    // At progress = 0 -> baseCol, at progress = 1 -> distortedCol
-    vec3 col = mix(baseCol, distortedCol, uLayoutChangeProgress);
-
-    // Optional: very subtle brightness/contrast modulation with waves
-    // (can be removed if you want it even simpler)
+    // Optional: subtle brightness/contrast modulation with waves
     float waveShade = noise(vUv * waveFreq + t) * 0.06 + 0.97; // ~[0.97, 1.03]
-    col *= mix(1.0, waveShade, uLayoutChangeProgress);
+    col *= waveShade;
 
     gl_FragColor = vec4(col, 1.0);
 }
+
+
