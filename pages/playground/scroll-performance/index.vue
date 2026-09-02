@@ -35,7 +35,7 @@
           activateOnce: true,
           scrollSpeedSetTo: {
             value: layoutSmall ? 0 : (slide.scrollSpeed ?? 0),
-            duration: 0,
+            duration: 0.3,
           },
           activateCallback: (item: ScrollActionBinding) => {
             if (slide.text) animateTextIn(item.elNode);
