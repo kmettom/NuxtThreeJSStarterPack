@@ -62,7 +62,7 @@
                 ease: 'power2.inOut',
               },
               uLayoutChangeDirection: {
-                value: calcImageDirection(slide.position),
+                value: layoutSmall ? -1 : 1,
                 duration: 0,
                 ease: 'power2.inOut',
               },
@@ -114,11 +114,13 @@ const scrollSpeedBarOptions = computed(() => ({
 
 const calcImageDirection = (position: number) => {
   let dir = 0;
-  if (position === 0) {
-    dir = layoutSmall.value ? -1 : 1;
-  } else if (position === 2) {
-    dir = layoutSmall.value ? 1 : -1;
-  }
+  // if (position === 0) {
+  dir = layoutSmall.value ? -1 : 1;
+  // } else if (position === 1) {
+  //   dir = layoutSmall.value ? -1 : 1;
+  // } else if (position === 2) {
+  //   dir = layoutSmall.value ? 1 : -1;
+  // }
   return dir;
 };
 

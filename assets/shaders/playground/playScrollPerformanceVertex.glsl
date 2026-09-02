@@ -7,5 +7,11 @@ uniform float uLayoutChangeDirection;
 
 void main() {
     vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    vec3 newPos = position;
+    float intensity = 0.2;
+    float waveAmp = 2.0;
+    newPos.y += sin(uLayoutChangeDirection * uTime + position.x * waveAmp) * intensity * uLayoutChangeProgress;
+    newPos.x += sin(uLayoutChangeDirection * uTime + position.x * waveAmp) * intensity/3.0 * uLayoutChangeProgress;
+
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
 }
