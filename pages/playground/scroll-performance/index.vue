@@ -62,7 +62,7 @@
                 ease: 'power2.inOut',
               },
               uLayoutChangeDirection: {
-                value: slide.position === 0 ? 1 : -1,
+                value: calcImageDirection(slide.position),
                 duration: 0,
                 ease: 'power2.inOut',
               },
@@ -80,16 +80,18 @@
 <script setup lang="ts">
 // TODO:
 // SHADER
-// - appear animation
-// - mouse interaction
-// - scroll shader
-// add appear animation for text fields
 
 //canvas3 - fix scroll speed and jump of mesh on active
+//canvas3 - fix scroll speed value on top of screen it gets stuck - shader Uniform
+
+// - appear animation
+// - mouse interaction
+
 import type { ScrollActionBinding } from "../../../../canvas3-nuxt/dist/runtime/types/types";
 import gsap from "gsap";
 import { useTemplateRefsList } from "@vueuse/core";
 import SplitText from "gsap/SplitText";
+
 gsap.registerPlugin(SplitText);
 
 const slidesRefs = useTemplateRefsList();
@@ -109,6 +111,16 @@ const scrollSpeedBarOptions = computed(() => ({
   },
   onScrollCallback: scrollSpeedCallback,
 }));
+
+const calcImageDirection = (position: number) => {
+  let dir = 0;
+  if (position === 0) {
+    dir = layoutSmall.value ? -1 : 1;
+  } else if (position === 2) {
+    dir = layoutSmall.value ? 1 : -1;
+  }
+  return dir;
+};
 
 const animateTextIn = (el: HTMLElement) => {
   const text = el.querySelector(".slide-text");
@@ -336,6 +348,7 @@ const slides = ref<
 .page-container {
   //background: black;
 }
+
 .scroll-speed-container {
   height: 100%;
   width: 100%;
@@ -345,9 +358,11 @@ const slides = ref<
   z-index: 2;
   pointer-events: none;
 }
+
 .scroll-speed-status-bar {
   padding: 0;
 }
+
 .scroll-speed-ani {
   position: absolute;
   height: 15px;
@@ -356,6 +371,7 @@ const slides = ref<
   background: var(--light-color);
   z-index: 1;
 }
+
 .scroll-speed-text {
   font-size: 12px;
   z-index: 2;
@@ -364,6 +380,7 @@ const slides = ref<
   display: block;
   color: var(--dark-color);
 }
+
 .nav-holder {
   font-weight: 800;
   font-size: 20px;
@@ -373,11 +390,13 @@ const slides = ref<
   pointer-events: auto;
   cursor: pointer;
 }
+
 .nav-icon {
   width: 20px;
   transform: rotate(90deg);
   transform-origin: center;
 }
+
 .nav-icon-line {
   position: relative;
   display: block;
@@ -386,13 +405,16 @@ const slides = ref<
   margin: 4px 0;
   background-color: var(--light-color);
 }
+
 .slide {
   padding: 10px;
   width: 33%;
   position: relative;
+
   img {
     width: 100%;
   }
+
   .slide-text {
     text-transform: uppercase;
     font-family: "PP Formula Black", serif;
