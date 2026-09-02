@@ -9,7 +9,7 @@ void main(){
 
     //******************************************
     // float area = smoothstep(0.9,0.,vUv.y);
-    // area = pow(area,4.);
+    // area = pow(area,4.);asdas dasd 
     // newUV.x -= (vUv.x - 0.5)*0.1*area*scrollSpeed;
     //******************************************
 
