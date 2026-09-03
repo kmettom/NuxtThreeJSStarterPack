@@ -1,30 +1,41 @@
 <template>
   <div class="page-container">
+    <scrollSpeedBar />
     <div
-      id="fixedParent"
-      v-canvas3-scroll-action="scrollSpeedBarOptions"
+      id="layoutNavigation"
+      v-canvas3-scroll-action="layoutNavigationOptions"
       class="scroll-speed-container"
     >
       <div class="scroll-speed-status-bar">
-        <span class="scroll-speed-text">
-          Scroll speed: {{ scrollSpeedCoef }}
-        </span>
-        <span ref="scrollSpeedAniEl" class="scroll-speed-ani" />
+        <div class="nav-holder">
+          <div @click="() => layoutChangeSwitch()">
+            <div class="nav-icon">
+              <span class="nav-icon-line" />
+              <span class="nav-icon-line" />
+              <span class="nav-icon-line" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div
       v-for="(slide, index) in slides"
-      :key="slide.title"
+      :key="index"
+      :ref="slidesRefs.set"
       class="slide"
       :style="`margin-left:${slide.position * 33}%`"
+      :data-item-position="slide.position"
     >
       <div
         v-canvas3-scroll-action="{
           activeRange: 0.99,
           activateOnce: true,
-          scrollSpeedSetTo: { value: slide.scrollSpeed ?? 0, duration: 0 },
-
-          activateCallback: () => {
+          scrollSpeedSetTo: {
+            value: layoutSmall ? 0 : (slide.scrollSpeed ?? 0),
+            duration: layoutChangeDuration,
+          },
+          activateCallback: (item: ScrollActionBinding) => {
+            if (slide.text) animateTextIn(item.elNode);
             blocksActivatedMap[index] = true;
           },
           deactivateCallback: () => {
@@ -39,8 +50,18 @@
             uniforms: {
               uAniIn: {
                 value: blocksActivatedMap[index] ? 1 : 0,
-                duration: 0.7,
-                ease: 'linear',
+                duration: 0.35,
+                ease: 'power2.inOut',
+              },
+              uLayoutChangeProgress: {
+                value: layoutChangeUniform,
+                duration: layoutChangeDuration,
+                ease: 'power2.inOut',
+              },
+              uLayoutChangeDirection: {
+                value: layoutSmall ? -1 : 1,
+                duration: 0,
+                ease: 'power2.inOut',
               },
             },
           }"
@@ -55,119 +76,163 @@
 </template>
 <script setup lang="ts">
 // TODO:
-// scroll speed values - add to data and scroll action
-// SHADER
-// - appear animation
-// - mouse interaction
-// - scroll shader
-// add appear animation for text fields
+// - Enter animation
+// - smooth down scroll
+// - content finish
+// - speed bar on the side - update font
 
+import type { ScrollActionBinding } from "../../../../canvas3-nuxt/dist/runtime/types/types";
 import gsap from "gsap";
+import { useTemplateRefsList } from "@vueuse/core";
+import SplitText from "gsap/SplitText";
+import scrollSpeedBar from "~/components/playground/scroll-performance/scrollSpeedBar.vue";
+
+gsap.registerPlugin(SplitText);
+
+const slidesRefs = useTemplateRefsList();
 
 const blocksActivatedMap = ref<boolean[]>([]);
 
-const scrollSpeedAniEl = ref<HTMLElement | null>(null);
+const layoutSmall = ref(false);
 
-const scrollSpeedCoef = ref(0);
-const scrollSpeedBarOptions = computed(() => ({
+const layoutNavigationOptions = computed(() => ({
   activeRange: 1,
   fixToParent: {
-    containerId: "fixedParent",
+    containerId: "layoutNavigation",
     fixPosition: 0,
     margin: 0,
   },
-  onScrollCallback: scrollSpeedCallback,
+  // onScrollCallback: scrollSpeedCallback,
 }));
 
-const scrollSpeedCallback = (_item: any, speed: number) => {
-  const newSpeedCoef = speed < 0.03 ? 0 : speed;
-  scrollSpeedCoef.value = newSpeedCoef;
-  gsap.set(scrollSpeedAniEl.value, {
-    width: `${newSpeedCoef * 100}%`,
+// const calcImageDirection = (position: number) => {
+//   let dir = 0;
+//   if (position === 0) {
+//     dir = layoutSmall.value ? -1 : 1;
+//   } else if (position === 1) {
+//     dir = layoutSmall.value ? -1 : 1;
+//   } else if (position === 2) {
+//     dir = layoutSmall.value ? 1 : -1;
+//   }
+//   return dir;
+// };
+
+const animateTextIn = (el: HTMLElement) => {
+  const text = el.querySelector(".slide-text");
+  const chars = new SplitText(text, {
+    type: "chars",
+    reduceWhiteSpace: false,
+    charsClass: "char",
+  }).chars;
+
+  const tl = gsap.timeline({});
+  tl.set(chars, {
+    y: 75,
+    x: 50,
+    transform: "matrix(1,0,1,2,0,0)",
+    lineHeight: "50px",
+  });
+  tl.set(text, { opacity: 1 });
+  tl.to(chars, {
+    y: 0,
+    x: 0,
+    duration: 0.3,
+    transform: "matrix(1,0,0,1,0,0)",
+    ease: "power2.inOut",
+    stagger: 0.05,
   });
 };
 
-const textParagraph =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+const layoutSwitchInProgress = ref(false);
+const layoutChangeUniform = ref(0);
 
-const slides = ref<
-  {
-    title: string;
-    image?: string;
-    text?: string;
-    position: number;
-    scrollSpeed?: number;
-  }[]
->([
-  {
-    title: "Slide 1",
-    image: "/playground/images/01.webp",
-    position: 0,
+const layoutChangeTl = gsap.timeline({
+  defaults: { ease: "power2.inOut" },
+  ease: "power2.inOut",
+  onUpdate: () => {
+    Canvas3.setMeshPositionsUpdate(true);
+    const progress = layoutChangeTl.progress();
+    if (progress > 0.5 && layoutChangeUniform.value === 1) {
+      layoutChangeUniform.value = 0;
+    }
   },
-  {
-    title: "Slide 2",
-    image: "/playground/images/02.webp",
-    position: 1,
-    // scrollSpeed: -0.15,
+  onComplete: () => {
+    layoutSwitchInProgress.value = false;
   },
-  {
-    title: "Slide 3",
-    image: "/playground/images/03.webp",
-    text: textParagraph,
-    position: 2,
-    // scrollSpeed: -0.3,
-  },
-  {
-    title: "Slide 4",
-    image: "/playground/images/04.webp",
-    position: 0,
-    scrollSpeed: 0.3,
-  },
-  {
-    title: "Slide 5",
-    image: "/playground/images/05.webp",
-    position: 1,
-    scrollSpeed: 0.15,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/06.webp",
-    text: textParagraph,
-    position: 2,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/07.webp",
-    position: 0,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/08.webp",
-    position: 1,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/09.webp",
-    text: textParagraph,
-    position: 2,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/10.webp",
-    position: 0,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/11.webp",
-    position: 1,
-  },
-  {
-    title: "Slide 6",
-    image: "/playground/images/12.webp",
-    text: textParagraph,
-    position: 2,
-  },
-]);
+});
+
+const layoutChangeDuration = 0.75;
+
+const layoutChangeSwitch = () => {
+  if (layoutSwitchInProgress.value) return;
+  layoutSwitchInProgress.value = true;
+  layoutChangeUniform.value = 1;
+
+  layoutSmall.value = !layoutSmall.value;
+  const itemWidth = layoutSmall.value ? 25 : 33;
+  Canvas3.setMeshPositionsUpdate(true);
+
+  layoutChangeTl.clear();
+
+  layoutChangeTl.to(
+    ".nav-icon-line",
+    {
+      x: layoutSmall.value ? 10 : 0, // from origin down /
+      y: layoutSmall.value ? 0 : 0, //  / to origin, down
+      width: 0,
+      duration: layoutChangeDuration / 2,
+      stagger: 0.05,
+    },
+    "<",
+  );
+  layoutChangeTl.set(".nav-icon", {
+    transform: `rotate(${layoutSmall.value ? 0 : 90}deg)`,
+  });
+  layoutChangeTl.set(".nav-icon-line", {
+    x: layoutSmall.value ? 5 : 0, // from origin from right
+    y: layoutSmall.value ? 0 : 0, //
+  });
+  layoutChangeTl.to(
+    ".nav-icon-line",
+    {
+      width: "20px",
+      x: 0,
+      y: 0,
+      duration: layoutChangeDuration / 2,
+      stagger: 0.05,
+    },
+    "<",
+  );
+
+  for (let i = 0; i < slidesRefs.value.length; i++) {
+    if (slidesRefs.value[i]) {
+      const position = slidesRefs.value[i]?.dataset.itemPosition ?? 0;
+      const marginLeft = layoutSmall.value ? 37.5 : position * 33;
+      layoutChangeTl.to(
+        slidesRefs.value[i],
+        {
+          marginLeft: `${marginLeft}%`,
+          width: `${itemWidth}%`,
+          duration: layoutChangeDuration,
+        },
+        "0",
+      );
+    }
+  }
+
+  setTimeout(() => {
+    Canvas3.setMeshPositionsUpdate(false);
+  }, 1000);
+  // `margin-left:${slide.position * (layoutSmall ? 0 : 33)}%;width:${layoutSmall ? 25 : 33}%`
+};
+
+// const scrollSpeedCallback = (_item: any, speed: number) => {
+//   const newSpeedCoef = speed < 0.03 ? 0 : speed;
+//   scrollSpeedCoef.value = newSpeedCoef;
+//   gsap.set(scrollSpeedAniEl.value, {
+//     width: `${newSpeedCoef * 100}%`,
+//   });
+// };
 
 useSeoMeta({
   title: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
@@ -184,47 +249,176 @@ onMounted(() => {
 onBeforeUnmount(() => {
   Canvas3.setScrollShaderByName("scrollPlayground");
 });
+
+const slides = ref<
+  {
+    image?: string;
+    text?: string;
+    position: number;
+    scrollSpeed?: number;
+  }[]
+>([
+  {
+    image: "/playground/images/01.webp",
+    position: 0,
+  },
+  {
+    image: "/playground/images/02.webp",
+    position: 1,
+  },
+  {
+    image: "/playground/images/03.webp",
+    position: 2,
+  },
+  {
+    text: "Playground",
+    position: 0,
+  },
+  {
+    text: "scroll",
+    position: 1,
+    scrollSpeed: -0.05,
+  },
+  {
+    text: "performance",
+    position: 2,
+    scrollSpeed: -0.15,
+  },
+  {
+    image: "/playground/images/04.webp",
+    position: 0,
+    scrollSpeed: 0.3,
+  },
+  {
+    image: "/playground/images/05.webp",
+    position: 1,
+    scrollSpeed: 0.15,
+  },
+  {
+    image: "/playground/images/06.webp",
+    position: 2,
+  },
+  {
+    text: "dynamic",
+    position: 0,
+  },
+  {
+    text: "scroll",
+    position: 1,
+    scrollSpeed: -0.05,
+  },
+  {
+    text: "speed",
+    position: 2,
+    scrollSpeed: -0.15,
+  },
+  {
+    image: "/playground/images/07.webp",
+    position: 0,
+  },
+  {
+    image: "/playground/images/08.webp",
+    position: 1,
+  },
+  {
+    image: "/playground/images/09.webp",
+    position: 2,
+  },
+  {
+    image: "/playground/images/10.webp",
+    position: 0,
+  },
+  {
+    image: "/playground/images/11.webp",
+    position: 1,
+  },
+  {
+    image: "/playground/images/12.webp",
+    position: 2,
+  },
+]);
 </script>
 <style lang="scss" scoped>
 .page-container {
   //background: black;
 }
+
 .scroll-speed-container {
   height: 100%;
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .scroll-speed-status-bar {
   padding: 0;
 }
+
 .scroll-speed-ani {
   position: absolute;
-  height: 18px;
+  height: 15px;
   top: 0px;
   left: 0;
   background: var(--light-color);
   z-index: 1;
 }
+
 .scroll-speed-text {
-  font-size: 14px;
+  font-size: 12px;
   z-index: 2;
   position: absolute;
   left: 0px;
   display: block;
   color: var(--dark-color);
 }
+
+.nav-holder {
+  font-weight: 800;
+  font-size: 20px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.nav-icon {
+  width: 20px;
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+
+.nav-icon-line {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin: 4px 0;
+  background-color: var(--light-color);
+}
+
 .slide {
   padding: 10px;
   width: 33%;
   position: relative;
+
   img {
     width: 100%;
   }
+
   .slide-text {
-    padding: 10px 0 20px;
+    text-transform: uppercase;
+    font-family: "PP Formula Black", serif;
+    font-size: 45px;
+    font-weight: 400;
+    margin: 10px 0 20px;
+    opacity: 0;
+    overflow: hidden;
+    position: relative;
+    line-height: 50px;
   }
 }
 </style>
