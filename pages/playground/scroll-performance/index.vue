@@ -4,9 +4,9 @@
     <div
       id="layoutNavigation"
       v-canvas3-scroll-action="layoutNavigationOptions"
-      class="scroll-speed-container"
+      class="layout-nav-container"
     >
-      <div class="scroll-speed-status-bar">
+      <div class="">
         <div class="nav-holder">
           <div @click="() => layoutChangeSwitch()">
             <div class="nav-icon">
@@ -202,6 +202,22 @@ const layoutChangeSwitch = () => {
           marginLeft = 0;
           refItemWidth = 100;
         }
+        layoutChangeTl.to(
+          text,
+          {
+            duration: layoutChangeDuration / 2,
+            transform: "matrix(1,0,0.25,1.25,0,0)",
+          },
+          "0",
+        );
+        layoutChangeTl.to(
+          text,
+          {
+            duration: layoutChangeDuration / 2,
+            transform: "matrix(1,0,0,1,0,0)",
+          },
+          "<=" + layoutChangeDuration / 2,
+        );
       }
       layoutChangeTl.to(
         slidesRefs.value[i],
@@ -364,7 +380,7 @@ const slides = ref<
   //background: black;
 }
 
-.scroll-speed-container {
+.layout-nav-container {
   height: 100%;
   width: 100%;
   position: absolute;
@@ -372,10 +388,6 @@ const slides = ref<
   left: 0;
   z-index: 2;
   pointer-events: none;
-}
-
-.scroll-speed-status-bar {
-  padding: 0;
 }
 
 .scroll-speed-ani {
