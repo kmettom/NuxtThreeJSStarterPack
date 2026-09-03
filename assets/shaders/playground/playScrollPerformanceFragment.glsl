@@ -10,6 +10,6 @@ uniform float uLayoutChangeDirection;
 
 void main() {
     vec4 color = texture2D(uImage, vUv);
-//    color.a *= uAniIn;
+    color.a *= uAniIn;
     gl_FragColor = color;
 }

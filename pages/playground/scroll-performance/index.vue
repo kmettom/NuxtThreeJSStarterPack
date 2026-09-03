@@ -1,8 +1,9 @@
 <template>
   <div class="page-container">
+    <scrollSpeedBar />
     <div
-      id="fixedParent"
-      v-canvas3-scroll-action="scrollSpeedBarOptions"
+      id="layoutNavigation"
+      v-canvas3-scroll-action="layoutNavigationOptions"
       class="scroll-speed-container"
     >
       <div class="scroll-speed-status-bar">
@@ -15,10 +16,6 @@
             </div>
           </div>
         </div>
-        <span class="scroll-speed-text">
-          Scroll speed: {{ scrollSpeedCoef }}
-        </span>
-        <span ref="scrollSpeedAniEl" class="scroll-speed-ani" />
       </div>
     </div>
     <div
@@ -53,7 +50,7 @@
             uniforms: {
               uAniIn: {
                 value: blocksActivatedMap[index] ? 1 : 0,
-                duration: 0.3,
+                duration: 0.35,
                 ease: 'power2.inOut',
               },
               uLayoutChangeProgress: {
@@ -79,16 +76,16 @@
 </template>
 <script setup lang="ts">
 // TODO:
-
-//canvas3 - layoput switch and scroll speed setting
-
-// - appear animation
-// - ??mouse interaction
+// - Enter animation
+// - smooth down scroll
+// - content finish
+// - speed bar on the side - update font
 
 import type { ScrollActionBinding } from "../../../../canvas3-nuxt/dist/runtime/types/types";
 import gsap from "gsap";
 import { useTemplateRefsList } from "@vueuse/core";
 import SplitText from "gsap/SplitText";
+import scrollSpeedBar from "~/components/playground/scroll-performance/scrollSpeedBar.vue";
 
 gsap.registerPlugin(SplitText);
 
@@ -96,18 +93,16 @@ const slidesRefs = useTemplateRefsList();
 
 const blocksActivatedMap = ref<boolean[]>([]);
 
-const scrollSpeedAniEl = ref<HTMLElement | null>(null);
-
 const layoutSmall = ref(false);
-const scrollSpeedCoef = ref(0);
-const scrollSpeedBarOptions = computed(() => ({
+
+const layoutNavigationOptions = computed(() => ({
   activeRange: 1,
   fixToParent: {
-    containerId: "fixedParent",
+    containerId: "layoutNavigation",
     fixPosition: 0,
     margin: 0,
   },
-  onScrollCallback: scrollSpeedCallback,
+  // onScrollCallback: scrollSpeedCallback,
 }));
 
 // const calcImageDirection = (position: number) => {
@@ -231,13 +226,13 @@ const layoutChangeSwitch = () => {
   // `margin-left:${slide.position * (layoutSmall ? 0 : 33)}%;width:${layoutSmall ? 25 : 33}%`
 };
 
-const scrollSpeedCallback = (_item: any, speed: number) => {
-  const newSpeedCoef = speed < 0.03 ? 0 : speed;
-  scrollSpeedCoef.value = newSpeedCoef;
-  gsap.set(scrollSpeedAniEl.value, {
-    width: `${newSpeedCoef * 100}%`,
-  });
-};
+// const scrollSpeedCallback = (_item: any, speed: number) => {
+//   const newSpeedCoef = speed < 0.03 ? 0 : speed;
+//   scrollSpeedCoef.value = newSpeedCoef;
+//   gsap.set(scrollSpeedAniEl.value, {
+//     width: `${newSpeedCoef * 100}%`,
+//   });
+// };
 
 useSeoMeta({
   title: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
