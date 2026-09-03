@@ -4,9 +4,9 @@
     <div
       id="layoutNavigation"
       v-canvas3-scroll-action="layoutNavigationOptions"
-      class="scroll-speed-container"
+      class="layout-nav-container"
     >
-      <div class="scroll-speed-status-bar">
+      <div class="">
         <div class="nav-holder">
           <div @click="() => layoutChangeSwitch()">
             <div class="nav-icon">
@@ -76,9 +76,9 @@
 </template>
 <script setup lang="ts">
 // TODO:
-// - Enter animation
-// - smooth down scroll
+// - output FPS
 // - content finish
+// - smooth down scroll
 // - speed bar on the side - update font
 
 import type { ScrollActionBinding } from "../../../../canvas3-nuxt/dist/runtime/types/types";
@@ -102,20 +102,7 @@ const layoutNavigationOptions = computed(() => ({
     fixPosition: 0,
     margin: 0,
   },
-  // onScrollCallback: scrollSpeedCallback,
 }));
-
-// const calcImageDirection = (position: number) => {
-//   let dir = 0;
-//   if (position === 0) {
-//     dir = layoutSmall.value ? -1 : 1;
-//   } else if (position === 1) {
-//     dir = layoutSmall.value ? -1 : 1;
-//   } else if (position === 2) {
-//     dir = layoutSmall.value ? 1 : -1;
-//   }
-//   return dir;
-// };
 
 const animateTextIn = (el: HTMLElement) => {
   const text = el.querySelector(".slide-text");
@@ -125,29 +112,32 @@ const animateTextIn = (el: HTMLElement) => {
     charsClass: "char",
   }).chars;
 
-  const tl = gsap.timeline({});
+  const tl = gsap.timeline({
+    defaults: {
+      ease: "power2.inOut",
+    },
+  });
   tl.set(chars, {
-    y: 75,
-    x: 50,
+    y: 155,
+    x: 100,
     transform: "matrix(1,0,1,2,0,0)",
-    lineHeight: "50px",
   });
   tl.set(text, { opacity: 1 });
   tl.to(chars, {
     y: 0,
     x: 0,
-    duration: 0.3,
+    duration: 0.35,
     transform: "matrix(1,0,0,1,0,0)",
-    ease: "power2.inOut",
-    stagger: 0.05,
+    stagger: 0.025,
   });
 };
 
 const layoutSwitchInProgress = ref(false);
 const layoutChangeUniform = ref(0);
+const layoutChangeDuration = 0.75;
 
 const layoutChangeTl = gsap.timeline({
-  defaults: { ease: "power2.inOut" },
+  defaults: { ease: "power2.inOut", duration: layoutChangeDuration },
   ease: "power2.inOut",
   onUpdate: () => {
     Canvas3.setMeshPositionsUpdate(true);
@@ -158,10 +148,11 @@ const layoutChangeTl = gsap.timeline({
   },
   onComplete: () => {
     layoutSwitchInProgress.value = false;
+    setTimeout(() => {
+      Canvas3.setMeshPositionsUpdate(false);
+    }, 100);
   },
 });
-
-const layoutChangeDuration = 0.75;
 
 const layoutChangeSwitch = () => {
   if (layoutSwitchInProgress.value) return;
@@ -169,11 +160,9 @@ const layoutChangeSwitch = () => {
   layoutChangeUniform.value = 1;
 
   layoutSmall.value = !layoutSmall.value;
-  const itemWidth = layoutSmall.value ? 25 : 33;
-  Canvas3.setMeshPositionsUpdate(true);
+  let itemWidth = layoutSmall.value ? 25 : 33;
 
   layoutChangeTl.clear();
-
   layoutChangeTl.to(
     ".nav-icon-line",
     {
@@ -195,7 +184,7 @@ const layoutChangeSwitch = () => {
   layoutChangeTl.to(
     ".nav-icon-line",
     {
-      width: "20px",
+      width: "30px",
       x: 0,
       y: 0,
       duration: layoutChangeDuration / 2,
@@ -207,32 +196,42 @@ const layoutChangeSwitch = () => {
   for (let i = 0; i < slidesRefs.value.length; i++) {
     if (slidesRefs.value[i]) {
       const position = slidesRefs.value[i]?.dataset.itemPosition ?? 0;
-      const marginLeft = layoutSmall.value ? 37.5 : position * 33;
+      let marginLeft = layoutSmall.value ? 37.5 : position * 33;
+      const text = slidesRefs.value[i].querySelector(".slide-text");
+      let refItemWidth = itemWidth;
+      if (text) {
+        if (layoutSmall.value) {
+          marginLeft = 0;
+          refItemWidth = 100;
+        }
+        layoutChangeTl.to(
+          text,
+          {
+            duration: layoutChangeDuration / 2,
+            transform: "matrix(1,0,0.25,1.25,0,0)",
+          },
+          "0",
+        );
+        layoutChangeTl.to(
+          text,
+          {
+            duration: layoutChangeDuration / 2,
+            transform: "matrix(1,0,0,1,0,0)",
+          },
+          "<=" + layoutChangeDuration / 2,
+        );
+      }
       layoutChangeTl.to(
         slidesRefs.value[i],
         {
           marginLeft: `${marginLeft}%`,
-          width: `${itemWidth}%`,
-          duration: layoutChangeDuration,
+          width: `${refItemWidth}%`,
         },
         "0",
       );
     }
   }
-
-  setTimeout(() => {
-    Canvas3.setMeshPositionsUpdate(false);
-  }, 1000);
-  // `margin-left:${slide.position * (layoutSmall ? 0 : 33)}%;width:${layoutSmall ? 25 : 33}%`
 };
-
-// const scrollSpeedCallback = (_item: any, speed: number) => {
-//   const newSpeedCoef = speed < 0.03 ? 0 : speed;
-//   scrollSpeedCoef.value = newSpeedCoef;
-//   gsap.set(scrollSpeedAniEl.value, {
-//     width: `${newSpeedCoef * 100}%`,
-//   });
-// };
 
 useSeoMeta({
   title: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
@@ -259,6 +258,10 @@ const slides = ref<
   }[]
 >([
   {
+    text: "Canvas3",
+    position: 1,
+  },
+  {
     image: "/playground/images/01.webp",
     position: 0,
   },
@@ -271,8 +274,40 @@ const slides = ref<
     position: 2,
   },
   {
-    text: "Playground",
+    text: "scroll",
     position: 0,
+  },
+  {
+    text: "performance",
+    position: 1,
+  },
+  {
+    text: "playground",
+    position: 2,
+  },
+  {
+    image: "/playground/images/02.webp",
+    position: 0,
+  },
+  {
+    image: "/playground/images/03.webp",
+    position: 1,
+  },
+  {
+    image: "/playground/images/04.webp",
+    position: 2,
+  },
+  {
+    image: "/playground/images/02.webp",
+    position: 1,
+  },
+  {
+    image: "/playground/images/03.webp",
+    position: 0,
+  },
+  {
+    image: "/playground/images/04.webp",
+    position: 2,
   },
   {
     text: "scroll",
@@ -343,7 +378,7 @@ const slides = ref<
   //background: black;
 }
 
-.scroll-speed-container {
+.layout-nav-container {
   height: 100%;
   width: 100%;
   position: absolute;
@@ -351,10 +386,6 @@ const slides = ref<
   left: 0;
   z-index: 2;
   pointer-events: none;
-}
-
-.scroll-speed-status-bar {
-  padding: 0;
 }
 
 .scroll-speed-ani {
@@ -386,7 +417,7 @@ const slides = ref<
 }
 
 .nav-icon {
-  width: 20px;
+  width: 30px;
   transform: rotate(90deg);
   transform-origin: center;
 }
@@ -394,9 +425,9 @@ const slides = ref<
 .nav-icon-line {
   position: relative;
   display: block;
-  width: 20px;
-  height: 2px;
-  margin: 4px 0;
+  width: 30px;
+  height: 3px;
+  margin: 5px 0;
   background-color: var(--light-color);
 }
 
@@ -410,15 +441,20 @@ const slides = ref<
   }
 
   .slide-text {
+    text-align: center;
     text-transform: uppercase;
     font-family: "PP Formula Black", serif;
-    font-size: 45px;
+    font-size: 85px;
     font-weight: 400;
-    margin: 10px 0 20px;
+    margin: 10px 0;
     opacity: 0;
     overflow: hidden;
     position: relative;
-    line-height: 50px;
+    line-height: 90px;
+    @include respond-width($w-m) {
+      font-size: 75px;
+      line-height: 80px;
+    }
   }
 }
 </style>
