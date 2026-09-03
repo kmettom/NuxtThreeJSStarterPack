@@ -148,6 +148,9 @@ const layoutChangeTl = gsap.timeline({
   },
   onComplete: () => {
     layoutSwitchInProgress.value = false;
+    setTimeout(() => {
+      Canvas3.setMeshPositionsUpdate(false);
+    }, 100);
   },
 });
 
@@ -158,7 +161,6 @@ const layoutChangeSwitch = () => {
 
   layoutSmall.value = !layoutSmall.value;
   let itemWidth = layoutSmall.value ? 25 : 33;
-  Canvas3.setMeshPositionsUpdate(true);
 
   layoutChangeTl.clear();
   layoutChangeTl.to(
@@ -229,10 +231,6 @@ const layoutChangeSwitch = () => {
       );
     }
   }
-
-  setTimeout(() => {
-    Canvas3.setMeshPositionsUpdate(false);
-  }, 1000);
 };
 
 useSeoMeta({
