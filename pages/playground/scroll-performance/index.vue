@@ -76,9 +76,8 @@
 </template>
 <script setup lang="ts">
 // TODO:
-// - Enter animation
-// - smooth down scroll
 // - content finish
+// - smooth down scroll
 // - speed bar on the side - update font
 
 import type { ScrollActionBinding } from "../../../../canvas3-nuxt/dist/runtime/types/types";
@@ -102,20 +101,7 @@ const layoutNavigationOptions = computed(() => ({
     fixPosition: 0,
     margin: 0,
   },
-  // onScrollCallback: scrollSpeedCallback,
 }));
-
-// const calcImageDirection = (position: number) => {
-//   let dir = 0;
-//   if (position === 0) {
-//     dir = layoutSmall.value ? -1 : 1;
-//   } else if (position === 1) {
-//     dir = layoutSmall.value ? -1 : 1;
-//   } else if (position === 2) {
-//     dir = layoutSmall.value ? 1 : -1;
-//   }
-//   return dir;
-// };
 
 const animateTextIn = (el: HTMLElement) => {
   const text = el.querySelector(".slide-text");
