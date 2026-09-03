@@ -118,18 +118,17 @@ const animateTextIn = (el: HTMLElement) => {
     },
   });
   tl.set(chars, {
-    y: 75,
-    x: 50,
+    y: 155,
+    x: 100,
     transform: "matrix(1,0,1,2,0,0)",
-    lineHeight: "50px",
   });
   tl.set(text, { opacity: 1 });
   tl.to(chars, {
     y: 0,
     x: 0,
-    duration: 0.3,
+    duration: 0.35,
     transform: "matrix(1,0,0,1,0,0)",
-    stagger: 0.05,
+    stagger: 0.025,
   });
 };
 
