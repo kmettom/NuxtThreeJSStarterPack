@@ -6,7 +6,7 @@ const scrollSpeedCoef = ref(0);
 
 const scrollSpeedCallback = (_item: any, speed: number) => {
   const newSpeedCoef = speed < 0.03 ? 0 : speed;
-  scrollSpeedCoef.value = Number(newSpeedCoef.toFixed(2));
+  scrollSpeedCoef.value = Number(newSpeedCoef.toFixed(2)) * 100;
   gsap.set(scrollSpeedAniEl.value, {
     width: `${newSpeedCoef * 100}%`,
   });
@@ -16,8 +16,7 @@ const scrollSpeedBarOptions = computed(() => ({
   activeRange: 1,
   fixToParent: {
     containerId: "scrollSpeedBar",
-    fixPosition: 0,
-    margin: 0,
+    fixPosition: 0.97,
   },
   onScrollCallback: scrollSpeedCallback,
 }));
@@ -42,13 +41,11 @@ onBeforeUnmount(() => {
     class="scroll-speed-container"
   >
     <div class="scroll-speed-status-bar">
-      <span v-if="fps" class="fps">
-        {{ fps }}
-      </span>
-      <span class="scroll-speed-text">
-        Scroll speed: {{ scrollSpeedCoef }}
-      </span>
-      <span ref="scrollSpeedAniEl" class="scroll-speed-ani" />
+      <div class="scroll-speed-text">Scroll speed: {{ scrollSpeedCoef }}%</div>
+      <div class="scroll-speed-ani-wrapper">
+        <div ref="scrollSpeedAniEl" class="scroll-speed-ani" />
+      </div>
+      <div v-if="fps" class="fps-text">FPS: {{ fps }}</div>
     </div>
   </div>
 </template>
@@ -66,23 +63,34 @@ onBeforeUnmount(() => {
 
 .scroll-speed-status-bar {
   padding: 0;
-}
-
-.scroll-speed-ani {
-  position: absolute;
-  height: 15px;
-  top: 0px;
-  left: 0;
+  height: 3%;
+  position: relative;
+  display: flex;
   background: var(--light-color);
-  z-index: 1;
 }
-
+.fps-text,
 .scroll-speed-text {
   font-size: 12px;
   z-index: 2;
-  position: absolute;
-  left: 0px;
-  display: block;
   color: var(--dark-color);
+}
+.fps-text {
+  width: 200px;
+}
+.scroll-speed-text {
+  width: 200px;
+}
+.scroll-speed-ani-wrapper {
+  width: calc(100% - 400px);
+  margin-top: 10px;
+  text-align: center;
+}
+
+.scroll-speed-ani {
+  margin: 0 auto;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--dark-color);
+  z-index: 1;
 }
 </style>

@@ -6,70 +6,70 @@
       v-canvas3-scroll-action="layoutNavigationOptions"
       class="layout-nav-container"
     >
-      <div class="">
-        <div class="nav-holder">
-          <div @click="() => layoutChangeSwitch()">
-            <div class="nav-icon">
-              <span class="nav-icon-line" />
-              <span class="nav-icon-line" />
-              <span class="nav-icon-line" />
-            </div>
+      <div class="nav-holder">
+        <div @click="() => layoutChangeSwitch()">
+          <div class="nav-icon">
+            <span class="nav-icon-line" />
+            <span class="nav-icon-line" />
+            <span class="nav-icon-line" />
           </div>
         </div>
       </div>
     </div>
-    <div
-      v-for="(slide, index) in slides"
-      :key="index"
-      :ref="slidesRefs.set"
-      class="slide"
-      :style="`margin-left:${slide.position * 33}%`"
-      :data-item-position="slide.position"
-    >
+    <div class="sections-container">
       <div
-        v-canvas3-scroll-action="{
-          activeRange: 0.99,
-          activateOnce: true,
-          scrollSpeedSetTo: {
-            value: layoutSmall ? 0 : (slide.scrollSpeed ?? 0),
-            duration: layoutChangeDuration,
-          },
-          activateCallback: (item: ScrollActionBinding) => {
-            if (slide.text) animateTextIn(item.elNode);
-            blocksActivatedMap[index] = true;
-          },
-          deactivateCallback: () => {
-            blocksActivatedMap[index] = false;
-          },
-        }"
+        v-for="(slide, index) in slides"
+        :key="index"
+        :ref="slidesRefs.set"
+        class="slide"
+        :style="`margin-left:${slide.position * 33}%`"
+        :data-item-position="slide.position"
       >
-        <img
-          v-if="slide.image"
-          v-canvas3-image="{
-            shaderName: 'playScrollPerformance',
-            uniforms: {
-              uAniIn: {
-                value: blocksActivatedMap[index] ? 1 : 0,
-                duration: 0.35,
-                ease: 'power2.inOut',
-              },
-              uLayoutChangeProgress: {
-                value: layoutChangeUniform,
-                duration: layoutChangeDuration,
-                ease: 'power2.inOut',
-              },
-              uLayoutChangeDirection: {
-                value: layoutSmall ? -1 : 1,
-                duration: 0,
-                ease: 'power2.inOut',
-              },
+        <div
+          v-canvas3-scroll-action="{
+            activeRange: 0.99,
+            activateOnce: true,
+            scrollSpeedSetTo: {
+              value: layoutSmall ? 0 : (slide.scrollSpeed ?? 0),
+              duration: layoutChangeDuration,
+            },
+            activateCallback: (item: ScrollActionBinding) => {
+              if (slide.text) animateTextIn(item.elNode);
+              blocksActivatedMap[index] = true;
+            },
+            deactivateCallback: () => {
+              blocksActivatedMap[index] = false;
             },
           }"
-          :src="slide.image"
-          class="slide-image"
-          alt=""
-        />
-        <div v-if="slide.text" class="slide-text">{{ slide.text }}</div>
+        >
+          <img
+            v-if="slide.image"
+            v-canvas3-image="{
+              shaderName: 'playScrollPerformance',
+              uniforms: {
+                uAniIn: {
+                  value: blocksActivatedMap[index] ? 1 : 0,
+                  duration: 0.35,
+                  ease: 'power2.inOut',
+                },
+                uLayoutChangeProgress: {
+                  value: layoutChangeUniform,
+                  duration: layoutChangeDuration,
+                  ease: 'power2.inOut',
+                },
+                uLayoutChangeDirection: {
+                  value: layoutSmall ? -1 : 1,
+                  duration: 0,
+                  ease: 'power2.inOut',
+                },
+              },
+            }"
+            :src="slide.image"
+            class="slide-image"
+            alt=""
+          />
+          <div v-if="slide.text" class="slide-text">{{ slide.text }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -429,6 +429,10 @@ const slides = ref<
   height: 3px;
   margin: 5px 0;
   background-color: var(--light-color);
+}
+
+.sections-container {
+  padding-bottom: 350px;
 }
 
 .slide {
