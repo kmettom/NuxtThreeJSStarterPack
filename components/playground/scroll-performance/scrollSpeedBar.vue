@@ -46,6 +46,7 @@ onBeforeUnmount(() => {
         <div ref="scrollSpeedAniEl" class="scroll-speed-ani" />
       </div>
       <div v-if="fps" class="fps-text">FPS: {{ fps }}</div>
+      <div class="cred-holder">xxx</div>
     </div>
   </div>
 </template>
@@ -70,19 +71,24 @@ onBeforeUnmount(() => {
 }
 .fps-text,
 .scroll-speed-text {
-  font-size: 12px;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-family: "PP Neue Montreal Bold", serif;
   z-index: 2;
   color: var(--dark-color);
+  margin: 3px 3px 3px 15px;
 }
 .fps-text {
   width: 200px;
+  text-align: right;
+  margin-right: 10px;
 }
 .scroll-speed-text {
   width: 200px;
 }
 .scroll-speed-ani-wrapper {
   width: calc(100% - 400px);
-  margin-top: 10px;
+  margin-top: 7px;
   text-align: center;
 }
 
@@ -92,5 +98,12 @@ onBeforeUnmount(() => {
   border-radius: 5px;
   background: var(--dark-color);
   z-index: 1;
+}
+.cred-holder {
+  position: absolute;
+  top: 35px;
+  height: 200px;
+  width: 100%;
+  color: var(--dark-color);
 }
 </style>
