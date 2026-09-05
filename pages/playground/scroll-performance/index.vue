@@ -160,7 +160,7 @@ const layoutChangeSwitch = () => {
   layoutChangeUniform.value = 1;
 
   layoutSmall.value = !layoutSmall.value;
-  let itemWidth = layoutSmall.value ? 25 : 33;
+  const itemWidth = layoutSmall.value ? 25 : 33;
 
   layoutChangeTl.clear();
   layoutChangeTl.to(

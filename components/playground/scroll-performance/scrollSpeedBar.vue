@@ -21,6 +21,18 @@ const scrollSpeedBarOptions = computed(() => ({
   },
   onScrollCallback: scrollSpeedCallback,
 }));
+
+const fps = ref<number | null>(null);
+let fpsInterval = null;
+
+onMounted(() => {
+  fpsInterval = setInterval(() => {
+    fps.value = Canvas3.getFPS();
+  }, 500);
+});
+onBeforeUnmount(() => {
+  fpsInterval = null;
+});
 </script>
 
 <template>
@@ -30,6 +42,9 @@ const scrollSpeedBarOptions = computed(() => ({
     class="scroll-speed-container"
   >
     <div class="scroll-speed-status-bar">
+      <span v-if="fps" class="fps">
+        {{ fps }}
+      </span>
       <span class="scroll-speed-text">
         Scroll speed: {{ scrollSpeedCoef }}
       </span>
