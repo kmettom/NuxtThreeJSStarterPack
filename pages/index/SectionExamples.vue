@@ -200,9 +200,7 @@
 import Container from "~/components/common/Container.vue";
 import CodeSnippet from "~/components/common/CodeSnippet.vue";
 import gsap from "gsap";
-
-//TODO: proper type import export
-import type { ScrollActionBinding } from "../../../canvas3-nuxt/dist/runtime/types/types";
+import type { ScrollActionBinding } from "@canvas3/nuxt";
 import { useAnimationAssets } from "~/stores/animationAssets";
 
 const example1Hover = ref(false);
