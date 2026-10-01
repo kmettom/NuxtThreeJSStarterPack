@@ -11,11 +11,9 @@
           }"
           class="roadmap-txt"
         >
-          → 3D model imports and scroll 3D object scroll control and 3D object
-          story telling<br />
-          → Dynamic page section position - Fixed, Side scroll sections<br />
+          → Dynamic page section position - Side scroll sections<br />
           → Native smooth scroll<br />
-          → Canvas3Text MSDF font directive<br />
+          → Immersive 3d scene control<br />
         </p>
       </div>
     </Container>
