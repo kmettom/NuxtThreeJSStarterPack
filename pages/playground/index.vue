@@ -8,7 +8,7 @@
         target="_blank"
       >
         <div
-          class="play-1"
+          class="play-link-eth"
           @mouseenter="ethBlockHover = true"
           @mouseleave="ethBlockHover = false"
         >
@@ -45,7 +45,7 @@
         target="_blank"
       >
         <div
-          class="play-2"
+          class="play-link-right"
           @mouseenter="scrollPerformanceHover = true"
           @mouseleave="scrollPerformanceHover = false"
         >
@@ -80,6 +80,46 @@
           />
         </div>
       </nuxt-link>
+      <nuxt-link
+        class="play-link"
+        href="/playground/gltf-model"
+        target="_blank"
+      >
+        <div
+          class=""
+          @mouseenter="gltfModelHover = true"
+          @mouseleave="gltfModelHover = false"
+        >
+          <h3 class="body-l">GLTF Model</h3>
+          <p class="body-s">
+            GLTF model import, story tell feature with directive and easy to setup scroll action
+          </p>
+          <img
+            v-canvas3-image="{
+              uniforms: {
+                uAniInImage: {
+                  value: ethBlockImageAniIn
+                    ? gltfModelHover
+                      ? 0.85
+                      : 1
+                    : 0,
+                  duration: 0.5,
+                  ease: 'linear',
+                },
+                uBlockColor: {
+                  value: 0.5,
+                  duration: 0.5,
+                  ease: 'linear',
+                },
+              },
+              shaderName: 'playEthBlockNoDesign',
+            }"
+            :src="`/playground/images/03.webp`"
+            alt=""
+            class="play-block-image"
+          />
+        </div>
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -99,6 +139,7 @@ const navigationStore = useNavigationStore();
 const ethBlockImageAniIn = ref(false);
 const ethBlockHover = ref(false);
 const scrollPerformanceHover = ref(false);
+const gltfModelHover = ref(false);
 
 onMounted(() => {
   const timeDelay = navigationStore.webFirstLoadDone
@@ -131,8 +172,7 @@ onMounted(() => {
   position: relative;
   padding-bottom: 100px;
 }
-.play-2,
-.play-1 {
+.play-link{
   margin-left: 200px;
   width: 500px;
   max-width: 100%;
@@ -148,9 +188,10 @@ onMounted(() => {
   width: 450px;
 }
 
-.play-2 {
+.play-link-right {
   margin: 0 200px 0 auto;
   width: 400px;
   max-width: 100%;
 }
+
 </style>
