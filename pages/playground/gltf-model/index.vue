@@ -334,7 +334,7 @@ const slides = ref<
   }[]
 >([
   {
-    text: "Canvas3 - GLTF",
+    text: "Canvas3 GLTF",
     position: 1,
     // scrollSpeed: 0.15,
   },
