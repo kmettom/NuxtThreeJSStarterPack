@@ -1,9 +1,9 @@
 <template>
   <div class="page-container">
+    <div ref="gltfEl" v-canvas3-gltf-model="gltfBinding" class="gltf-el" />
     <div
       v-for="(frame, index) in gltfPositioning.keyframes"
       :key="index"
-      :style="`height:${frame.end - frame.start}vh`"
       class="frame-section"
     >
       {{ frame }}
@@ -17,6 +17,8 @@ useSeoMeta({
   description: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
   ogDescription: "Canvas3 - Playground - Tomas Kmet - Creative web developer",
 });
+
+const gltfEl = ref(null);
 
 const gltfPositioning = ref({
   keyframes: [
@@ -55,9 +57,18 @@ const gltfPositioning = ref({
     z: 0.1,
   },
 });
+
+const gltfBinding = ref({
+  url: "/gltf/phoenix/scene.gltf",
+  name: "phoenix",
+  container: gltfEl.value,
+  positioning: gltfPositioning.value,
+});
+
 </script>
 <style lang="scss" scoped>
 .frame-section {
   border: 1px solid red;
+  height: 1000px;
 }
 </style>
