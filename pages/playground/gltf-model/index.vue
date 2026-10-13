@@ -64,7 +64,6 @@ const gltfBinding = ref({
   container: gltfEl.value,
   positioning: gltfPositioning.value,
 });
-
 </script>
 <style lang="scss" scoped>
 .frame-section {
