@@ -6,7 +6,7 @@
       :key="index"
       class="frame-section"
     >
-      {{ frame }}
+      {{ frame.id }}
     </div>
   </div>
 </template>
@@ -23,31 +23,78 @@ const gltfEl = ref(null);
 const gltfPositioning = ref({
   keyframes: [
     {
+      id: "1_start_to_right",
       start: 0,
-      end: 0.5,
+      end: 0.15,
       from: {
-        position: { x: 0, y: 0, z: 0 },
+        position: { x: -0.35, y: -0.15, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
       },
       to: {
-        position: { x: 0.2, y: -0.5, z: 0 },
-        rotation: { x: 0, y: Math.PI, z: Math.PI / 4 },
-        scale: { x: 0.1, y: 0.1, z: 0.1 },
+        position: { x: 0, y: -0.2, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 1.5, y: 1.5, z: 1.5 },
       },
     },
     {
-      start: 0.5,
-      end: 1,
+      id: "2_right_rotate",
+      start: 0.15,
+      end: 0.3,
       from: {
-        position: { x: 0.2, y: -0.5, z: 0 },
-        rotation: { x: 0, y: Math.PI, z: Math.PI / 4 },
-        scale: { x: 0.1, y: 0.1, z: 0.1 },
+        position: { x: 0, y: -0.2, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 1.5, y: 1.5, z: 1.5 },
+      },
+      to: {
+        position: { x: 0, y: -0.2, z: 0 },
+        rotation: { x: 0, y: Math.PI, z: 0 },
+        scale: { x: 1.5, y: 1.5, z: 1.5 },
+      },
+    },
+    {
+      id: "3_right_scale",
+      start: 0.3,
+      end: 0.45,
+      from: {
+        position: { x: 0, y: -0.2, z: 0 },
+        rotation: { x: 0, y: Math.PI, z: 0 },
+        scale: { x: 1.5, y: 1.5, z: 1.5 },
       },
       to: {
         position: { x: 0, y: 0, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
+      },
+    },
+    {
+      id: "4_right_scale_down",
+      start: 0.45,
+      end: 0.6,
+      from: {
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 1, y: 1, z: 1 },
+      },
+      to: {
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 0.8, y: 0.8, z: 0.8 },
+      },
+    },
+    {
+      id: "5_to_left_scale_up",
+      start: 0.6,
+      end: 0.75,
+      from: {
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 0.8, y: 0.8, z: 0.8 },
+      },
+      to: {
+        position: { x: -0.2, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 1.5, y: 1.5, z: 1.5 },
       },
     },
   ],
@@ -69,5 +116,10 @@ const gltfBinding = ref({
 .frame-section {
   border: 1px solid red;
   height: 1000px;
+}
+.gltf-el {
+  border: 1px solid purple;
+  height: 300px;
+  width: 300px;
 }
 </style>
