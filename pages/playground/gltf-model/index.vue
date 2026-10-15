@@ -25,75 +25,75 @@ const gltfPositioning = ref({
     {
       id: "1_start_to_right",
       start: 0,
-      end: 0.15,
+      end: 0.2,
       from: {
         position: { x: -0.35, y: -0.15, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
       },
       to: {
-        position: { x: 0, y: -0.2, z: 0 },
+        position: { x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1.5, y: 1.5, z: 1.5 },
       },
     },
     {
       id: "2_right_rotate",
-      start: 0.15,
-      end: 0.3,
+      start: 0.2,
+      end: 0.4,
       from: {
-        position: { x: 0, y: -0.2, z: 0 },
+        position: { x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1.5, y: 1.5, z: 1.5 },
       },
       to: {
-        position: { x: 0, y: -0.2, z: 0 },
+        position: { x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: Math.PI, z: 0 },
         scale: { x: 1.5, y: 1.5, z: 1.5 },
       },
     },
     {
-      id: "3_right_scale",
-      start: 0.3,
-      end: 0.45,
+      id: "3_right_scale_down",
+      start: 0.4,
+      end: 0.6,
       from: {
-        position: { x: 0, y: -0.2, z: 0 },
+        position: { x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: Math.PI, z: 0 },
         scale: { x: 1.5, y: 1.5, z: 1.5 },
       },
       to: {
-        position: { x: 0, y: 0, z: 0 },
+        position: { x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
       },
     },
     {
       id: "4_right_scale_down",
-      start: 0.45,
-      end: 0.6,
+      start: 0.6,
+      end: 0.8,
       from: {
-        position: { x: 0, y: 0, z: 0 },
+        position: {x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
       },
       to: {
-        position: { x: 0, y: 0, z: 0 },
+        position: { x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 0.8, y: 0.8, z: 0.8 },
       },
     },
     {
       id: "5_to_left_scale_up",
-      start: 0.6,
-      end: 0.75,
+      start: 0.8,
+      end: 1,
       from: {
-        position: { x: 0, y: 0, z: 0 },
+        position: { x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 0.8, y: 0.8, z: 0.8 },
       },
       to: {
-        position: { x: -0.2, y: 0, z: 0 },
-        rotation: { x: 0, y: 0, z: 0 },
+        position: { x: -0.2, y: -0.2, z: 0 },
+        rotation: { x: 0, y: Math.PI, z: 0 },
         scale: { x: 1.5, y: 1.5, z: 1.5 },
       },
     },
@@ -121,5 +121,8 @@ const gltfBinding = ref({
   border: 1px solid purple;
   height: 300px;
   width: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>
