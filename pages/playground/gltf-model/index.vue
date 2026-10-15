@@ -72,7 +72,7 @@ const gltfPositioning = ref({
       start: 0.6,
       end: 0.8,
       from: {
-        position: {x: 0.2, y: -0.2, z: 0 },
+        position: { x: 0.2, y: -0.2, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
       },
