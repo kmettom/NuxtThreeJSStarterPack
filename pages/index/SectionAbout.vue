@@ -1,14 +1,14 @@
 <template>
   <Container id="about" additional-class="about-section">
     <h2 class="body-s about-headline">About</h2>
-    <div class="body-l">
+    <div class="">
       <div
         v-canvas3-scroll-action="{
           activeRange: 0.85,
           activateOnce: true,
           activateCallback: textAniCallback,
         }"
-        class="about-txt"
+        class="about-txt body-l"
       >
         Canvas3 is a Nuxt module, allowing for easy integration of threejs,
         smoothscroll and scroll control.
@@ -19,7 +19,7 @@
           activateOnce: true,
           activateCallback: textAniCallback,
         }"
-        class="about-txt features-headline"
+        class="about-txt features-headline body-l"
       >
         Features:
       </h3>
@@ -29,16 +29,32 @@
           activateOnce: true,
           activateCallback: textAniCallback,
         }"
-        class="about-txt"
+        class="about-txt body-m"
       >
-        → Layout component initializing Canvas3 with smooth scroll and ThreeJS
-        scene initialization<br />
-        → Single RequestAnimationFrame loop for performance<br />
-        → On scroll directive for scroll interactions, scroll speed change and
-        set element to active state<br />
-        → Image into ThreeJS mesh directive for easy imports of images to the
-        scene with scroll control and option to define uniforms<br />
-        → Canvas3 function exports for full control of ThreeJS scene and scroll
+        <ul>
+          <li>
+            Layout component initializing Canvas3 with smooth scroll and ThreeJS
+            scene initialization
+          </li>
+          <li>Single RequestAnimationFrame loop for performance</li>
+          <li>
+            On scroll directive for scroll interactions, scroll speed change and
+            set element to active state
+          </li>
+          <li>
+            Image into ThreeJS mesh directive for easy imports of images to the
+            scene with scroll control and option to define uniforms
+          </li>
+          <li>
+            Canvas3 function exports for full control of ThreeJS scene and
+            scroll
+          </li>
+          <li>
+            MSDF font render with directive with simple shader and uniform
+            control
+          </li>
+          <li>GLTF 3d model import and position control on scroll</li>
+        </ul>
       </div>
     </div>
   </Container>

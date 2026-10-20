@@ -39,7 +39,7 @@
   <!--    style="display: none"-->
   <!--  />-->
 </template>
-<script setup>
+<script setup lang="ts">
 import { Canvas3Options } from "~/constants/canvas3-options";
 import WelcomeScreen from "~/components/common/WelcomeScreen.vue";
 import { waitOutDone } from "~/composables/useOutPromise";
@@ -102,5 +102,4 @@ const contentActive = ref(false);
 const welcomeFinished = () => {
   contentActive.value = true;
 };
-// TODO: convert to TS
 </script>
