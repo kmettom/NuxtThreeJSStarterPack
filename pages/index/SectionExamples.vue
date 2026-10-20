@@ -72,7 +72,7 @@
             >
               <div class="code-example-wrapper">
                 <p class="example-txt">
-                  Scroll speed: {{ example3Speed }}
+                  Scroll speed: {{ example3Speed.toFixed(2) }}
                   <span ref="scrollSpeedAniEl" class="scroll-speed-ani" />
                 </p>
                 <img
