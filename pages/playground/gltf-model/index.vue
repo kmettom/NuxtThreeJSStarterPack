@@ -6,7 +6,15 @@
       :key="index"
       class="frame-section"
     >
-      {{ frame.id }}
+      <!--      {{ frame.id }}-->
+      <div
+        class="content-block"
+        :style="`top:${keyframeSectionContent[index]?.position.top}%;left:${keyframeSectionContent[index]?.position.top}%;`"
+      >
+        <div class="content">
+          {{ keyframeSectionContent[index]?.content }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -19,6 +27,29 @@ useSeoMeta({
 });
 
 const gltfEl = ref(null);
+
+const keyframeSectionContent = ref([
+  {
+    content: "Canvas3",
+    position: { top: 25, left: 20, right: 0 },
+  },
+  {
+    content: "Position",
+    position: { top: 0, left: 0 },
+  },
+  {
+    content: "Rotate",
+    position: { top: 0, left: 0 },
+  },
+  {
+    content: "Scale",
+    position: { top: 0, left: 0 },
+  },
+  {
+    content: "End",
+    position: { top: 0, left: 0 },
+  },
+]);
 
 const gltfPositioning = ref({
   keyframes: [
@@ -124,5 +155,14 @@ const gltfBinding = ref({
   position: absolute;
   top: 0;
   left: 0;
+}
+.content-block {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.content {
+  position: absolute;
+  font-size: 155px;
 }
 </style>

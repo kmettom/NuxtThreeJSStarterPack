@@ -80,43 +80,43 @@
           />
         </div>
       </nuxt-link>
-      <nuxt-link
-        class="play-link"
-        href="/playground/gltf-model"
-        target="_blank"
-      >
-        <div
-          class=""
-          @mouseenter="gltfModelHover = true"
-          @mouseleave="gltfModelHover = false"
-        >
-          <h3 class="body-l">GLTF Model</h3>
-          <p class="body-s">
-            GLTF model import, story tell feature with directive and easy to
-            setup scroll action
-          </p>
-          <img
-            v-canvas3-image="{
-              uniforms: {
-                uAniInImage: {
-                  value: ethBlockImageAniIn ? (gltfModelHover ? 0.85 : 1) : 0,
-                  duration: 0.5,
-                  ease: 'linear',
-                },
-                uBlockColor: {
-                  value: 0.5,
-                  duration: 0.5,
-                  ease: 'linear',
-                },
-              },
-              shaderName: 'playEthBlockNoDesign',
-            }"
-            :src="`/playground/images/03.webp`"
-            alt=""
-            class="play-block-image"
-          />
-        </div>
-      </nuxt-link>
+      <!--      <nuxt-link-->
+      <!--        class="play-link"-->
+      <!--        href="/playground/gltf-model"-->
+      <!--        target="_blank"-->
+      <!--      >-->
+      <!--        <div-->
+      <!--          class=""-->
+      <!--          @mouseenter="gltfModelHover = true"-->
+      <!--          @mouseleave="gltfModelHover = false"-->
+      <!--        >-->
+      <!--          <h3 class="body-l">GLTF Model</h3>-->
+      <!--          <p class="body-s">-->
+      <!--            GLTF model import, story tell feature with directive and easy to-->
+      <!--            setup scroll action-->
+      <!--          </p>-->
+      <!--          <img-->
+      <!--            v-canvas3-image="{-->
+      <!--              uniforms: {-->
+      <!--                uAniInImage: {-->
+      <!--                  value: ethBlockImageAniIn ? (gltfModelHover ? 0.85 : 1) : 0,-->
+      <!--                  duration: 0.5,-->
+      <!--                  ease: 'linear',-->
+      <!--                },-->
+      <!--                uBlockColor: {-->
+      <!--                  value: 0.5,-->
+      <!--                  duration: 0.5,-->
+      <!--                  ease: 'linear',-->
+      <!--                },-->
+      <!--              },-->
+      <!--              shaderName: 'playEthBlockNoDesign',-->
+      <!--            }"-->
+      <!--            :src="`/playground/images/03.webp`"-->
+      <!--            alt=""-->
+      <!--            class="play-block-image"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--      </nuxt-link>-->
     </div>
   </div>
 </template>
