@@ -137,10 +137,21 @@ const gltfPositioning = ref({
 });
 
 const gltfBinding = ref({
-  url: "/gltf/phoenix/scene.gltf",
+  url: "/gltf/five_tetrahedra/scene.gltf",
   name: "phoenix",
   container: gltfEl.value,
   positioning: gltfPositioning.value,
+  lighting: {
+    environment: 'room',
+    environmentIntensity: 0.7,
+    toneMapping: 'aces',
+    exposure: 1,
+    defaultLights: false,
+    lights: [
+      { type: 'directional', color: 0xFFFFFF, intensity: 2, position: { x: 0.5, y: 1, z: 1 } },
+      { type: 'directional', color: 0x88AAFF, intensity: 0.8, position: { x: -1, y: -0.5, z: 0.5 } },
+    ],
+  },
 });
 </script>
 <style lang="scss" scoped>
