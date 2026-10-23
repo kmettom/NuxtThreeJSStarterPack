@@ -142,14 +142,24 @@ const gltfBinding = ref({
   container: gltfEl.value,
   positioning: gltfPositioning.value,
   lighting: {
-    environment: 'room',
-    environmentIntensity: 0.7,
-    toneMapping: 'aces',
+    environment: "room",
+    environmentIntensity: 0.4,
+    toneMapping: "aces",
     exposure: 1,
     defaultLights: false,
     lights: [
-      { type: 'directional', color: 0xFFFFFF, intensity: 2, position: { x: 0.5, y: 1, z: 1 } },
-      { type: 'directional', color: 0x88AAFF, intensity: 0.8, position: { x: -1, y: -0.5, z: 0.5 } },
+      {
+        type: "directional",
+        color: 0xff0009,
+        intensity: 1000,
+        position: { x: 1, y: 1, z: 1000 },
+      },
+      //   type: "directional",
+      //   color: 0x002aff,
+      //   intensity: 1000,
+      //   position: { x: -1, y: -1, z: 1000 },
+      // },
+      // {
     ],
   },
 });
